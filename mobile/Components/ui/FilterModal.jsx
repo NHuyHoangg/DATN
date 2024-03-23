@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
-import { FlatList, ScrollView } from "react-native-gesture-handler";
+import { FlatList, ScrollView, GestureHandlerRootView } from "react-native-gesture-handler";
 import CheckBox from "./CheckBox";
 import {
   MultipleSelectList,
@@ -22,6 +22,7 @@ import {
 } from "../../constants/data";
 import Button from "./Button";
 import EmptyItem from "../../Screens/Overlay/EmptyItem";
+import color from "../../constants/color";
 const screenWidth = Dimensions.get("screen").width;
 const screenHeight = Dimensions.get("screen").height;
 const maxDropDownHeight = screenHeight / 5.5;
@@ -136,11 +137,11 @@ export default function FilterModal({
             overflow: "hidden",
           }}
         >
-          <Pressable onPress={onPress} android_ripple={{ color: "#d3d3d3" }}>
+          <Pressable onPress={onPress} android_ripple={{ color: color.baemin1 }}>
             <Ionicons style={{}} name="close-sharp" size={screenWidth / 14} />
           </Pressable>
         </View>
-
+        <GestureHandlerRootView>
         <ScrollView>
           <Text style={styles.title}>Sắp xếp</Text>
           <FlatList
@@ -167,7 +168,7 @@ export default function FilterModal({
                       paddingHorizontal: 15,
                       borderRadius: 24,
                       borderColor: "#697184",
-                      backgroundColor: index === curIndex ? "#697184" : "white",
+                      backgroundColor: index === curIndex ? color.baemin1 : "white",
                       borderWidth: 1,
                       elevation: 2,
                     }}
@@ -193,7 +194,7 @@ export default function FilterModal({
               style={{ marginLeft: "auto", marginRight: 0 }}
               isCheck={newIsCheck}
               onPress={() => checkBoxHandler("new")}
-              color={"#cb934b"}
+              color={color.baemin1}
             />
           </View>
           <View style={styles.checkboxContainer}>
@@ -203,7 +204,7 @@ export default function FilterModal({
               style={{ marginLeft: "auto", marginRight: 0 }}
               isCheck={usedIsCheck}
               onPress={() => checkBoxHandler("used")}
-              color={"#cb934b"}
+              color={color.baemin1}
             />
           </View>
 
@@ -225,7 +226,7 @@ export default function FilterModal({
               searchPlaceholder="Tìm kiếm"
               dropdownStyles={styles.dropdownStyle}
               notFoundText="Không tìm thấy dữ liệu"
-              badgeStyles={{ backgroundColor: "#697184" }}
+              badgeStyles={{ backgroundColor: color.baemin1 }}
             />
           </View>
           {/* <Text style={styles.title}>Dòng máy</Text>
@@ -294,8 +295,8 @@ export default function FilterModal({
             style={{ width: "40%", alignSelf: "center", paddingVertical: "5%" }}
           >
             <Button
-              color="#697184"
-              rippleColor="#4c586f"
+              color={color.baemin1}
+              rippleColor={color.baemin1}
               borR={0}
               onPress={filterButtonOnPress}
             >
@@ -303,6 +304,7 @@ export default function FilterModal({
             </Button>
           </View>
         </ScrollView>
+        </GestureHandlerRootView>
       </View>
     </Modal>
   );

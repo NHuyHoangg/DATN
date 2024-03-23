@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
   },
   textBorderContainer: {
     borderBottomWidth: 1,
-    borderBottomColor: color.soil_yellow,
+    borderBottomColor: color.baemin1,
   },
   text: {
     textAlign: "center",

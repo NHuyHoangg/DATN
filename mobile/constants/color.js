@@ -1,4 +1,6 @@
 export default color = {
+  baemin1: "#25BEB9",
+  baemin2: "#39C5C8",
   yellow: "#FFC746",
   soil_yellow: "#B99323",
   green: "#116466",
@@ -19,7 +21,7 @@ export default color = {
   text_black: "#000000",
   text_msg: "#000E08",
   price: "#C90927",
-  red: "red",
+  red: "#DD575B",
   error50: "#fcc4e4",
   error500: "#9b095c",
 };

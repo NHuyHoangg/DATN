@@ -1,6 +1,6 @@
 import { Pressable, StyleSheet, Text, View, Dimensions } from "react-native";
 import { useEffect, useCallback } from "react";
-import { TextInput } from "react-native-gesture-handler";
+import { TextInput, GestureHandlerRootView } from "react-native-gesture-handler";
 import { Ionicons } from "@expo/vector-icons";
 import WatchList from "../../Components/watch/WatchList";
 import FilterModal from "../../Components/ui/FilterModal";
@@ -14,6 +14,7 @@ import { userActions } from "../../redux/user/userSlice";
 import LoadingOverlay from "../Overlay/LoadingOverlay";
 import ErrorOverlay from "../Overlay/ErrorOverlay";
 import { useState } from "react";
+import color from "../../constants/color";
 const screenWidth = Dimensions.get("screen").width;
 const screenHeight = Dimensions.get("screen").height;
 const indexRatio = 15;
@@ -124,20 +125,22 @@ export default function HomePage({ route, navigation }) {
               <Ionicons
                 name="search"
                 size={screenWidth / indexRatio}
-                color="#9D9D9D"
+                color="black"
                 onPress={searchOnPress}
               />
-              <TextInput
-                style={styles.input}
-                placeholder="Tìm đồng hồ"
-                onChangeText={onTyping}
-                value={inputText}
-                autoComplete={"off"}
-                autoCorrect={false}
-                onSubmitEditing={searchOnPress}
-              />
+              <GestureHandlerRootView>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Tìm đồng hồ"
+                  onChangeText={onTyping}
+                  value={inputText}
+                  autoComplete={"off"}
+                  autoCorrect={false}
+                  onSubmitEditing={searchOnPress}
+                />
+              </GestureHandlerRootView>
             </View>
-            {/* <Pressable
+            <Pressable
               onPress={chatIconOnPress}
               style={({ pressed }) => [
                 styles.iconBox,
@@ -146,13 +149,15 @@ export default function HomePage({ route, navigation }) {
             >
               <Ionicons
                 style={styles.chatIcon}
-                name="chatbox-ellipses-outline"
+                name="chatbubble-ellipses-outline"
                 size={26}
+                color={color.baemin1}
               />
-            </Pressable> */}
+            </Pressable>
           </View>
         </View>
         <View style={styles.suggestContainer}>
+          <Text style={styles.suggestText}>Gợi ý hôm nay</Text>
           <View
             style={{
               overflow: "hidden",
@@ -168,10 +173,10 @@ export default function HomePage({ route, navigation }) {
                 style={styles.suggestIcon}
                 name="options-outline"
                 size={screenWidth / 16}
+                color={color.baemin1}
               />
             </Pressable>
           </View>
-          <Text style={styles.suggestText}>Lọc sản phẩm</Text>
         </View>
         {isFetching ? (
           <LoadingOverlay />
@@ -206,7 +211,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   input: {
-    width: "90%",
+    width: "98%",
     fontFamily: "montserrat-regular",
     marginLeft: "5%",
     color: "#9D9D9D",
@@ -230,7 +235,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: "montserrat-medium",
     marginLeft: screenWidth / 35,
-    fontWeight: 600,
+    color: color.baemin1,
+    // fontWeight: 600,
   },
   chatIcon: {
     marginLeft: "2%",

@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
   description: {
     fontSize: 18,
     fontFamily: "montserrat-regular",
-    fontWeight: 600,
+    // fontWeight: 600,
     textAlign: "center",
     lineHeight: screenHeight / 30,
   },

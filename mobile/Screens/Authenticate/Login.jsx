@@ -134,7 +134,7 @@ export default function Login({ navigation }) {
           )}
         </View>
         <View style={styles.textContainer}>
-          <Text onPress={goToResetPage} style={styles.text}>
+          <Text onPress={goToResetPage} style={[styles.text, {color: color.baemin1}]}>
             Quên mật khẩu
           </Text>
         </View>
@@ -145,7 +145,7 @@ export default function Login({ navigation }) {
             textHP="24%"
             onPress={loginHandler}
             rippleColor="#afafaf"
-            color="#697184"
+            color={color.baemin1}
           >
             ĐĂNG NHẬP
           </Button>
@@ -175,7 +175,7 @@ export default function Login({ navigation }) {
           <Text style={[styles.text, { color: "black" }]}>
             Bạn chưa có tài khoản?
           </Text>
-          <Text onPress={signUpButtonHandler} style={styles.text}>
+          <Text onPress={signUpButtonHandler} style={[styles.text, {color: color.baemin1}]}>
             Đăng ký tại đây
           </Text>
         </View>

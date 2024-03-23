@@ -9,6 +9,7 @@ import {
 import Button from "../../Components/ui/Button";
 import React from "react";
 import { Linking } from "react-native";
+import color from "../../constants/color";
 const screenWidth = Dimensions.get("screen").width;
 const screenHeight = Dimensions.get("screen").height;
 import { CTIME_WEBSITE } from "@env";
@@ -24,13 +25,8 @@ export default function EmptyItem({onPress}) {
       <Pressable onPress={handlePress} style={styles.imageContainer}>
         <Image
           style={styles.image}
-          source={require("../../assets/images/CTIME_LOGO.png")}
+          source={require("../../assets/images/empty.png")}
         />
-      </Pressable>
-      <Text style={styles.suggest}>Bạn có thể tham khảo sản phẩm trên tại</Text>
-      <Pressable onPress={handlePress} style={styles.urlLink}>
-        <Text style={styles.partUrl1}>SHOPDONGHO.</Text>
-        <Text style={styles.partUrl2}>COM</Text>
       </Pressable>
       <Button
           textVP="0%"
@@ -39,7 +35,7 @@ export default function EmptyItem({onPress}) {
           borR={5}
           onPress={onPress}
           rippleColor="#afafaf"
-          color="#697184"
+          color={color.red}
         >
           Tải lại
         </Button>
@@ -70,7 +66,7 @@ const styles = StyleSheet.create({
   partUrl1: {
     fontFamily: "montserrat-regular",
     fontSize: 14,
-    fontWeight: 700,
+    // fontWeight: 600,
     color: "#5d6483",
     borderBottomWidth: 1,
     borderBottomColor: "#5d6483",
@@ -78,7 +74,7 @@ const styles = StyleSheet.create({
   partUrl2: {
     fontFamily: "montserrat-semi-bold",
     fontSize: 12,
-    fontWeight: 700,
+    // fontWeight: 600,
     color: "#5d6483",
     borderBottomWidth: 1,
     borderBottomColor: "#5d6483",

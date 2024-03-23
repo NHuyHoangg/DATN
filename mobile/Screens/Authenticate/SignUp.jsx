@@ -139,7 +139,7 @@ export default function SignUp({ navigation }) {
   if (isLoading) return <LoadingOverlay />;
   return (
     <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      // behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={{ flex: 1 }}
     >
       <View style={styles.container}>

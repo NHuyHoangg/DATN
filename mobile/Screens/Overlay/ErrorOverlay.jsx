@@ -9,12 +9,13 @@ const ErrorOverlay = (props) => {
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
-        <Entypo name="emoji-sad" size={100} color="black" />
+        <Entypo name="emoji-sad" size={100} color={color.baemin1} />
       </View>
 
       <Text style={[styles.text, styles.title]}>Lỗi kết nối</Text>
       <Text style={styles.text}>{props.message}</Text>
       <Button
+        color={color.red}
         onPress={() => {
           props.reload((state) => !state);
         }}
@@ -42,7 +43,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 20,
-    fontWeight: "bold",
+    // fontWeight: "bold",
     color: "black",
     textAlign: "center",
   },

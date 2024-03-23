@@ -19,7 +19,7 @@ export default function AuthStack() {
           fontSize: 16,
         },
         headerStyle: { backgroundColor: "#ffffff" },
-        headerTintColor: color.blue_title,
+        headerTintColor: color.baemin1,
         contentStyle: { backgroundColor: "white" },
       }}
     >
@@ -46,7 +46,7 @@ export default function AuthStack() {
         component={ForgotPassword}
         options={{
           headerShown: true,
-          title: "Lấy lại mật khẩu",
+          title: "LẤY LẠI MẬT KHẨU",
         }}
       />
    

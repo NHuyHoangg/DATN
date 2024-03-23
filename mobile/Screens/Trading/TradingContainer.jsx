@@ -83,7 +83,8 @@ export default function TradingScreen() {
         component={TopTabsContainer}
         options={{
           ...HeaderStyle,
-          title: "Lịch sử mua bán",
+          title: "Quản lý tin đăng",
+          color: color.baemin1,
         }}
       />
       <Stack.Screen

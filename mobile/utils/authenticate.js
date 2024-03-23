@@ -2,7 +2,7 @@
 import axios from 'axios'
 
 export async function signUp(phone,email,password,confirmPassword) {
-    const response = await axios.post("https://ctime.hcmut.live/auth/sign-up",{
+    const response = await axios.post("https://ctime.hcmut.tech/auth/sign-up",{
         email:email,
         phone: phone,
         password: password,
@@ -17,7 +17,7 @@ export async function signUp(phone,email,password,confirmPassword) {
 }
 
 export async function login(phone,password) {
-    const response = await axios.post("https://ctime.hcmut.live/auth/sign-in",{
+    const response = await axios.post("https://ctime.hcmut.tech/auth/sign-in",{
         phone: phone,
         password: password,
     })
@@ -28,7 +28,7 @@ export async function login(phone,password) {
 
 }
 export async function forgotPassword(phone,email){
-    const response = await axios.post("https://ctime.hcmut.live/forgot-password",{
+    const response = await axios.post("https://ctime.hcmut.tech/forgot-password",{
         phone: phone,
         email: email,
     })
@@ -37,7 +37,7 @@ export async function forgotPassword(phone,email){
     return {message:message, sentEmail:sentEmail};
 }
 export async function changePassword(currentPassword,newPassword,confirmPassword,token){
-    const response = await axios.post("https://ctime.hcmut.live/change-password",{
+    const response = await axios.post("https://ctime.hcmut.tech/change-password",{
         oldPassword: currentPassword,
         newPassword: newPassword,
         confirmPassword: confirmPassword,

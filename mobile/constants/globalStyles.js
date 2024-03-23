@@ -10,12 +10,13 @@ export const HeaderStyle = {
   headerShadowVisible: false,
   headerTitleStyle: {
     fontFamily: "montserrat-bold",
+    color: color.baemin1
   },
 };
 
 export const TopTapStyle = {
   tabBarIndicatorStyle: {
-    backgroundColor: color.soil_yellow,
+    backgroundColor: color.baemin1,
   },
   tabBarAndroidRipple: {
     borderless: true,
