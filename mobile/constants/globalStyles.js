@@ -37,5 +37,6 @@ export const TopTabScreenStyle = {
     fontFamily: "montserrat-medium",
   },
   tabBarInactiveTintColor: color.text_black,
+  tabBarActiveTintColor: color.baemin1,
   
 };

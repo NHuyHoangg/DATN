@@ -61,6 +61,7 @@ const WatchList = memo((props) => {
   return (
     <View style={styles.container}>
       <FlatList
+        numColumns={2}
         windowSize={5}
         removeClippedSubviews={true}
         maxToRenderPerBatch={4}

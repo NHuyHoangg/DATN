@@ -23,6 +23,7 @@ export const fetchWatchPosts = async (token, filterProps) => {
 };
 export const searchWatch = async (name) => {
   const response = await axios.get(baseURL + "search?q=" + name);
+  // console.log("dfnksjdf")
   return response.data;
 };
 

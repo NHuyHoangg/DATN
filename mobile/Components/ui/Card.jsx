@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     elevation: 4,
     marginVertical: "2.5%",
-    marginHorizontal: "5%",
+    marginHorizontal: "2.5%",
     padding: 0,
     borderRadius: 8,
 
@@ -20,5 +20,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.35,
     shadowOffset: { width: 0, height: 2 },
     shadowRadius: 8,
+    width: "45%",
   },
 });

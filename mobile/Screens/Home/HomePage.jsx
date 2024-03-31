@@ -7,6 +7,8 @@ import FilterModal from "../../Components/ui/FilterModal";
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { watchActions } from "../../redux/watch/watchSlice";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import { HeaderStyle, TopTapStyle, TopTabScreenStyle } from "../../constants/globalStyles";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchWatchPosts, searchWatch } from "../../utils/watch";
 import { getSeller } from "../../utils/user";
@@ -100,6 +102,21 @@ export default function HomePage({ route, navigation }) {
     setModalVisible(!modalVisible);
   }
 
+  const Tab = createMaterialTopTabNavigator();
+  const ListWatch = () => {
+    return (
+      isFetching ? (
+        <LoadingOverlay />
+      ) : (
+        <WatchList
+          screenType="home"
+          refreshing={refreshing}
+          onRefreshing={onRefreshing}
+        />
+      )
+    );
+  }
+
   if (error && !isFetching) {
     return <ErrorOverlay message={error} reload={setChange} />;
   }
@@ -178,7 +195,32 @@ export default function HomePage({ route, navigation }) {
             </Pressable>
           </View>
         </View>
-        {isFetching ? (
+        {/* <TopTabsContainer /> */}
+        <Tab.Navigator
+          initialRouteName="Post"
+          screenOptions={{
+            ...TopTapStyle,
+          }}
+        >
+          <Tab.Screen
+            name="New"
+            component={ListWatch}
+            options={{
+              tabBarLabel: "Hàng mới",
+              ...TopTabScreenStyle,
+            }}
+          />
+          
+          <Tab.Screen
+            name="Old"
+            component={ListWatch}
+            options={{
+              tabBarLabel: "Đã qua sử dụng",
+              ...TopTabScreenStyle,
+            }}
+          />
+        </Tab.Navigator>
+        {/* {isFetching ? (
           <LoadingOverlay />
         ) : (
           <WatchList
@@ -186,7 +228,7 @@ export default function HomePage({ route, navigation }) {
             refreshing={refreshing}
             onRefreshing={onRefreshing}
           />
-        )}
+        )} */}
       </SafeAreaView>
     </>
   );

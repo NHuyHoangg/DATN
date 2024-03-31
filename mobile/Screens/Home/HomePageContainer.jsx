@@ -2,7 +2,7 @@ import React from "react";
 import Chat from './Chat'
 import { StyleSheet, Text, View } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { HeaderStyle } from "../../constants/globalStyles";
+import { HeaderStyle, TopTapStyle, TopTabScreenStyle } from "../../constants/globalStyles";
 import WatchDetails from "../../Components/watch/WatchDetails";
 import HomePage from "./HomePage";
 import ChatDetail from "./ChatDetail";
@@ -32,7 +32,6 @@ export default function HomePageContainer() {
       />
 
       <Stack.Screen
-
         name="Chat"
         component={Chat}
         options={{

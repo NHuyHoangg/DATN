@@ -99,10 +99,6 @@ const WatchItem = memo((props) => {
       >
         <View>
           <Image style={styles.image} source={{ uri: props.data.image }} />
-          {/* <Image
-            style={styles.image}
-            source={require("../../assets/images/Ctime_logo.jpg")}
-          /> */}
         </View>
         <Pressable
           android_ripple={{ color: "#ccc" }}
@@ -113,24 +109,7 @@ const WatchItem = memo((props) => {
             <Text style={[styles.text, styles.name]}>
               {nameLen < 15 ? name : name.slice(0, 15) + "..."}
             </Text>
-            <View style={styles.detailsContainer}>
-              <View style={styles.detailContainer}>
-                <View style={styles.icon}>
-                  {/* <Entypo
-                    name="dot-single"
-                    size={12}
-                    color="black"
-                  /> */}
-                </View>
-                <Text style={styles.detailText}>{props.data.status}</Text>
-              </View>
-              <View style={styles.detailContainer}>
-                <Text style={styles.detailText}>
-                  {/* <Entypo name="dot-single" size={12} color="black" /> */}
-                  {props.data.size + " mm"}
-                </Text>
-              </View>
-            </View>
+            
           </View>
           <View style={styles.innerContainer}>
             <Text style={[styles.text, styles.price]}>
@@ -142,13 +121,12 @@ const WatchItem = memo((props) => {
               <View style={[styles.detailContainer]}>
                 <View>
                   <Ionicons
-                    name="ios-time-outline"
+                    name="time-outline"
                     size={10}
                     color={color.gray}
                     style={styles.icon}
                   />
                 </View>
-
                 <Text style={styles.detailText}>{props.data.date}</Text>
               </View>
               <View style={[styles.detailContainer]}>
@@ -219,13 +197,14 @@ export default WatchItem;
 const styles = StyleSheet.create({
   rootContainer: {
     overflow: "hidden",
-    flexDirection: "row",
+    alignItems: "center",
+    // flexDirection: "row",
     // backgroundColor: "gray",
     borderRadius: 8,
   },
   image: {
-    width: 130,
-    height: 130,
+    width: 180,
+    height: 180,
     resizeMode: "cover",
   },
   pressed: {
@@ -234,7 +213,8 @@ const styles = StyleSheet.create({
   outerContainer: {
     flex: 1,
     justifyContent: "space-around",
-    paddingVertical: "3%",
+    paddingVertical: "4%",
+    width: "100%",
     // backgroundColor: 'green'
   },
   innerContainer: {
@@ -242,7 +222,7 @@ const styles = StyleSheet.create({
     // backgroundColor: "red",
   },
   text: {
-    textAlign: "left",
+    textAlign: "center",
     fontSize: 14,
     fontFamily: "montserrat-semi-bold",
     padding: 0,
@@ -254,16 +234,13 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     marginHorizontal: "5%",
     // marginVertical: '2.5%',
-    // backgroundColor: 'green'
   },
   detailContainer: {
     flex: 1,
     flexDirection: "row",
-    justifyContent: "flex-start",
+    justifyContent: "flex-end",
     alignItems: "center",
     marginHorizontal: "0%",
-    // backgroundColor: 'blue'
-    // backgroundColor: "pink",
   },
   detailText: {
     fontFamily: "montserrat-regular",
