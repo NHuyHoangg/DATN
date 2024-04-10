@@ -23,7 +23,7 @@ export async function login(phone,password) {
     })
     const message=response.data.message
     const token=response.data.token;
-    const userInfo = response.data.result["user-info"][0]
+    const userInfo = response.data.result["user-info"]
     return {message:message, token:token,id:userInfo.id};
 
 }

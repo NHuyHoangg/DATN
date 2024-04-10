@@ -101,6 +101,7 @@ const styles = StyleSheet.create({
   text: {
     fontFamily: 'montserrat-bold',
     fontSize: 18,
-    marginHorizontal: '5%'
+    marginHorizontal: '5%',
+    color: color.baemin1,
   }
 });

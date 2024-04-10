@@ -22,6 +22,7 @@ const WatchList = memo((props) => {
 
   let dataList = [];
   if (screenType === "home") {
+    // console.log("home")
     dataList = useSelector((state) => state.watch.items);
   } else if (screenType === "selling") {
     dataList = useSelector((state) => state.trading.sellingItems);
@@ -38,6 +39,7 @@ const WatchList = memo((props) => {
     // console.log(dataList);
     dataList = useSelector((state) => state.favoriteProduct.resultList);
   }
+  // console.log(dataList)
   // const numOfData = 10;
   // console.log("WatchList.jsx: prepare data");
   // console.log("dataPoint start");

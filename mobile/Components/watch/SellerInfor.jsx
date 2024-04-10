@@ -5,6 +5,7 @@ import { Feather } from "@expo/vector-icons";
 import { SimpleLineIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
+import color from "../../constants/color";
 // import { watchDetailsActions } from "../../redux/watch/watchDetailsSlice";
 const SellerInfor = (props) => {
   const data = useSelector(state => state.details.item);
@@ -53,5 +54,6 @@ const styles = StyleSheet.create({
     fontFamily: "montserrat-bold",
     fontSize: 18,
     marginHorizontal: "5%",
+    color: color.baemin1,
   },
 });

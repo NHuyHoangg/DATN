@@ -6,6 +6,7 @@ import {
   Pressable,
   Alert,
   LogBox,
+  ImageBackground,
 } from "react-native";
 import { useState, memo } from "react";
 import { AntDesign } from "@expo/vector-icons";
@@ -17,6 +18,7 @@ import color from "../../constants/color";
 import { favoritePostActions } from "../../redux/favorite/favoritePostSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { deletePostFromFavorite, addPostToFavorite } from "../../utils/watch";
+import AdSvg from "../../assets/images/svg/Ad";
 
 LogBox.ignoreLogs([
   "Non-serializable values were found in the navigation state",
@@ -98,7 +100,18 @@ const WatchItem = memo((props) => {
         onPress={viewWatchPostHandler}
       >
         <View>
-          <Image style={styles.image} source={{ uri: props.data.image }} />
+          <ImageBackground style={styles.image} source={{ uri: props.data.image }}>
+            <View style={{ flexDirection: "row", justifyContent: "space-between", width: "80%"}}>
+              <View style={{backgroundColor: color.verify, flexDirection: "row", padding: 3, borderRadius: 5}}>
+                <Ionicons name="checkmark-circle" size={15} color="white" /> 
+                <Text style={{ color: color.white, fontSize: 10, marginLeft: 3, fontFamily: "montserrat-regular"}}>
+                  Đã kiểm định
+                </Text>
+              </View>
+
+              <AdSvg />
+            </View>
+          </ImageBackground>
         </View>
         <Pressable
           android_ripple={{ color: "#ccc" }}

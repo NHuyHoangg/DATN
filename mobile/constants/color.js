@@ -24,4 +24,5 @@ export default color = {
   red: "#DD575B",
   error50: "#fcc4e4",
   error500: "#9b095c",
+  verify: "#BF9603",
 };

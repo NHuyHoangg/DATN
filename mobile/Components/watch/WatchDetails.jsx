@@ -22,6 +22,7 @@ import FaceBookSvg from "../../assets/images/svg/Facebook";
 import MessengerSvg from "../../assets/images/svg/Messenger";
 import ZaloSvg from "../../assets/images/svg/Zalo";
 import LinkSvg from "../../assets/images/svg/Link";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import { Link } from "@react-navigation/native";
 import { useNavigation } from "@react-navigation/native";
 import {
@@ -38,6 +39,7 @@ import { favoriteProductActions } from "../../redux/favorite/favoriteProductSlic
 import LoadingOverlay from "../../Screens/Overlay/LoadingOverlay";
 import ErrorOverlay from "../../Screens/Overlay/ErrorOverlay";
 import IconButton from "../ui/IconButton";
+import Review from "./Review";
 const facebookLink = "https://www.facebook.com/shopdongho2004";
 const zaloLink = "https://zalo.me/966767707628083905";
 const WatchDetails = (props) => {
@@ -275,18 +277,89 @@ const WatchDetails = (props) => {
         )}
       </View>
       {!["selling", "sold", "favoriteProducts"].includes(screenType) && (
-        <Button
-          onPress={saveWatchHandler}
-          color={color.button_indigo}
-          width="90%"
-          marX="5%"
-          textSize={15}
-          borR={7.5}
-          textVP="1%"
-        >
-          Lưu sản phẩm
-        </Button>
+        <View style={{flexDirection: "row", marginHorizontal: "5%", justifyContent: "space-between"}}>
+          <Button
+            onPress={saveWatchHandler}
+            color={color.baemin1}
+            width="60%"
+            textSize={15}
+            borR={7.5}
+            textVP="1%"
+          >
+            <View style={{flexDirection: "row", justifyContent: "space-between"}}>
+              <Ionicons name="cart-outline" size={20} color={color.background_white} />
+              <Text style={{fontSize: 15, color: color.white, textAlign: "center", marginLeft: 5, fontFamily: "montserrat-semi-bold"}}>
+                Mua
+              </Text>
+              
+            </View>
+          </Button>
+
+          <Button
+            onPress={contactSellerHandler}
+            color={color.baemin1}
+            width="15%"
+            textSize={15}
+            borR={7.5}
+            textVP="1%"
+          >
+            <Ionicons name="chatbubble-ellipses-outline" size={22} color={color} />
+          </Button>
+        
+          <Button
+            onPress={saveWatchHandler}
+            color={color.baemin1}
+            width="15%"
+            textSize={15}
+            borR={7.5}
+            textVP="1%"
+          >
+            <Ionicons name="heart-outline" size={22} color={color} />
+          </Button>
+        </View>
       )}
+
+      <View style={{flexDirection: "row-reverse", justifyContent: "space-between", marginVertical: "5%"}}>
+        {!["selling", "sold"].includes(screenType) && (
+          <Pressable style={styles.warning}>
+            <View style={styles.icon}>
+              <Ionicons name="warning-outline" size={16} color="black" />
+            </View>
+
+            <View>
+              <Text style={[styles.text, styles.warningText]}>Báo cáo tin</Text>
+            </View>
+          </Pressable>
+        )}
+
+        <View style={styles.shareContainer}>
+          <Text style={styles.shareText}>Chia sẻ tin này cho bạn bè</Text>
+          <View style={styles.shareImageContainer}>
+            <Pressable
+              style={styles.image}
+              onPress={() => {
+                Linking.openURL(facebookLink);
+              }}
+            >
+              <FaceBookSvg />
+            </Pressable>
+            <View style={styles.image}>
+              <MessengerSvg />
+            </View>
+            <Pressable
+              style={styles.image}
+              onPress={() => {
+                Linking.openURL(zaloLink);
+              }}
+            >
+              <ZaloSvg />
+            </Pressable>
+            <View style={styles.image}>
+              <LinkSvg />
+            </View>
+          </View>
+        </View>
+      </View>
 
       {!["favoriteProducts"].includes(screenType) && (
         <View style={styles.layout}>
@@ -305,7 +378,8 @@ const WatchDetails = (props) => {
 
       {!["sold", "favoriteProducts"].includes(screenType) && <SellerInfor />}
       {screenType === "sold" && <BuyerInfor />}
-      {!["selling", "sold", "favoriteProducts"].includes(screenType) && (
+      <Review />
+      {/* {!["selling", "sold", "favoriteProducts"].includes(screenType) && (
         <Button
           onPress={contactSellerHandler}
           color={color.button_indigo}
@@ -318,46 +392,8 @@ const WatchDetails = (props) => {
         >
           Liên hệ
         </Button>
-      )}
-      {/* {!["selling", "sold"].includes(screenType) && (
-        <Pressable style={styles.warning}>
-          <View style={styles.icon}>
-            <Ionicons name="ios-warning-outline" size={16} color="black" />
-          </View>
-
-          <View>
-            <Text style={[styles.text, styles.warningText]}>Báo cáo tin</Text>
-          </View>
-        </Pressable>
       )} */}
-
-      {/* <View style={styles.shareContainer}>
-        <Text style={styles.shareText}>Chia sẻ tin này cho bạn bè</Text>
-        <View style={styles.shareImageContainer}>
-          <Pressable
-            style={styles.image}
-            onPress={() => {
-              Linking.openURL(facebookLink);
-            }}
-          >
-            <FaceBookSvg />
-          </Pressable>
-          <View style={styles.image}>
-            <MessengerSvg />
-          </View>
-          <Pressable
-            style={styles.image}
-            onPress={() => {
-              Linking.openURL(zaloLink);
-            }}
-          >
-            <ZaloSvg />
-          </Pressable>
-          <View style={styles.image}>
-            <LinkSvg />
-          </View>
-        </View>
-      </View> */}
+      
     </ScrollView>
   );
 };
@@ -378,7 +414,8 @@ const styles = StyleSheet.create({
     fontFamily: "montserrat-regular",
   },
   price: {
-    color: color.price,
+    color: color.baemin1,
+    fontSize: 16,
     fontFamily: "montserrat-semi-bold",
     marginVertical: "1.5%",
   },
@@ -386,7 +423,7 @@ const styles = StyleSheet.create({
     fontFamily: "montserrat-medium",
   },
   watchName: {
-    fontSize: 13,
+    fontSize: 16,
     fontFamily: "montserrat-bold",
   },
   layout: {
@@ -394,15 +431,8 @@ const styles = StyleSheet.create({
     marginHorizontal: "5%",
   },
   warning: {
-    margin: "2.5%",
-    width: "30%",
-    marginHorizontal: "35%",
+    marginRight: "5%",
     flexDirection: "row",
-    // backgroundColor: "pink",
-    alignItems: "center",
-    justifyContent: "center",
-    marginTop: "1.5%",
-    marginBottom: "4%",
   },
   warningText: {
     // fontStyle: "italic",
@@ -417,12 +447,10 @@ const styles = StyleSheet.create({
   },
   shareContainer: {
     marginHorizontal: "5%",
-    marginBottom: "5%",
   },
   shareImageContainer: {
     flexDirection: "row",
-    marginVertical: "2.5%",
-    justifyContent: "center",
+    marginVertical: "5%",
   },
   image: {
     marginRight: "3.5%",
