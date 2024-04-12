@@ -4,6 +4,8 @@ import { AntDesign, MaterialIcons } from '@expo/vector-icons';
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch } from 'react-redux';
 import { authActions } from '../../../redux/auth/authSlice';
+import AuctionSvg from '../../../assets/images/svg/Auction';
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 
 export default function OptionView({ type, isize, color, data, setData }) {
@@ -20,15 +22,40 @@ export default function OptionView({ type, isize, color, data, setData }) {
             dest = "Authenticate";
             icon = <MaterialIcons name="logout" size={isize} color={color} style={{ marginRight: '5%' }} />;
             break;
-        case "shopping-history":
-            text = "Lịch sử mua hàng";
+        case "buy-history":
+            text = "Đơn mua";
             dest = "ShoppingHistory";
             icon = <MaterialCommunityIcons name="purse-outline" size={isize} color={color} style={{ marginRight: '5%' }} />;
+            break;
+        case "sell-history":
+            text = "Đơn bán";
+            dest = "ShoppingHistory";
+            icon = <MaterialCommunityIcons name="archive-outline" size={isize} color={color} style={{ marginRight: '5%' }} />;
             break;
         case "info":
             text = "Thông tin tài khoản";
             dest = "Info";
             icon = <AntDesign name="idcard" size={isize} color={color} style={{ marginRight: '5%' }} />
+            break;
+        case "auction":
+            text = "Đấu giá của tôi";
+            dest = "ShoppingHistory";
+            icon = <AuctionSvg height={isize} width={isize} fill={color} style={{ marginRight: '5%' }}/>
+            break;
+        case "balance":
+            text = "Quản lý số dư";
+            dest = "ShoppingHistory";
+            icon = <Ionicons name="wallet-outline" size={isize} color={color} style={{ marginRight: '5%' }} />;
+            break;
+        case "review":
+            text = "Nhận xét từ người mua";
+            dest = "ShoppingHistory";
+            icon = <Ionicons name="reader-outline" size={isize} color={color} style={{ marginRight: '5%' }} />;
+            break;
+        case "language":
+            text = "Ngôn ngữ";
+            dest = "ShoppingHistory";
+            icon = <Ionicons name="globe-outline" size={isize} color={color} style={{ marginRight: '5%' }} />;
             break;
         default:
             text = "Hỗ trợ khách hàng";
@@ -56,17 +83,17 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
         alignItems: 'center',
-        maxHeight: '10%',
+        maxHeight: '8%',
         backgroundColor: 'white',
         borderBottomWidth: 2,
         borderBottomColor: '#E1E1E1',
-        paddingHorizontal: '3%',
+        paddingHorizontal: '5%',
     },
     pressed: {
         opacity: 0.5,
     },
     text: {
         fontFamily: "montserrat-medium",
-        fontSize: 17,
+        fontSize: 14,
     },
 })

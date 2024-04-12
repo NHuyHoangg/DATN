@@ -8,19 +8,25 @@ import OptionView from './Component/OptionView';
 import LockOverlay from '../Overlay/LockOverlay';
 import ErrorOverlay from '../Overlay/ErrorOverlay';
 import { getLocation } from '../../utils/location';
+import Ionicons from "@expo/vector-icons/Ionicons";
+import color from '../../constants/color';
+
 
 
 export default function Account({ route, navigation }) {
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+  // console.log(isAuthenticated)
   const token = useSelector(state => state.auth.token);
+  // console.log(token)
   const isSeller = useSelector(state => state.user.isSeller)
 
-  const isize = 40;
+  const isize = 25;
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [change, setChange] = useState(true);
 
   const [data, setData] = useState({});
+
 
   useEffect(() => {
     async function fetchData() {
@@ -29,8 +35,8 @@ export default function Account({ route, navigation }) {
       try {
         const res = await getUser(token);
 
-        if (!res.name) res.name = 'Customer';
-        if (!res.lastName) res.lastName = '';
+        if (!res.first_name) res.first_name = '';
+        if (!res.last_name) res.last_name = '';
         if (!res.province) res.province = 0;
         if (!res.district) res.district = 0;
         if (!res.ward) res.ward = 0;
@@ -38,19 +44,16 @@ export default function Account({ route, navigation }) {
 
         const dataFetch = { ...res };
 
-        const { provinces, districts, wards } = await getLocation();
-        dataFetch.provinces = provinces;
-        dataFetch.districts = districts;
-        dataFetch.wards = wards;
+        // const { provinces, districts, wards } = await getLocation();
+        // dataFetch.provinces = provinces;
+        // dataFetch.districts = districts;
+        // dataFetch.wards = wards;
 
         setData(dataFetch);
         setError(null);
       } catch (error) {
-        //setError(error.message)
         setError("Không thể tải thông tin")
-        // if (error && error.message) {
-        //   Alert.alert(error.message);
-        // }
+
       } finally {
 
         setIsLoading(false);
@@ -71,25 +74,34 @@ export default function Account({ route, navigation }) {
   if (isLoading)
     return <LoadingOverlay />
 
-  const customName = data.name + " " + data.lastName;
+  let customName = "Người dùng";
+  if (data.first_name && data.last_name)
+  customName = data.first_name + " " + data.last_name;
 
   return (
     <View style={styles.mainContainer}>
       {/****Ảnh đại diện và tên *****/}
       <View style={styles.infoViewStyle}>
-        <Image
+        {data.image ? <Image
           source={{ uri: data.image }}
-          style={styles.imageStyle}
-        />
+          style={styles.imageStyle}/>
+          : <Ionicons name="person-circle-outline" size={100} color={color.baemin1} />
+        }
+        
         <View>
           <Text style={styles.name}>{customName.length < 14 ? customName : customName.slice(0, 14) + "..."}</Text>
           <Text style={styles.contactInfo}>{data.email}</Text>
         </View>
       </View>
-      <OptionView type="shopping-history" isize={isize} color='#697184' />
-      <OptionView type="info" isize={isize} color='#697184' data={data} setData={setData} />
-      <OptionView type="support" isize={isize} color='#697184' />
-      <OptionView type="logout" isize={isize} color='#697184' />
+      <OptionView type="info" isize={isize} color={color.baemin1} data={data} setData={setData} />
+      <OptionView type="buy-history" isize={isize} color={color.baemin1} />
+      <OptionView type="sell-history" isize={isize} color={color.baemin1} />
+      <OptionView type="auction" isize={isize} color={color.baemin1} />
+      <OptionView type="balance" isize={isize} color={color.baemin1} />
+      <OptionView type="review" isize={isize} color={color.baemin1} />
+      <OptionView type="language" isize={isize} color={color.baemin1} />
+      <OptionView type="support" isize={isize} color={color.baemin1} />
+      <OptionView type="logout" isize={isize} color={color.baemin1} />
     </View>
   )
 }
@@ -112,21 +124,21 @@ const styles = StyleSheet.create({
     borderBottomColor: '#E1E1E1',
   },
   imageStyle: {
-    width: 120,
-    height: 120,
-    borderRadius: 60,
+    width: 100,
+    height: 100,
+    borderRadius: 50,
   },
   name: {
     //textAlign: 'center',
     marginBottom: '6%',
     marginHorizontal: '10%',
     fontFamily: "montserrat-semi-bold",
-    fontSize: 20,
+    fontSize: 17,
   },
   contactInfo: {
     //textAlign: 'center',
     marginHorizontal: '10%',
     fontFamily: "montserrat-light",
-    fontSize: 15,
+    fontSize: 14,
   },
 })
