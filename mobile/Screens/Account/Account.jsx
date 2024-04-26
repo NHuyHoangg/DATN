@@ -11,14 +11,9 @@ import { getLocation } from '../../utils/location';
 import Ionicons from "@expo/vector-icons/Ionicons";
 import color from '../../constants/color';
 
-
-
 export default function Account({ route, navigation }) {
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
-  // console.log(isAuthenticated)
   const token = useSelector(state => state.auth.token);
-  // console.log(token)
-  const isSeller = useSelector(state => state.user.isSeller)
 
   const isize = 25;
   const [isLoading, setIsLoading] = useState(true);
@@ -37,17 +32,8 @@ export default function Account({ route, navigation }) {
 
         if (!res.first_name) res.first_name = '';
         if (!res.last_name) res.last_name = '';
-        if (!res.province) res.province = 0;
-        if (!res.district) res.district = 0;
-        if (!res.ward) res.ward = 0;
-        if (!res.address) res.address = '';
 
         const dataFetch = { ...res };
-
-        // const { provinces, districts, wards } = await getLocation();
-        // dataFetch.provinces = provinces;
-        // dataFetch.districts = districts;
-        // dataFetch.wards = wards;
 
         setData(dataFetch);
         setError(null);
@@ -55,13 +41,12 @@ export default function Account({ route, navigation }) {
         setError("Không thể tải thông tin")
 
       } finally {
-
         setIsLoading(false);
       }
     }
 
     if (isAuthenticated) fetchData();
-  }, [change, isSeller])
+  }, [change])
 
   if (error && !isLoading) {
     return <ErrorOverlay message={error} reload={setChange} />;
@@ -76,14 +61,14 @@ export default function Account({ route, navigation }) {
 
   let customName = "Người dùng";
   if (data.first_name && data.last_name)
-  customName = data.first_name + " " + data.last_name;
+    customName = data.first_name + " " + data.last_name;
 
   return (
     <View style={styles.mainContainer}>
       {/****Ảnh đại diện và tên *****/}
       <View style={styles.infoViewStyle}>
-        {data.image ? <Image
-          source={{ uri: data.image }}
+        {data.avatar ? <Image
+          source={{ uri: data.avatar }}
           style={styles.imageStyle}/>
           : <Ionicons name="person-circle-outline" size={100} color={color.baemin1} />
         }

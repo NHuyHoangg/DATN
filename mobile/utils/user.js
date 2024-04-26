@@ -26,10 +26,26 @@ export const changeUser = async (token, info) => {
 
 export const getSeller = async (token) => {
   const response = await axios
-    .get(API_URL + "/user-status", {
+    .get(API_URL + "/user/status", {
       headers: {
         Authorization: token
       }
     })
   return response.data;
 };
+
+export const changePassword = async (currentPassword, newPassword, confirmPassword, token) => {
+  const response = await axios.post(API_URL+ "users/change-password", {
+      oldPassword: currentPassword,
+      newPassword: newPassword,
+      confirmPassword: confirmPassword,
+  }, {
+    headers: {
+      Authorization: token
+    }
+  });
+  const message = response.data;
+  console.log(message)
+  return {message: message};
+
+}

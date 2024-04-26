@@ -12,6 +12,7 @@ import { isValidEmail, isValidPhoneNumber } from "../../utils/inputValidation";
 import { changeUser } from "../../utils/user";
 import SellerInfoSection from "./Component/SellerInfoSection";
 import PickImageModal from "./Component/PickImageModal";
+import LoadingOverlay from "../Overlay/LoadingOverlay";
 import { userActions } from "../../redux/user/userSlice";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import color from "../../constants/color";
@@ -23,28 +24,13 @@ export default function DetailInfo({ route, navigation }) {
   const dispatch = useDispatch();
 
   const [modalVisible, setModalVisible] = useState(false);
-  const [editable, setEditabel] = useState(false);
 
   const [last_name, setLastName] = useState(data.last_name);
   const [first_name, setFirstName] = useState(data.first_name);
   const [phone, setPhone] = useState(data.phone);
   const [email, setEmail] = useState(data.email);
-  const [province, setProvince] = useState(data.province);
-  const [district, setDistrict] = useState(data.district);
-  const [ward, setWard] = useState(data.ward);
-  const [address, setAddress] = useState(data.address);
-  const [image, setImage] = useState(data.image);
-
-  const location = {
-    province,
-    setProvince,
-    district,
-    setDistrict,
-    ward,
-    setWard,
-    address,
-    setAddress,
-  };
+  const [avatar, setImage] = useState(data.avatar);
+  const [isLoading, setIsLoading] = useState(false);
 
   const onChangeLastName = (value) => {
     setLastName(value);
@@ -62,83 +48,49 @@ export default function DetailInfo({ route, navigation }) {
     setEmail(value);
   };
 
-  useEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-        <Pressable onPress={onChangeInfo}>
-          <Text style={styles.text}>{!editable ? "Thay đổi" : "Xác nhận"}</Text>
-        </Pressable>
-      ),
-    });
-  }, [
-    navigation,
-    editable,
-    last_name,
-    first_name,
-    phone,
-    email,
-    image,
-  ]);
-
   const onChangeInfo = () => {
-    if (editable) {
-      if (!first_name || !last_name || !phone || !email) {
-        Alert.alert("Xảy ra lỗi!!!", "Vui lòng điền đầy đủ hết các trường.");
-        return;
-      }
-
-      if (!isValidEmail(email)) {
-        Alert.alert("Xảy ra lỗi!!!", "Vui lòng nhập email hợp lệ.");
-        return;
-      }
-
-      if (!isValidPhoneNumber(phone)) {
-        Alert.alert("Xảy ra lỗi!!!", "Vui lòng nhập SĐT hợp lệ.");
-        return;
-      }
-
-      if (isSeller) {
-        if (ward == 0 || address == "") {
-          Alert.alert("Xảy ra lỗi!!!", "Vui lòng nhập địa chỉ hợp lệ.");
-          return;
-        }
-      } else {
-        if ((ward == 0 && address != "") || (ward != 0 && address == 0)) {
-          Alert.alert("Xảy ra lỗi!!!", "Vui lòng nhập địa chỉ hợp lệ.");
-          return;
-        }
-      }
-
-      Alert.alert("Xác nhận", "Bạn có muốn lưu những thay đổi vừa nãy?", [
-        {
-          text: "Hủy",
-          style: "cancel",
-        },
-        { text: "Xác nhận", onPress: () => sendInfo() },
-      ]);
-    } else {
-      setEditabel(!editable);
+    if (!first_name || !last_name || !phone || !email) {
+      Alert.alert("Xảy ra lỗi!!!", "Vui lòng điền đầy đủ hết các trường.");
+      return;
     }
+
+    if (!isValidEmail(email)) {
+      Alert.alert("Xảy ra lỗi!!!", "Vui lòng nhập email hợp lệ.");
+      return;
+    }
+
+    if (!isValidPhoneNumber(phone)) {
+      Alert.alert("Xảy ra lỗi!!!", "Vui lòng nhập SĐT hợp lệ.");
+      return;
+    }
+
+    Alert.alert("Xác nhận", "Bạn có muốn lưu những thay đổi vừa nãy?", [
+      {
+        text: "Hủy",
+        style: "cancel",
+      },
+      { text: "Xác nhận", onPress: () => sendInfo() },
+    ]);
   };
 
   // Gửi request tới server
   const sendInfo = async () => {
+    setIsLoading(true)
     const info = {};
 
-    if (image != data.image) info.image = image;
+    if (avatar != data.avatar) info.avatar = avatar;
     if (last_name != data.last_name) info.last_name = last_name;
     if (first_name != data.first_name) info.first_name = first_name;
     if (phone != data.phone) info.phone = phone;
     if (email != data.email) info.email = email;
-    if (province != data.province) info.province = province;
-    if (district != data.district) info.district = district;
-    if (ward != data.ward) info.ward = ward;
-    if (address != data.address) info.address = address;
+    // if (province != data.province) info.province = province;
+    // if (district != data.district) info.district = district;
+    // if (ward != data.ward) info.ward = ward;
+    // if (address != data.address) info.address = address;
 
-    if (Object.keys(info).length === 0) {
-      setEditabel(!editable);
-      return;
-    }
+    // if (Object.keys(info).length === 0) {
+    //   return;
+    // }
 
     const res = await changeUser(token, info);
 
@@ -147,15 +99,16 @@ export default function DetailInfo({ route, navigation }) {
       return;
     }
 
-    if (info.ward && info.address) {
-      dispatch(userActions.validateSeller());
-    }
+    // if (info.ward && info.address) {
+    //   dispatch(userActions.validateSeller());
+    // }
 
     const newData = { ...data, ...info };
-    setEditabel(!editable);
     setData(newData);
     navigation.navigate("Account");
   };
+
+  if (isLoading) return <LoadingOverlay />
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
@@ -171,8 +124,8 @@ export default function DetailInfo({ route, navigation }) {
 
         {/********Ảnh đại diện ******/}
         <View style={styles.infoViewStyle}>
-          {image ? (
-            <Image source={{ uri: image }} style={styles.imageStyle} />
+          {avatar ? (
+            <Image source={{ uri: avatar }} style={styles.imageStyle} />
           ) : (
             <Ionicons
               name="person-circle-outline"
@@ -182,7 +135,6 @@ export default function DetailInfo({ route, navigation }) {
           )}
           <View style={{ flexDirection: "column", width: "100%" }}>
             <Pressable
-              pointerEvents={editable ? "auto" : "none"}
               android_ripple={{ color: "#ccc" }}
               style={({ pressed }) => [
                 styles.changeAvatarButton,
@@ -193,7 +145,6 @@ export default function DetailInfo({ route, navigation }) {
               <Text style={styles.buttonText}>Thay đổi ảnh đại diện</Text>
             </Pressable>
             <Pressable
-              pointerEvents={editable ? "auto" : "none"}
               android_ripple={{ color: "#ccc" }}
               style={({ pressed }) => [
                 styles.changeAvatarButton,
@@ -204,13 +155,12 @@ export default function DetailInfo({ route, navigation }) {
               <Text style={styles.buttonText}>Đổi mật khẩu </Text>
             </Pressable>
             <Pressable
-              pointerEvents={editable ? "auto" : "none"}
               android_ripple={{ color: "#ccc" }}
               style={({ pressed }) => [
                 styles.changeAvatarButton,
                 pressed ? styles.pressed : null,
               ]}
-              onPress={() => navigation.navigate("ChangePassword")}
+              onPress={() => navigation.navigate("MyAddress")}
             >
               <Text style={styles.buttonText}>Địa chỉ của tôi </Text>
             </Pressable>
@@ -226,7 +176,6 @@ export default function DetailInfo({ route, navigation }) {
           style={styles.input}
           value={last_name}
           onChangeText={onChangeLastName}
-          editable={editable}
         />
 
         <Text style={styles.text}>Tên</Text>
@@ -234,14 +183,12 @@ export default function DetailInfo({ route, navigation }) {
           style={styles.input}
           value={first_name}
           onChangeText={onChangeFirstName}
-          editable={editable}
         />
 
         <Text style={styles.text}>Số điện thoại</Text>
         <TextInput
           value={phone}
           style={styles.input}
-          editable={editable}
           keyboardType="numeric"
           onChangeText={onChangePhone}
         />
@@ -250,9 +197,19 @@ export default function DetailInfo({ route, navigation }) {
         <TextInput
           value={email}
           style={styles.input}
-          editable={editable}
           onChangeText={onChangeEmail}
         />
+
+        <Pressable
+          android_ripple={{ color: "#ccc" }}
+          style={({ pressed }) => [
+            styles.submit,
+            pressed ? styles.pressed : null,
+          ]}
+          onPress={onChangeInfo}
+        >
+          <Text style={styles.buttonText}>Xác nhận </Text>
+        </Pressable>
 
         {/*** Thông tin người bán */}
         {/* <SellerInfoSection
@@ -278,9 +235,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   imageStyle: {
-    width: 130,
-    height: 130,
-    borderRadius: 65,
+    width: 150,
+    height: 150,
+    borderRadius: 90,
+    marginHorizontal: "4%",
   },
   name: {
     paddingVertical: "5%",
@@ -297,6 +255,18 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     overflow: "hidden",
     marginTop: 10,
+  },
+  submit: {
+    backgroundColor: color.baemin2,
+    height: 40,
+    width: "95%",
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    alignItems: "center",
+    borderRadius: 10,
+    overflow: "hidden",
+    margin: 10,
+    marginVertical: 20,
   },
   pressed: {
     opacity: 0.2,

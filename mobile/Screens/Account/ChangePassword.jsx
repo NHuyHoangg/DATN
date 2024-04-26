@@ -14,10 +14,12 @@ import AuthInput from "../../Components/auth/AuthInput";
 import Button from "../../Components/ui/Button";
 import { useSelector } from "react-redux";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { changePassword} from "../../utils/authenticate";
+import { changePassword} from "../../utils/user";
 import LoadingOverlay from "../Overlay/LoadingOverlay";
 import { useDispatch } from "react-redux";
 import { authActions } from "../../redux/auth/authSlice";
+import color from "../../constants/color";
+
 export default function ChangePassword({ route, navigation }) {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -74,10 +76,10 @@ export default function ChangePassword({ route, navigation }) {
     } catch (error) {
       if (error.response) {
         const errorData = error.response.data;
-        Alert.alert("Thông báo",errorData.message);
+        Alert.alert("Thông báo", errorData.message);
         return;
       }
-      Alert.alert("Thông báo",error.message);
+      Alert.alert("Thông báo", error.message);
     } finally {
       setIsLoading(false);
     }
@@ -109,7 +111,7 @@ export default function ChangePassword({ route, navigation }) {
   if (isLoading) return <LoadingOverlay message="Đang reset mật khẩu" />;
   return (
     <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      // behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={{ flex: 1 }}
     >
       <View style={styles.container}>
@@ -135,11 +137,6 @@ export default function ChangePassword({ route, navigation }) {
         )}
         <View style={styles.img}>
           <ForgotPasswordSvg />
-        </View>
-        <View style={styles.content}>
-          <Text style={styles.instruction}>
-            Điền các thông tin sau để thay đổi mật khẩu
-          </Text>
         </View>
         <View style={styles.inputContainer}>
           <AuthInput
@@ -186,7 +183,7 @@ export default function ChangePassword({ route, navigation }) {
           rippleColor="#afafaf"
           marX="15%"
           marY="3%"
-          color="#697184"
+          color={color.baemin2}
           textVP="1%"
           borR={8}
           onPress={changePasswordHandler}
