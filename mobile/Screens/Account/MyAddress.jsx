@@ -7,6 +7,8 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 
 import LoadingOverlay from "../Overlay/LoadingOverlay";
+import EmptyAddress from "../Overlay/EmptyAddress";
+import ErrorOverlay from "../Overlay/ErrorOverlay";
 import color from "../../constants/color";
 import { getAddress } from "../../utils/location";
 
@@ -42,6 +44,7 @@ export default function MyAddress({ route, navigation }) {
   }
 
   if (isLoading) return <LoadingOverlay />;
+  console.log(dataAddress)
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
@@ -49,7 +52,7 @@ export default function MyAddress({ route, navigation }) {
         style={styles.mainContainer}
         contentContainerStyle={{ paddingBottom: 15 }}
       >
-        {dataAddress.map((address, index) => (
+        {dataAddress === null ? (dataAddress.map((address, index) => (
           <Pressable
             key={index}
             android_ripple={{ color: "#ccc" }}
@@ -77,7 +80,7 @@ export default function MyAddress({ route, navigation }) {
               </View>
             )}
           </Pressable>
-        ))}
+        ))): (<EmptyAddress />)}
 
         <Pressable
           android_ripple={{ color: "#ccc" }}

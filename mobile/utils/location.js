@@ -43,7 +43,8 @@ export const getAddress = async (token) => {
     });
     return response.data;
   } catch (error) {
-    return error.response.data;
+    throw error
+    // return error.response.data;
   }
 };
 
@@ -63,6 +64,19 @@ export const createAddress = async (info, token) => {
 export const changeAddress = async (token, id, info) => {
   try {
     const response = await axios.put(API_URL + `users/address/${id}`, info, {
+      headers: {
+        Authorization: token,
+      },
+    });
+    return response.status;
+  } catch (error) {
+    return error.response.status;
+  }
+};
+
+export const deleteAddress = async (token, id) => {
+  try {
+    const response = await axios.delete(API_URL + `users/address/${id}`, {
       headers: {
         Authorization: token,
       },

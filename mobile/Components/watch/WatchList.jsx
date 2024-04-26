@@ -6,7 +6,6 @@ import {
   ScrollView,
 } from "react-native";
 import { useCallback, memo } from "react";
-import { dataGen } from "../../constants/data";
 import WatchItem from "./WatchItem";
 import { useSelector } from "react-redux";
 import EmptyItem from "../../Screens/Overlay/EmptyItem";
@@ -31,26 +30,8 @@ const WatchList = memo((props) => {
   } else if (screenType === "favoritePosts") {
     dataList = useSelector((state) => state.favoritePost.items);
   } else if (screenType === "favoriteProducts") {
-    // const numOfData = 1;
-    // for (let i = 0; i < numOfData; i++) {
-    //   const dataPoint = dataGen();
-    //   dataList.push(dataGen());
-    // }
-    // console.log(dataList);
     dataList = useSelector((state) => state.favoriteProduct.resultList);
   }
-  // console.log(dataList)
-  // const numOfData = 10;
-  // console.log("WatchList.jsx: prepare data");
-  // console.log("dataPoint start");
-  // for (let i = 0; i < numOfData; i++) {
-  //   const dataPoint = dataGen();
-  //   // console.log(dataPoint);
-
-  //   dataList.push(dataGen());
-  // }
-  // console.log(dataList);
-  // console.log("dataPoint end");
   const renderWatchItem = useCallback((itemData) => {
     return (
       <WatchItem

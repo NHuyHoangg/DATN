@@ -15,25 +15,14 @@ const screenHeight = Dimensions.get("screen").height;
 import { CTIME_WEBSITE } from "@env";
 const url = CTIME_WEBSITE;
 
-export default function EmptyItem({ onPress }) {
+export default function EmptyAddress() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Không tìm thấy sản phẩm</Text>
+      <Text style={styles.title}>Không tìm thấy địa chỉ</Text>
       <Image
         style={styles.image}
         source={require("../../assets/images/empty.png")}
       />
-      <Button
-        textVP="0%"
-        textHP="8%"
-        padY="5%"
-        borR={5}
-        onPress={onPress}
-        rippleColor="#afafaf"
-        color={color.red}
-      >
-        Tải lại
-      </Button>
     </View>
   );
 }

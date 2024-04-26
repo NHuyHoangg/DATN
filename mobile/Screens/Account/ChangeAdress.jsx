@@ -14,6 +14,7 @@ import LoadingOverlay from "../Overlay/LoadingOverlay";
 import color from "../../constants/color";
 import {
   changeAddress,
+  deleteAddress,
   getDropDistrict,
   getDropProvince,
   getDropWard,
@@ -121,6 +122,16 @@ export default function ChangeAddress({ route, navigation }) {
     []
   );
 
+  const onDeleteInfo = () => {
+    Alert.alert("Xác nhận", "Bạn có muốn xoá địa chỉ này?", [
+      {
+        text: "Hủy",
+        style: "cancel",
+      },
+      { text: "Xác nhận", onPress: () => deleteInfo() },
+    ]);
+  };
+
   const onChangeInfo = () => {
     if (!first_name || !last_name || !phone) {
       Alert.alert("Xảy ra lỗi!!!", "Vui lòng điền đầy đủ hết các trường.");
@@ -144,6 +155,19 @@ export default function ChangeAddress({ route, navigation }) {
       },
       { text: "Xác nhận", onPress: () => sendInfo() },
     ]);
+  };
+
+  const deleteInfo = async () => {
+    setIsLoading(true);
+
+    const res = await deleteAddress(token, address.id);
+    if (res != 200) {
+      Alert.alert("Xảy ra lỗi!!!", "Gửi yêu cầu không thành công.");
+      setIsLoading(false);
+      return;
+    }
+    setAddress(address)
+    navigation.navigate("MyAddress");
   };
 
   // Gửi request tới server
@@ -294,7 +318,7 @@ export default function ChangeAddress({ route, navigation }) {
             color.red,
             pressed ? styles.pressed : null,
           ]}
-          // onPress={onChangeInfo}
+          onPress={onDeleteInfo}
         >
           <Text style={styles.buttonText}>Xoá địa chỉ</Text>
         </Pressable>
