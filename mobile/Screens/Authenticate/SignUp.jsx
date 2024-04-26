@@ -264,7 +264,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontFamily: "montserrat-medium",
-    color: color.text_blue,
+    color: color.baemin1,
     padding: 2,
   },
   textContainer: {
