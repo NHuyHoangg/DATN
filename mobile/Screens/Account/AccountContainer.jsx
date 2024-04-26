@@ -11,6 +11,7 @@ import ChangePassword from "./ChangePassword";
 import CreateAddress from "./CreateAddress";
 import MyAddress from "./MyAddress";
 import ChangeAddress from "./ChangeAdress";
+import Review from "./Review";
 
 const Stack = createNativeStackNavigator();
 
@@ -79,6 +80,14 @@ export default function AccountScreen() {
         options={{
           ...HeaderStyle,
           title: "Sửa địa chỉ",
+        }}
+      />
+      <Stack.Screen
+        name="Review"
+        component={Review}
+        options={{
+          ...HeaderStyle,
+          title: "Nhận xét",
         }}
       />
     </Stack.Navigator>

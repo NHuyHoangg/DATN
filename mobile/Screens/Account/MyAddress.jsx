@@ -52,7 +52,7 @@ export default function MyAddress({ route, navigation }) {
         style={styles.mainContainer}
         contentContainerStyle={{ paddingBottom: 15 }}
       >
-        {dataAddress === null ? (dataAddress.map((address, index) => (
+        {dataAddress.length > 0 ? (dataAddress.map((address, index) => (
           <Pressable
             key={index}
             android_ripple={{ color: "#ccc" }}

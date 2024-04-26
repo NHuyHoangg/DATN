@@ -49,7 +49,7 @@ export default function OptionView({ type, isize, color, data, setData }) {
             break;
         case "review":
             text = "Nhận xét từ người mua";
-            dest = "ShoppingHistory";
+            dest = "Review";
             icon = <Ionicons name="reader-outline" size={isize} color={color} style={{ marginRight: '5%' }} />;
             break;
         case "language":
