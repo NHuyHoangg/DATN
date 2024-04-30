@@ -33,10 +33,7 @@ const WatchItem = memo((props) => {
   const token = useSelector((state) => state.auth.token);
   const id = props.data.id;
   const watch_id = props.data.watch_id;
-  // console.log("id = ", id);
-  // console.log("watch_id = ", watch_id);
   const [isFavorite, setIsFavourite] = useState(props.data.isFavorite);
-  // console.log("isFavorite = ", isFavorite);
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -90,6 +87,8 @@ const WatchItem = memo((props) => {
       console.log(err);
     }
   };
+
+  // console.log(props.data)
   return (
     <Card>
       <Pressable
@@ -113,11 +112,7 @@ const WatchItem = memo((props) => {
             </View>
           </ImageBackground>
         </View>
-        <Pressable
-          android_ripple={{ color: "#ccc" }}
-          style={styles.outerContainer}
-          onPress={viewWatchPostHandler}
-        >
+        <View style={styles.outerContainer}>
           <View style={styles.innerContainer}>
             <Text style={[styles.text, styles.name]}>
               {nameLen < 15 ? name : name.slice(0, 15) + "..."}
@@ -126,7 +121,7 @@ const WatchItem = memo((props) => {
           </View>
           <View style={styles.innerContainer}>
             <Text style={[styles.text, styles.price]}>
-              {props.data.price} đ
+              {props.data.formatted_price}
             </Text>
           </View>
           <View style={styles.innerContainer}>
@@ -150,14 +145,14 @@ const WatchItem = memo((props) => {
                   style={styles.icon}
                 />
                 <Text style={styles.detailText}>
-                  {props.data.location || (!props.data.location && "Chưa có ")}
+                  {props.data.location || (!props.data.location && "Chưa có")}
                 </Text>
               </View>
             </View>
           </View>
-        </Pressable>
+        </View>
       </Pressable>
-      <Pressable
+      {/* <Pressable
         // onPress={() => setIsFavourite(!isFavourite)}
         style={styles.heartIcon}
       >
@@ -200,7 +195,7 @@ const WatchItem = memo((props) => {
               color="black"
             />
           ))}
-      </Pressable>
+      </Pressable> */}
     </Card>
   );
 });
@@ -238,7 +233,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 14,
     fontFamily: "montserrat-semi-bold",
-    padding: 0,
+    padding: 2,
     marginHorizontal: "5%",
     // backgroundColor: "green",
   },
@@ -246,7 +241,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "flex-start",
     marginHorizontal: "5%",
-    // marginVertical: '2.5%',
+    marginVertical: '1.5%',
   },
   detailContainer: {
     flex: 1,

@@ -21,7 +21,16 @@ export const fetchWatchPosts = async (token, filterProps) => {
   });
   return response.data;
 };
-export const searchWatch = async (name) => {
+export const searchWatch = async (page) => {
+  const response = await axios.get(baseURL + "search?page=" + page);
+  const data = response.data.entries;
+  const currPage = response.data.currentPage;
+  const totalPage = response.data.totalPages;
+  console.log(response.data);
+  return { data, currPage, totalPage };
+};
+
+export const searchWatchName = async (name) => {
   const response = await axios.get(baseURL + "search?q=" + name);
   // console.log("dfnksjdf")
   return response.data;

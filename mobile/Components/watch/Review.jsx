@@ -1,8 +1,16 @@
-import { View, Text, StyleSheet, FlatList, Image, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  Image,
+  ScrollView,
+} from "react-native";
 import Stars from "react-native-stars";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { BarChart } from "react-native-chart-kit";
-import { reviewList } from '../../constants/data'
+import { BarChart } from "react-native-gifted-charts";
+import { reviewList } from "../../constants/data";
+import EmptyReview from "../../Screens/Overlay/EmptyReview";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
 // import { Feather } from "@expo/vector-icons";
@@ -16,31 +24,18 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 const screenWidth = Dimensions.get("window").width;
 const screenHeight = Dimensions.get("window").height;
-const avatarSize = screenHeight/18;
-const rList = reviewList
-
-const chartConfig = {
-  backgroundGradientFrom: "white",
-  backgroundGradientFromOpacity: 0,
-  backgroundGradientTo: "white",
-  backgroundGradientToOpacity: 0.5,
-  backgroundColor: "white",
-  color: (opacity = 1) => "black",
-  strokeWidth: 2, // optional, default 3
-  barPercentage: 0.5,
-  useShadowColorFromDataset: false, // optional
-};
+const avatarSize = screenHeight / 18;
+const rList = reviewList;
 
 const Review = (props) => {
   //   const data = useSelector(state => state.details.item);
-  const dataReview = {
-    labels: ["(1)", "(2)", "(3)", "(4)", "(5)"],
-    datasets: [
-      {
-        data: [20, 45, 28, 80, 99],
-      },
-    ],
-  };
+  const dataReview = [
+    { value: 250, label: "(5)" },
+    { value: 625, label: "(4)" },
+    { value: 200, label: "(3)" },
+    { value: 320, label: "(2)" },
+    { value: 1000, label: "(1)" },
+  ];
 
   function Box({ id, avatar, name, message, date, watch }) {
     return (
@@ -58,10 +53,34 @@ const Review = (props) => {
             style={{
               marginLeft: "3%",
               justifyContent: "space-around",
+              width: "85%",
             }}
           >
-            <Text style={styles.name}>{name}</Text>
-            <Text style={styles.date}>{date} - {watch}</Text>
+            <View
+              style={{ flexDirection: "row", justifyContent: "space-between" }}
+            >
+              <Text style={styles.name}>{name}</Text>
+              <Stars
+                display={3}
+                spacing={5}
+                count={3}
+                starSize={100}
+                fullStar={<Icon name={"star"} style={[styles.myStarStyle]} />}
+                emptyStar={
+                  <Icon
+                    name={"star-outline"}
+                    style={[styles.myStarStyle, styles.myEmptyStarStyle]}
+                  />
+                }
+                halfStar={
+                  <Icon name={"star-half"} style={[styles.myStarStyle]} />
+                }
+              />
+            </View>
+            <Text style={styles.date}>
+              {date} - {watch}
+            </Text>
+
             <Text style={styles.message}>{message}</Text>
           </View>
         </View>
@@ -72,40 +91,75 @@ const Review = (props) => {
   return (
     <View style={styles.root}>
       <Text style={styles.text}>Nhận xét người bán</Text>
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
-          alignItems: "center",
-          margin: "5%",
-        }}
-      >
-        <View style={{ alignItems: "center" }}>
-          <Text style={styles.text}>3.5 / 5</Text>
-          <Stars
-            display={3.5}
-            spacing={10}
-            count={5}
-            starSize={50}
-            fullStar={<Icon name={"star"} style={[styles.myStarStyle]} />}
-            emptyStar={
-              <Icon
-                name={"star-outline"}
-                style={[styles.myStarStyle, styles.myEmptyStarStyle]}
-              />
-            }
-            halfStar={<Icon name={"star-half"} style={[styles.myStarStyle]} />}
-          />
+      {rList.length > 0 && (
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            width: "100%",
+          }}
+        >
+          <View style={{ alignItems: "center", width: "30%" }}>
+            <Text style={styles.text}>3.5 / 5</Text>
+            <Stars
+              display={3.5}
+              spacing={10}
+              count={5}
+              starSize={50}
+              fullStar={<Icon name={"star"} size={15} style={[styles.myStarStyle]} />}
+              emptyStar={
+                <Icon
+                  name={"star-outline"}
+                  size={15}
+                  style={[styles.myStarStyle, styles.myEmptyStarStyle]}
+                />
+              }
+              halfStar={
+                <Icon name={"star-half"} size={15} style={[styles.myStarStyle]} />
+              }
+            />
+          </View>
+          <View
+            style={{
+              width: "50%",
+              justifyContent: "center",
+              alignItems: "center",
+              maxHeight: 180,
+            }}
+          >
+            <BarChart
+              horizontal
+              shiftX={-20}
+              barWidth={10}
+              barBorderRadius={4}
+              initialSpacing={0}
+              frontColor={color.baemin1}
+              data={dataReview}
+              hideRules
+              hideYAxisText
+              yAxisThickness={0}
+              xAxisThickness={0}
+              isAnimated
+            />
+          </View>
         </View>
-        <BarChart
-          // style={graphStyle}
-          data={dataReview}
-          width={screenWidth * 0.6}
-          height={200}
-          chartConfig={chartConfig}
-        />
-      </View>
-      {rList.map((item, key) => <Box id={item.id} avatar ={item.avatar} name={item.name} message={item.message} date={item.date} watch={item.watch}/>)}
+      )}
+      {rList.length > 0 ? (
+        rList.map((item, key) => (
+          <Box
+            id={item.id}
+            avatar={item.avatar}
+            name={item.name}
+            message={item.message}
+            date={item.date}
+            watch={item.watch}
+          />
+        ))
+      ) : (
+        <Text style={[styles.text, { color: "black", fontSize: 15 }]}>
+          Người bán chưa có nhận xét nào!
+        </Text>
+      )}
     </View>
   );
 };
@@ -115,6 +169,8 @@ export default Review;
 const styles = StyleSheet.create({
   root: {
     marginVertical: "2.5%",
+    paddingHorizontal: 10,
+    flex: 1,
   },
   text: {
     fontFamily: "montserrat-bold",

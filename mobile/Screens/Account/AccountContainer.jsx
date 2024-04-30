@@ -12,6 +12,7 @@ import CreateAddress from "./CreateAddress";
 import MyAddress from "./MyAddress";
 import ChangeAddress from "./ChangeAdress";
 import Review from "./Review";
+import Rating from "./Rating"
 
 const Stack = createNativeStackNavigator();
 
@@ -39,7 +40,7 @@ export default function AccountScreen() {
         component={ShoppingHistory}
         options={{
           ...HeaderStyle,
-          title: "Lịch sử mua hàng",
+          title: "Đơn mua",
         }}
       />
       <Stack.Screen
@@ -88,6 +89,14 @@ export default function AccountScreen() {
         options={{
           ...HeaderStyle,
           title: "Nhận xét",
+        }}
+      />
+      <Stack.Screen
+        name="Rating"
+        component={Rating}
+        options={{
+          ...HeaderStyle,
+          title: "Đánh giá",
         }}
       />
     </Stack.Navigator>

@@ -100,15 +100,16 @@ const Review = (props) => {
               spacing={10}
               count={5}
               starSize={50}
-              fullStar={<Icon name={"star"} style={[styles.myStarStyle]} />}
+              fullStar={<Icon name={"star"} size={15} style={[styles.myStarStyle]} />}
               emptyStar={
                 <Icon
                   name={"star-outline"}
+                  size={15}
                   style={[styles.myStarStyle, styles.myEmptyStarStyle]}
                 />
               }
               halfStar={
-                <Icon name={"star-half"} style={[styles.myStarStyle]} />
+                <Icon name={"star-half"} size={15} style={[styles.myStarStyle]} />
               }
             />
           </View>

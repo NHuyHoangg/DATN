@@ -37,23 +37,28 @@ export default function HomePage({ route, navigation }) {
   const [searchState, setSearchState] = useState(false);
   const [inputText, setInputText] = useState();
   const [modalVisible, setModalVisible] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPage, setTotalPage] = useState(1);
+  const [data, setData] = useState([]);
 
   const token = useSelector((state) => state.auth.token);
-  let data = [];
   let favourite = [];
 
   useEffect(() => {
     const getWatchPosts = async () => {
       setIsFetching(true);
       try {
-
-        if (token) {
-          const userData = await getSeller(token);
-          dispatch(userActions.set(userData.isSeller));
+        if (searchState) {
+          const { data, currPage, totalPage } = await fetchWatchPosts(token, filterProps);
+          setData(data);
+          setCurrentPage(currPage);
+          setTotalPage(totalPage);
+        } else { 
+          const { data, currPage, totalPage } = await searchWatch(1);
+          setData(data);
+          setCurrentPage(currPage);
+          setTotalPage(totalPage);
         }
-        if (!searchState) {
-          data = await fetchWatchPosts(token, filterProps);
-        } else data = await searchWatch(inputText);
         dispatch(watchActions.deleteAll());
         dispatch(watchActions.set(data));
       } catch (err) {
@@ -68,6 +73,26 @@ export default function HomePage({ route, navigation }) {
     };
     getWatchPosts();
   }, [change]);
+
+  const fetchMore = async () => {
+    if (currentPage == totalPage) return;
+    if (isFetching) return;
+
+    try {
+      const nextPage = currentPage + 1;
+      console.log("khong chay")
+      console.log("nextPage:", nextPage)
+      console.log(typeof(nextPage))
+      const { newData, c, t } = await searchWatch(nextPage);
+      setCurrentPage(nextPage);
+      console.log("chay")
+      if (newData)
+        setData(prevData => [...prevData, ...newData]);
+      console.log("newData:", newData, c, t)
+    } catch {
+      setError("Không thể tải thông tin");
+    }
+  };
 
   useEffect(() => {
     if (route.params) {
@@ -88,6 +113,7 @@ export default function HomePage({ route, navigation }) {
   const onRefreshing = () => {
     setRefreshing(true);
     setChange(!change);
+    setCurrentPage(1);
   };
 
   function chatIconOnPress() {
@@ -102,20 +128,21 @@ export default function HomePage({ route, navigation }) {
     setModalVisible(!modalVisible);
   }
 
-  const Tab = createMaterialTopTabNavigator();
-  const ListWatch = () => {
-    return (
-      isFetching ? (
-        <LoadingOverlay />
-      ) : (
-        <WatchList
-          screenType="home"
-          refreshing={refreshing}
-          onRefreshing={onRefreshing}
-        />
-      )
-    );
-  }
+  // const Tab = createMaterialTopTabNavigator();
+  // const ListWatch = () => {
+  //   return (
+  //     isFetching ? (
+  //       <LoadingOverlay />
+  //     ) : (
+  //       <WatchList
+  //         screenType="home"
+  //         refreshing={refreshing}
+  //         onRefreshing={onRefreshing}
+  //         fetchMore={fetchMore}
+  //       />
+  //     )
+  //   );
+  // }
 
   if (error && !isFetching) {
     return <ErrorOverlay message={error} reload={setChange} />;
@@ -123,6 +150,8 @@ export default function HomePage({ route, navigation }) {
   // if (isFetching) {
   //   return <LoadingOverlay />;
   // }
+
+  // console.log(data)
   return (
     <>
       {modalVisible && <StatusBar backgroundColor="#666666" />}
@@ -195,8 +224,8 @@ export default function HomePage({ route, navigation }) {
             </Pressable>
           </View>
         </View>
-        {/* <TopTabsContainer /> */}
-        <Tab.Navigator
+
+        {/* <Tab.Navigator
           initialRouteName="Post"
           screenOptions={{
             ...TopTapStyle,
@@ -219,16 +248,18 @@ export default function HomePage({ route, navigation }) {
               ...TopTabScreenStyle,
             }}
           />
-        </Tab.Navigator>
-        {/* {isFetching ? (
+        </Tab.Navigator> */}
+
+        {isFetching ? (
           <LoadingOverlay />
         ) : (
           <WatchList
             screenType="home"
             refreshing={refreshing}
             onRefreshing={onRefreshing}
+            fetchMore={fetchMore}
           />
-        )} */}
+        )}
       </SafeAreaView>
     </>
   );

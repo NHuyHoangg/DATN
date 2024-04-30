@@ -40,6 +40,8 @@ import LoadingOverlay from "../../Screens/Overlay/LoadingOverlay";
 import ErrorOverlay from "../../Screens/Overlay/ErrorOverlay";
 import IconButton from "../ui/IconButton";
 import Review from "./Review";
+import AdSvg from "../../assets/images/svg/Ad";
+
 const facebookLink = "https://www.facebook.com/shopdongho2004";
 const zaloLink = "https://zalo.me/966767707628083905";
 const WatchDetails = (props) => {
@@ -209,7 +211,6 @@ const WatchDetails = (props) => {
   }, [props.navigation, changeFavoritesHandler]);
 
   // let detailsInfor = {};
-
   useLayoutEffect(() => {
     // console.log("WatchDetails.jsx: useEffect");
     const getWatchDetails = async (token, id) => {
@@ -268,7 +269,18 @@ const WatchDetails = (props) => {
       <View style={styles.contentContainer}>
         <Text style={styles.watchName}>{renderedItem.name}</Text>
         {screenType !== "favoriteProducts" && (
-          <Text style={styles.price}>{renderedItem.price} đ</Text>
+          <View style={{flexDirection: "row"}}>
+            <Text style={styles.price}>{renderedItem.formatted_price}</Text>
+            <View style={{ flexDirection: "row"}}>
+              <AdSvg />
+              <View style={{backgroundColor: color.verify, flexDirection: "row", alignItems:"center", marginLeft: -135, paddingHorizontal: 5, borderRadius: 5}}>
+                <Ionicons name="checkmark-circle" size={15} color="white" /> 
+                <Text style={{ color: color.white, fontSize: 10, marginLeft: 3, fontFamily: "montserrat-regular"}}>
+                  Đã kiểm định
+                </Text>
+              </View>
+            </View>
+          </View>
         )}
         {screenType !== "favoriteProducts" && (
           <Text style={styles.description}>
@@ -276,8 +288,15 @@ const WatchDetails = (props) => {
           </Text>
         )}
       </View>
-      {!["selling", "sold", "favoriteProducts"].includes(screenType) && (
-        <View style={{flexDirection: "row", marginHorizontal: "5%", justifyContent: "space-between"}}>
+      {!["selling", "sold", "favoriteProducts"].includes(screenType) &&
+      token ? (
+        <View
+          style={{
+            flexDirection: "row",
+            marginHorizontal: "5%",
+            justifyContent: "space-between",
+          }}
+        >
           <Button
             onPress={saveWatchHandler}
             color={color.baemin1}
@@ -286,12 +305,25 @@ const WatchDetails = (props) => {
             borR={7.5}
             textVP="1%"
           >
-            <View style={{flexDirection: "row", justifyContent: "space-between"}}>
-              <Ionicons name="cart-outline" size={20} color={color.background_white} />
-              <Text style={{fontSize: 15, color: color.white, textAlign: "center", marginLeft: 5, fontFamily: "montserrat-semi-bold"}}>
+            <View
+              style={{ flexDirection: "row", justifyContent: "space-between" }}
+            >
+              <Ionicons
+                name="cart-outline"
+                size={20}
+                color={color.background_white}
+              />
+              <Text
+                style={{
+                  fontSize: 15,
+                  color: color.white,
+                  textAlign: "center",
+                  marginLeft: 5,
+                  fontFamily: "montserrat-semi-bold",
+                }}
+              >
                 Mua
               </Text>
-              
             </View>
           </Button>
 
@@ -303,9 +335,13 @@ const WatchDetails = (props) => {
             borR={7.5}
             textVP="1%"
           >
-            <Ionicons name="chatbubble-ellipses-outline" size={22} color={color} />
+            <Ionicons
+              name="chatbubble-ellipses-outline"
+              size={22}
+              color={color}
+            />
           </Button>
-        
+
           <Button
             onPress={saveWatchHandler}
             color={color.baemin1}
@@ -317,9 +353,15 @@ const WatchDetails = (props) => {
             <Ionicons name="heart-outline" size={22} color={color} />
           </Button>
         </View>
-      )}
+      ) : null}
 
-      <View style={{flexDirection: "row-reverse", justifyContent: "space-between", marginVertical: "5%"}}>
+      <View
+        style={{
+          flexDirection: "row-reverse",
+          justifyContent: "space-between",
+          marginVertical: "5%",
+        }}
+      >
         {!["selling", "sold"].includes(screenType) && (
           <Pressable style={styles.warning}>
             <View style={styles.icon}>
@@ -393,7 +435,6 @@ const WatchDetails = (props) => {
           Liên hệ
         </Button>
       )} */}
-      
     </ScrollView>
   );
 };

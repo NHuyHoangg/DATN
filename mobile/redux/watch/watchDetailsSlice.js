@@ -13,11 +13,12 @@ const watchDetailsSlice = createSlice({
       state.item = {
         // basic infor
         id: action.payload.product_info.id,
-        watch_id: action.payload.product_info.watch_id, 
+        watch_id: action.payload.product_info.watch_id,
         name: action.payload.product_info.name,
         status: action.payload.product_info.status,
         size: action.payload.product_info.case_size_num,
         price: action.payload.product_info.price,
+        formatted_price: action.payload.product_info.formatted_price,
         date: action.payload.product_info.date_ago,
         location: action.payload.product_info.province,
         isFavorite: action.payload.product_info.isFavorite,
@@ -35,11 +36,11 @@ const watchDetailsSlice = createSlice({
         updatedImages: action.payload.media.map((item) => item.content),
         // seller infor
         user_name: action.payload.product_info.user_name,
-        phone: action.payload.product_info.phone,   
+        phone: action.payload.product_info.phone,
         province: action.payload.product_info.province,
         district: action.payload.product_info.district,
         ward: action.payload.product_info.ward,
-        street: action.payload.product_info.street
+        street: action.payload.product_info.street,
       };
     },
     addImages(state, action) {
