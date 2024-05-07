@@ -29,7 +29,7 @@ export default function OptionView({ type, isize, color, data, setData }) {
             break;
         case "sell-history":
             text = "Đơn bán";
-            dest = "ShoppingHistory";
+            dest = "SellingHistory";
             icon = <MaterialCommunityIcons name="archive-outline" size={isize} color={color} style={{ marginRight: '5%' }} />;
             break;
         case "info":
@@ -44,7 +44,7 @@ export default function OptionView({ type, isize, color, data, setData }) {
             break;
         case "balance":
             text = "Quản lý số dư";
-            dest = "ShoppingHistory";
+            dest = "Balance";
             icon = <Ionicons name="wallet-outline" size={isize} color={color} style={{ marginRight: '5%' }} />;
             break;
         case "review":

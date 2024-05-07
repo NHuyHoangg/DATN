@@ -200,7 +200,7 @@ const WatchDetails = (props) => {
             return (
               <IconButton
                 icon={isFavorite ? "heart" : "hearto"}
-                color={isFavorite ? "#FFC0CB" : "black"}
+                color={isFavorite ? color.red : color.baemin1}
                 onPress={changeFavoritesHandler}
               />
             );
@@ -262,6 +262,9 @@ const WatchDetails = (props) => {
   if (isFetching) {
     return <LoadingOverlay />;
   }
+
+  console.log(props.route.params.data)
+  // console.log(renderedItem)
   return (
     <ScrollView style={styles.root} showsVerticalScrollIndicator={false}>
       <Slider images={renderedItem.images} />
@@ -270,8 +273,9 @@ const WatchDetails = (props) => {
         <Text style={styles.watchName}>{renderedItem.name}</Text>
         {screenType !== "favoriteProducts" && (
           <View style={{flexDirection: "row"}}>
-            <Text style={styles.price}>{renderedItem.formatted_price}</Text>
-            <View style={{ flexDirection: "row"}}>
+            <Text style={[styles.price, { width: "30%"}]}>{renderedItem.formatted_price}</Text>
+
+            <View style={{flexDirection: "row", justifyContent: "space-between", width: "70%"}}>
               <AdSvg />
               <View style={{backgroundColor: color.verify, flexDirection: "row", alignItems:"center", marginLeft: -135, paddingHorizontal: 5, borderRadius: 5}}>
                 <Ionicons name="checkmark-circle" size={15} color="white" /> 
@@ -280,6 +284,16 @@ const WatchDetails = (props) => {
                 </Text>
               </View>
             </View>
+
+            {/* only  */}
+            {/* <View style={{flexDirection: "row", justifyContent: "flex-end", width: "70%"}}>
+              <View style={{backgroundColor: color.verify, flexDirection: "row", alignItems:"center", marginLeft: -135, paddingHorizontal: 5, borderRadius: 5}}>
+                <Ionicons name="checkmark-circle" size={15} color="white" /> 
+                <Text style={{ color: color.white, fontSize: 10, marginLeft: 3, fontFamily: "montserrat-regular"}}>
+                  Đã kiểm định
+                </Text>
+              </View>
+            </View> */}
           </View>
         )}
         {screenType !== "favoriteProducts" && (
@@ -298,9 +312,10 @@ const WatchDetails = (props) => {
           }}
         >
           <Button
-            onPress={saveWatchHandler}
+            // onPress={saveWatchHandler}
+            onPress={() => {navigation.navigate("Payment", {props: props.route.params.data})}}
             color={color.baemin1}
-            width="60%"
+            width="80%"
             textSize={15}
             borR={7.5}
             textVP="1%"
@@ -342,7 +357,7 @@ const WatchDetails = (props) => {
             />
           </Button>
 
-          <Button
+          {/* <Button
             onPress={saveWatchHandler}
             color={color.baemin1}
             width="15%"
@@ -351,7 +366,7 @@ const WatchDetails = (props) => {
             textVP="1%"
           >
             <Ionicons name="heart-outline" size={22} color={color} />
-          </Button>
+          </Button> */}
         </View>
       ) : null}
 

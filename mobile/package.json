@@ -26,8 +26,10 @@
     "expo-splash-screen": "~0.26.4",
     "expo-status-bar": "~1.11.1",
     "react": "18.2.0",
+    "react-currency-input-field": "^3.8.0",
     "react-native": "0.73.4",
     "react-native-chart-kit": "^6.12.0",
+    "react-native-currency-input": "^1.1.1",
     "react-native-dropdown-select-list": "^2.0.4",
     "react-native-gesture-handler": "~2.14.0",
     "react-native-gifted-charts": "^1.4.10",
@@ -40,6 +42,7 @@
     "react-native-stars": "^1.2.2",
     "react-native-svg": "^14.1.0",
     "react-native-tab-view": "^3.5.2",
+    "react-native-timeline-flatlist": "^0.8.0",
     "react-redux": "^8.1.1"
   },
   "devDependencies": {

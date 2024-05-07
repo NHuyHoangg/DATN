@@ -80,15 +80,12 @@ export default function HomePage({ route, navigation }) {
 
     try {
       const nextPage = currentPage + 1;
-      console.log("khong chay")
-      console.log("nextPage:", nextPage)
-      console.log(typeof(nextPage))
-      const { newData, c, t } = await searchWatch(nextPage);
+      const { data: newData, currPage: c, totalPage: t } = await searchWatch(nextPage);
       setCurrentPage(nextPage);
-      console.log("chay")
       if (newData)
         setData(prevData => [...prevData, ...newData]);
-      console.log("newData:", newData, c, t)
+        dispatch(watchActions.set(data));
+      // console.log("newData:", newData, c, t)
     } catch {
       setError("Không thể tải thông tin");
     }

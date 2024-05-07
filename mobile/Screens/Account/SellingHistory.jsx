@@ -2,26 +2,26 @@ import { StyleSheet, View, Text  } from 'react-native'
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { HeaderStyle, TopTapScrollStyle, TopTabScreenStyle } from "../../constants/globalStyles";
 import PostFavourite from '../Favourite/PostFavourite';
-import OrderWaitVerify from './OrderWaitVerify';
-import OrderDelivering from './OrderDelivering';
-import OrderDone from './OrderDone';
-import OrderReturn from './OrderReturn';
-import OrderWaitGet from './OrderWaitGet';
+import SellerOrderWaitVerify from './SellerOrderWaitVerify';
+import SellerOrderDelivering from './SellerOrderDelivering';
+import SellerOrderDone from './SellerOrderDone';
+import SellerOrderReturn from './SellerOrderReturn';
+import SellerOrderWaitGet from './SellerOrderWaitGet';
 import React from 'react'
 
 const Tab = createMaterialTopTabNavigator();
 
-export default function ShoppingHistory({}) {
+export default function SellingHistory({}) {
   return (
     <Tab.Navigator
-      initialRouteName="Done"
+      initialRouteName="WaitVerify"
       screenOptions={{
         ...TopTapScrollStyle,
       }}
     >
       <Tab.Screen
         name="WaitVerify"
-        component={OrderWaitVerify}
+        component={SellerOrderWaitVerify}
         options={{
           tabBarLabel: "Chờ xác nhận",
           ...TopTabScreenStyle,
@@ -30,7 +30,7 @@ export default function ShoppingHistory({}) {
       />
       <Tab.Screen
         name="WaitGet"
-        component={OrderWaitGet}
+        component={SellerOrderWaitGet}
         options={{
           tabBarLabel: "Chờ lấy hàng",
           ...TopTabScreenStyle,
@@ -39,7 +39,7 @@ export default function ShoppingHistory({}) {
       />
       <Tab.Screen
         name="Delivering"
-        component={OrderDelivering}
+        component={SellerOrderDelivering}
         options={{
           tabBarLabel: "Đang vận chuyển",
           ...TopTabScreenStyle,
@@ -47,7 +47,7 @@ export default function ShoppingHistory({}) {
       />
       <Tab.Screen
         name="Done"
-        component={OrderDone}
+        component={SellerOrderDone}
         options={{
           tabBarLabel: "Hoàn thành",
           ...TopTabScreenStyle,
@@ -55,7 +55,7 @@ export default function ShoppingHistory({}) {
       />
       <Tab.Screen
         name="Return"
-        component={OrderReturn}
+        component={SellerOrderReturn}
         options={{
           tabBarLabel: "Trả hàng",
           ...TopTabScreenStyle,

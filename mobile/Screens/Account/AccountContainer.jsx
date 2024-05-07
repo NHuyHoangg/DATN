@@ -7,12 +7,18 @@ import { HeaderStyle } from "../../constants/globalStyles";
 import DetailInfo from "./DetailInfo";
 import SupportPage from "./SupportPage";
 import ShoppingHistory from "./ShoppingHistory";
+import SellingHistory from "./SellingHistory";
 import ChangePassword from "./ChangePassword";
 import CreateAddress from "./CreateAddress";
 import MyAddress from "./MyAddress";
 import ChangeAddress from "./ChangeAdress";
 import Review from "./Review";
 import Rating from "./Rating"
+import OrderInfo from "./OrderInfo";
+import Refund from "./Refund";
+import RefundDetail from "./RefundDetail";
+import Balance from "./Balance";
+import Charge from "./Charge";
 
 const Stack = createNativeStackNavigator();
 
@@ -41,6 +47,14 @@ export default function AccountScreen() {
         options={{
           ...HeaderStyle,
           title: "Đơn mua",
+        }}
+      />
+      <Stack.Screen
+        name="SellingHistory"
+        component={SellingHistory}
+        options={{
+          ...HeaderStyle,
+          title: "Đơn bán",
         }}
       />
       <Stack.Screen
@@ -97,6 +111,46 @@ export default function AccountScreen() {
         options={{
           ...HeaderStyle,
           title: "Đánh giá",
+        }}
+      />
+      <Stack.Screen
+        name="OrderInfo"
+        component={OrderInfo}
+        options={{
+          ...HeaderStyle,
+          title: "Thông tin vận chuyển",
+        }}
+      />
+      <Stack.Screen
+        name="Refund"
+        component={Refund}
+        options={{
+          ...HeaderStyle,
+          title: "Trả hàng",
+        }}
+      />
+      <Stack.Screen
+        name="RefundDetail"
+        component={RefundDetail}
+        options={{
+          ...HeaderStyle,
+          title: "Chi tiết đơn trả hàng",
+        }}
+      />
+      <Stack.Screen
+        name="Balance"
+        component={Balance}
+        options={{
+          ...HeaderStyle,
+          title: "Quản lý số dư",
+        }}
+      />
+      <Stack.Screen
+        name="Charge"
+        component={Charge}
+        options={{
+          ...HeaderStyle,
+          title: "Nạp tiền",
         }}
       />
     </Stack.Navigator>

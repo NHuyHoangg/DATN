@@ -6,6 +6,9 @@ import { HeaderStyle, TopTapStyle, TopTabScreenStyle } from "../../constants/glo
 import WatchDetails from "../../Components/watch/WatchDetails";
 import HomePage from "./HomePage";
 import ChatDetail from "./ChatDetail";
+import Payment from "./Payment";
+import MyAddress from "../Account/MyAddress";
+import CreateAddress from "../Account/CreateAddress";
 
 const Stack = createNativeStackNavigator();
 
@@ -43,6 +46,30 @@ export default function HomePageContainer() {
         component={ChatDetail}
         options={{
           headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="Payment"
+        component={Payment}
+        options={{
+          ...HeaderStyle,
+          title: "Xác nhận thanh toán",
+        }}
+      />
+      <Stack.Screen
+        name="MyAddress"
+        component={MyAddress}
+        options={{
+          ...HeaderStyle,
+          title: "Địa chỉ của tôi",
+        }}
+      />
+      <Stack.Screen
+        name="CreateAddress"
+        component={CreateAddress}
+        options={{
+          ...HeaderStyle,
+          title: "Tạo địa chỉ",
         }}
       />
 

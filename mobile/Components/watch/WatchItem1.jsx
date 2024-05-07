@@ -64,6 +64,26 @@ const WatchItem1 = memo((props) => {
     }
   };
 
+  const cancelOrder = () => {
+    Alert.alert("Xác nhận", "Bạn có chắc chắn muốn huỷ đơn hàng này?", [
+      {
+        text: "Hủy",
+        style: "cancel",
+      },
+      { text: "Xác nhận", style:"cancel" },
+    ]);
+  }
+
+  const confirmDoneOrder = () => {
+    Alert.alert("Xác nhận", "Bạn đã nhận được hàng? Nếu xác nhận, mọi vấn đề về trả hàng sẽ không được chấp nhận!", [
+      {
+        text: "Hủy",
+        style: "cancel",
+      },
+      { text: "Xác nhận", style:"cancel" },
+    ]);
+  }
+
   // console.log(props)
 
   return (
@@ -115,19 +135,22 @@ const WatchItem1 = memo((props) => {
               {props.data.price} đ
             </Text>
 
-            {["delivering", "done", "return"].includes(screenType) &&
-            <Pressable
-              style={({ pressed }) => [
-                { flexDirection: "row", justifyContent: "center", marginTop: 5 },
-                pressed ? styles.pressed : null,
-              ]}
-              // onPress={}
-            >
-              <Feather name="truck" size={15} color={color.baemin1} />
-              <Text style={styles.detailText}>
-                Xem trạng thái đơn hàng
-              </Text>
-            </Pressable>}
+            {["delivering", "done", "return", "sellerDelivering", "sellerDone", "sellerReturn"].includes(screenType) && (
+              <Pressable
+                style={({ pressed }) => [
+                  {
+                    flexDirection: "row",
+                    justifyContent: "center",
+                    paddingTop: 8,
+                  },
+                  pressed ? styles.pressed : null,
+                ]}
+                onPress={() => navigation.navigate("OrderInfo", { props })}
+              >
+                <Feather name="truck" size={15} color={color.baemin1} />
+                <Text style={styles.detailText}>Xem trạng thái đơn hàng</Text>
+              </Pressable>
+            )}
 
             <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
               {screenType == "waitGet" && (
@@ -150,10 +173,36 @@ const WatchItem1 = memo((props) => {
                     styles.buttonRed,
                     pressed ? styles.pressed : null,
                   ]}
-                  // onPress={}
+                  onPress={cancelOrder}
                 >
                   <Text style={[styles.buttonText]}>Huỷ</Text>
                 </Pressable>
+              )}
+
+              {screenType == "sellerWaitVerify" && (
+                <>
+                  <Pressable
+                    style={({ pressed }) => [
+                      styles.button,
+                      styles.buttonRed,
+                      pressed ? styles.pressed : null,
+                    ]}
+                    onPress={cancelOrder}
+                  >
+                    <Text style={[styles.buttonText]}>Huỷ</Text>
+                  </Pressable>
+
+                  <Pressable
+                    style={({ pressed }) => [
+                      styles.button,
+                      styles.buttonGreen,
+                      pressed ? styles.pressed : null,
+                    ]}
+                    // onPress={}
+                  >
+                    <Text style={[styles.buttonText]}>Xác nhận</Text>
+                  </Pressable>
+                </>
               )}
 
               {screenType == "delivering" && (
@@ -164,7 +213,7 @@ const WatchItem1 = memo((props) => {
                       styles.buttonRed,
                       pressed ? styles.pressed : null,
                     ]}
-                    // onPress={}
+                    onPress={() => navigation.navigate("Refund", { props })}
                   >
                     <Text style={[styles.buttonText]}>Trả hàng</Text>
                   </Pressable>
@@ -175,7 +224,7 @@ const WatchItem1 = memo((props) => {
                       styles.buttonGreen,
                       pressed ? styles.pressed : null,
                     ]}
-                    // onPress={}
+                    onPress={confirmDoneOrder}
                   >
                     <Text style={[styles.buttonText]}>Đã nhận</Text>
                   </Pressable>
@@ -189,7 +238,20 @@ const WatchItem1 = memo((props) => {
                     styles.buttonGreen,
                     pressed ? styles.pressed : null,
                   ]}
-                  // onPress={}
+                  onPress={() => navigation.navigate("RefundDetail", { props })}
+                >
+                  <Text style={[styles.buttonText]}>Xem chi tiết</Text>
+                </Pressable>
+              )}
+
+              {screenType == "sellerReturn" && (
+                <Pressable
+                  style={({ pressed }) => [
+                    styles.button,
+                    styles.buttonGreen,
+                    pressed ? styles.pressed : null,
+                  ]}
+                  onPress={() => navigation.navigate("RefundDetail", { props, isSeller: true })}
                 >
                   <Text style={[styles.buttonText]}>Xem chi tiết</Text>
                 </Pressable>
@@ -202,7 +264,7 @@ const WatchItem1 = memo((props) => {
                     styles.buttonGreen,
                     pressed ? styles.pressed : null,
                   ]}
-                  onPress={() => navigation.navigate("Rating", {props})}
+                  onPress={() => navigation.navigate("Rating", { props })}
                 >
                   <Text style={[styles.buttonText]}>Đánh giá</Text>
                 </Pressable>
@@ -254,7 +316,7 @@ const styles = StyleSheet.create({
   },
   detailText: {
     fontFamily: "montserrat-regular",
-    fontSize: 10,
+    fontSize: 12,
     color: color.baemin1,
     paddingHorizontal: 0,
     paddingLeft: 5,

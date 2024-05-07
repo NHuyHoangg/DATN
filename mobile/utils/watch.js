@@ -26,7 +26,6 @@ export const searchWatch = async (page) => {
   const data = response.data.entries;
   const currPage = response.data.currentPage;
   const totalPage = response.data.totalPages;
-  console.log(response.data);
   return { data, currPage, totalPage };
 };
 
