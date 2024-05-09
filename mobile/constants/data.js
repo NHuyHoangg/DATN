@@ -166,7 +166,7 @@ export const image = [
 ];
 export const OnBoardingContent = [
   {
-    title: "Ctime xin chào",
+    title: "Dho xin chào",
     description: "Nơi trao đổi, mua bán đồng hồ mói và đã qua sử dụng",
   },
   {

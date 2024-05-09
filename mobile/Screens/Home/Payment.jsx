@@ -81,6 +81,7 @@ const Payment = (props) => {
   const [isPayment, setIsPayment] = useState("1");
   const [error, setError] = useState(null);
   const [change, setChange] = useState(true);
+  const [address, setAddress] = useState();
 
   const [dataAddress, setDataAddress] = useState([]);
   useEffect(() => {
@@ -88,9 +89,12 @@ const Payment = (props) => {
       setIsLoading(true);
       try {
         const res = await getAddress(token);
-        console.log(res);
-        setDataAddress(res);
-        setError(null);
+        // console.log(res);
+        if (res) {
+          setDataAddress(res);
+          setAddress(res.filter(item => item.is_default === 1)[0])
+          setError(null);
+        }
       } catch (error) {
         setError("Không thể tải thông tin");
       } finally {
@@ -114,16 +118,16 @@ const Payment = (props) => {
       "Bạn chưa có địa chỉ nhận hàng nào. Tạo địa chỉ mới?",
       [
         { text: "Hủy", style: "cancel" },
-        { text: "Tạo địa chỉ", onPress: () => navigation.navigate("MyAddress") },
+        {
+          text: "Tạo địa chỉ",
+          onPress: () => navigation.navigate("MyAddress"),
+        },
       ]
     );
     return;
   }
 
-  const address = dataAddress.filter(item => item.is_default === 1)[0];
-
   // console.log(props.route.params.props)
-  console.log(address)
 
   return (
     <GestureHandlerRootView style={styles.root}>
@@ -198,31 +202,43 @@ const Payment = (props) => {
           style={({ pressed }) => [
             // styles.submit,
             pressed ? styles.pressed : null,
-            { paddingBottom: "5%" },
+            { paddingBottom: "5%", flexDirection: "row", alignItems: "center", justifyContent: "space-between" },
           ]}
         >
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              paddingHorizontal: 10,
-              paddingVertical: "5%",
-            }}
-          >
-            <Ionicons name="location-outline" size={20} color={color.baemin1} />
-            <Text style={styles.text}>Địa chỉ nhận hàng</Text>
-          </View>
-          <View style={{ paddingHorizontal: 10, marginLeft: "3%" }}>
-            <Text
-              style={[styles.message, { fontFamily: "montserrat-semi-bold" }]}
+          <View style={{width: "80%"}}>
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                paddingHorizontal: 10,
+                paddingVertical: "5%",
+              }}
             >
-              {address.name}
-            </Text>
-            <Text style={styles.message}>{address.phone_number}</Text>
-            <Text style={styles.message}>
-              {address.street}, {address.ward_name}, {address.district_name}, {address.province_name}
-            </Text>
+              <Ionicons
+                name="location-outline"
+                size={20}
+                color={color.baemin1}
+              />
+              <Text style={styles.text}>Địa chỉ nhận hàng</Text>
+            </View>
+            <View style={{ paddingHorizontal: 10, marginLeft: "3%" }}>
+              <Text
+                style={[styles.message, { fontFamily: "montserrat-semi-bold" }]}
+              >
+                {address.name}
+              </Text>
+              <Text style={styles.message}>{address.phone_number}</Text>
+              <Text style={styles.message}>
+                {address.street}, {address.ward_name}, {address.district_name},{" "}
+                {address.province_name}
+              </Text>
+            </View>
           </View>
+          <Ionicons
+                name="chevron-forward-outline"
+                size={40}
+                color={color.baemin1}
+              />
         </Pressable>
 
         <View style={styles.divider}></View>

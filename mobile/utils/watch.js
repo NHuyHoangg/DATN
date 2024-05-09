@@ -3,24 +3,46 @@ import { API_URL } from "@env";
 
 const baseURL = API_URL;
 
-export const fetchWatchPosts = async (token, filterProps) => {
+export const fetchWatchPosts = async (token, filterProps, page) => {
   let url = baseURL + "posts?";
   let { brand, condition, engine, price, size, sortOrder } = filterProps;
   brand = brand
     .map((str) => str)
-    .reduce((acc, current) => acc + "brand=" + current + "&&", "");
+    .reduce((acc, current) => acc + "brand=" + current + "&", "");
   url += brand.slice(0, brand.length - 2);
-  if (condition) url += "&&condition=" + condition;
-  if (price) url += "&&priceRange=" + price;
-  if (size) url += "&&size=" + size;
-  if (sortOrder) url += "&&sortBy=" + sortOrder;
+  if (condition)
+    if (url[url.length -1] == "?") url += "condition=" + condition;
+    else url += "&condition=" + condition;
+  if (price)
+    if (url[url.length -1] == "?") url += "&priceRange=" + price;
+    else url += "&priceRange=" + price;
+  if (size)
+    if (url[url.length -1] == "?") url += "size=" + size;
+    else url += "&size=" + size;
+  if (sortOrder)
+    if (url[url.length -1] == "?") url += "sortBy=" + sortOrder;
+    else url += "&sortBy=" + sortOrder;
+
+  if (url[url.length -1] == "?")
+    url += "page=" + page;
+  else url += "&page=" + page;
   const response = await axios.get(url, {
     headers: {
       Authorization: token,
     },
   });
-  return response.data;
+  let data = response.data.entries;
+  if (!data)
+    data = response.data.posts;
+  // const data = response.data.entries;
+  const currPage = response.data.currentPage;
+  const totalPage = response.data.totalPages;
+  // console.log(response)
+  // console.log(data, currPage, totalPage);
+  // console.log(url)
+  return { data, currPage, totalPage };
 };
+
 export const searchWatch = async (page) => {
   const response = await axios.get(baseURL + "search?page=" + page);
   const data = response.data.entries;
@@ -29,10 +51,14 @@ export const searchWatch = async (page) => {
   return { data, currPage, totalPage };
 };
 
-export const searchWatchName = async (name) => {
-  const response = await axios.get(baseURL + "search?q=" + name);
+export const searchWatchName = async (name, page) => {
+  const response = await axios.get(baseURL + "search?page=" + page + "&q=" + name);
   // console.log("dfnksjdf")
-  return response.data;
+  const data = response.data.entries;
+  const currPage = response.data.currentPage;
+  const totalPage = response.data.totalPages;
+  // console.log(response)
+  return { data, currPage, totalPage };
 };
 
 export const fetchWatchDetails = async (token, id) => {

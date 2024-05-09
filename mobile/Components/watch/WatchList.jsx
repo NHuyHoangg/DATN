@@ -39,6 +39,7 @@ const WatchList = memo((props) => {
   // for (let i = 0; i < numOfData; i++) {
   //   dataList.push(dataGen());
   // }	
+  // console.log(dataList)
 
   const renderWatchItem = useCallback((itemData) => {
     return (
