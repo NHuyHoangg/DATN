@@ -1,32 +1,38 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import Stack from '@mui/material/Stack';
-import Avatar from '@mui/material/Avatar';
+// import Stack from '@mui/material/Stack';
+// import Avatar from '@mui/material/Avatar';
 import Popover from '@mui/material/Popover';
 import TableRow from '@mui/material/TableRow';
-import Checkbox from '@mui/material/Checkbox';
+// import Checkbox from '@mui/material/Checkbox';
 import MenuItem from '@mui/material/MenuItem';
 import TableCell from '@mui/material/TableCell';
-import Typography from '@mui/material/Typography';
+// import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 
 import Label from 'src/components/label';
 import Iconify from 'src/components/iconify';
 
+import ChangeUser from './change-user';
+import DeleteUser from './delete-user';
 // ----------------------------------------------------------------------
 
 export default function UserTableRow({
   selected,
-  name,
-  avatarUrl,
-  company,
+  first_name,
+  last_name,
   role,
-  isVerified,
   status,
-  handleClick,
+  email,
+  id,
+  password,
+  phone_number,
 }) {
-  const [open, setOpen] = useState(null);
+  const [open, setOpen] = useState(false);
+
+  const [openChange, setOpenChange] = useState(false);
+  const [openDelete, setOpenDelete] = useState(false);
 
   const handleOpenMenu = (event) => {
     setOpen(event.currentTarget);
@@ -36,30 +42,35 @@ export default function UserTableRow({
     setOpen(null);
   };
 
+  const handleChange = () => {
+    setOpenChange(true);
+    setOpen(false);
+  }
+
+  const handleDelete = () => {
+    setOpenDelete(true);
+    setOpen(false);
+  }
+
+  const change = { id, first_name, last_name, email, phone_number, role, status, password };
+
   return (
     <>
       <TableRow hover tabIndex={-1} role="checkbox" selected={selected}>
-        <TableCell padding="checkbox">
-          <Checkbox disableRipple checked={selected} onChange={handleClick} />
-        </TableCell>
+        <TableCell>{id}</TableCell>
 
-        <TableCell component="th" scope="row" padding="none">
-          <Stack direction="row" alignItems="center" spacing={2}>
-            <Avatar alt={name} src={avatarUrl} />
-            <Typography variant="subtitle2" noWrap>
-              {name}
-            </Typography>
-          </Stack>
-        </TableCell>
+        <TableCell>{first_name.concat(" ", last_name)}</TableCell>
 
-        <TableCell>{company}</TableCell>
+        <TableCell>{email}</TableCell>
 
-        <TableCell>{role}</TableCell>
-
-        <TableCell align="center">{isVerified ? 'Yes' : 'No'}</TableCell>
+        {role === 'admin' ? (
+          <TableCell>Admin</TableCell>
+        ) : (
+          <TableCell>Người dùng</TableCell>
+        )}
 
         <TableCell>
-          <Label color={(status === 'banned' && 'error') || 'success'}>{status}</Label>
+          <Label color={(status === 'block' && 'error') || 'success'}>{status}</Label>
         </TableCell>
 
         <TableCell align="right">
@@ -79,27 +90,31 @@ export default function UserTableRow({
           sx: { width: 140 },
         }}
       >
-        <MenuItem onClick={handleCloseMenu}>
+        <MenuItem onClick={handleChange} sx={{ color: 'custom.baemin2' }}>
           <Iconify icon="eva:edit-fill" sx={{ mr: 2 }} />
-          Edit
+          Chỉnh sửa
         </MenuItem>
 
-        <MenuItem onClick={handleCloseMenu} sx={{ color: 'error.main' }}>
+        <MenuItem onClick={handleDelete} sx={{ color: 'error.main' }}>
           <Iconify icon="eva:trash-2-outline" sx={{ mr: 2 }} />
-          Delete
+          Xoá
         </MenuItem>
       </Popover>
+
+      <ChangeUser open={openChange} setOpen={setOpenChange} change={change}/>
+      <DeleteUser open={openDelete} setOpen={setOpenDelete} change={change}/>
     </>
   );
 }
 
 UserTableRow.propTypes = {
-  avatarUrl: PropTypes.any,
-  company: PropTypes.any,
-  handleClick: PropTypes.func,
-  isVerified: PropTypes.any,
-  name: PropTypes.any,
+  first_name: PropTypes.any,
+  last_name: PropTypes.any,
   role: PropTypes.any,
   selected: PropTypes.any,
   status: PropTypes.string,
+  email: PropTypes.string,
+  id: PropTypes.number,
+  password: PropTypes.string,
+  phone_number: PropTypes.string,
 };

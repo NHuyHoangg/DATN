@@ -91,7 +91,7 @@ export const common = {
 
 export const action = {
   // hover: alpha(grey[500], 0.08),
-  hover: custom.light_blue,
+  hover: custom.bg,
   selected: alpha(grey[500], 0.16),
   // selected: "#b6d6f2",
   disabled: alpha(grey[500], 0.8),

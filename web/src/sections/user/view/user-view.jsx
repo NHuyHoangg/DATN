@@ -6,7 +6,7 @@ import Table from '@mui/material/Table';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import TableBody from '@mui/material/TableBody';
-import Typography from '@mui/material/Typography';
+// import Typography from '@mui/material/Typography';
 import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
 
@@ -15,6 +15,8 @@ import { users } from 'src/_mock/user';
 import Iconify from 'src/components/iconify';
 import Scrollbar from 'src/components/scrollbar';
 
+import AddUser from '../add-user';
+// import ChangeUser from '../change-user';
 import TableNoData from '../table-no-data';
 import UserTableRow from '../user-table-row';
 import UserTableHead from '../user-table-head';
@@ -37,6 +39,13 @@ export default function UserPage() {
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
+  const [open, setOpen] = useState(false);
+
+
+  const openModal = () => {
+    setOpen(true);
+  }
+
   const handleSort = (event, id) => {
     const isAsc = orderBy === id && order === 'asc';
     if (id !== '') {
@@ -52,24 +61,6 @@ export default function UserPage() {
       return;
     }
     setSelected([]);
-  };
-
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
-    let newSelected = [];
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
-      );
-    }
-    setSelected(newSelected);
   };
 
   const handleChangePage = (event, newPage) => {
@@ -96,11 +87,11 @@ export default function UserPage() {
 
   return (
     <Container>
-      <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-        <Typography variant="h4">Users</Typography>
-
-        <Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill" />}>
-          New User
+      <Stack direction="row" alignItems="center" justifyContent="flex-end" mb={5}>
+        <Button variant="contained" color="inherit"
+          onClick={openModal}
+          sx={{backgroundColor: "custom.baemin1"}} startIcon={<Iconify icon="eva:plus-fill" />}>
+          Tạo mới
         </Button>
       </Stack>
 
@@ -122,11 +113,11 @@ export default function UserPage() {
                 onRequestSort={handleSort}
                 onSelectAllClick={handleSelectAllClick}
                 headLabel={[
-                  { id: 'name', label: 'Name' },
-                  { id: 'company', label: 'Company' },
-                  { id: 'role', label: 'Role' },
-                  { id: 'isVerified', label: 'Verified', align: 'center' },
-                  { id: 'status', label: 'Status' },
+                  { id: 'id', label: 'ID'},
+                  { id: 'name', label: 'Họ và tên' },
+                  { id: 'email', label: 'Email' },
+                  { id: 'role', label: 'Phân quyền' },
+                  { id: 'status', label: 'Trạng thái' },
                   { id: '' },
                 ]}
               />
@@ -136,14 +127,14 @@ export default function UserPage() {
                   .map((row) => (
                     <UserTableRow
                       key={row.id}
-                      name={row.name}
+                      id={row.id}
+                      first_name={row.first_name}
+                      last_name={row.last_name}
                       role={row.role}
                       status={row.status}
-                      company={row.company}
-                      avatarUrl={row.avatarUrl}
-                      isVerified={row.isVerified}
-                      selected={selected.indexOf(row.name) !== -1}
-                      handleClick={(event) => handleClick(event, row.name)}
+                      email={row.email}
+                      password={row.password}
+                      phone_number={row.phone_number}
                     />
                   ))}
 
@@ -154,6 +145,8 @@ export default function UserPage() {
 
                 {notFound && <TableNoData query={filterName} />}
               </TableBody>
+
+              <AddUser open={open} setOpen={setOpen}/>
             </Table>
           </TableContainer>
         </Scrollbar>
@@ -166,8 +159,10 @@ export default function UserPage() {
           onPageChange={handleChangePage}
           rowsPerPageOptions={[5, 10, 25]}
           onRowsPerPageChange={handleChangeRowsPerPage}
+          labelRowsPerPage='Số hàng:'
         />
       </Card>
+
     </Container>
   );
 }

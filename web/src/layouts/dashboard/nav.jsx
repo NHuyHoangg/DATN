@@ -56,7 +56,7 @@ export default function Nav({ openNav, onCloseNav }) {
         },
       }}
     >
-      <Logo sx={{ m: 3, ml: 4 }} />
+      <Logo sx={{ m: 0, ml: 8, mb: -3 }} />
 
       {renderMenu}
       <Box sx={{ flexGrow: 1 }} />
