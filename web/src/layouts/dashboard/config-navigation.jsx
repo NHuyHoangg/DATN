@@ -32,14 +32,14 @@ const navConfig = [
     path: '/report',
     icon: icon('ic_report'),
   },
-  {
-    title: 'Đấu giá',
-    path: '/auction',
-    icon: icon('ic_auction'),
-  },
+  // {
+  //   title: 'Đấu giá',
+  //   path: '/auction',
+  //   icon: icon('ic_auction'),
+  // },
   {
     title: 'Gói đẩy tin',
-    path: '/purchase',
+    path: '/ad',
     icon: icon('ic_purchase'),
   },
   {

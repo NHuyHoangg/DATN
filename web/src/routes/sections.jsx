@@ -3,12 +3,14 @@ import { Outlet, Navigate, useRoutes } from 'react-router-dom';
 
 import DashboardLayout from 'src/layouts/dashboard';
 
+export const AdPage = lazy(() => import('src/pages/ad'))
 export const IndexPage = lazy(() => import('src/pages/app'));
 export const BlogPage = lazy(() => import('src/pages/blog'));
 export const UserPage = lazy(() => import('src/pages/user'));
 export const LoginPage = lazy(() => import('src/pages/login'));
 export const ProductsPage = lazy(() => import('src/pages/products'));
 export const Page404 = lazy(() => import('src/pages/page-not-found'));
+export const PostPage = lazy(() => import('src/pages/post'));
 
 // ----------------------------------------------------------------------
 
@@ -25,11 +27,12 @@ export default function Router() {
       children: [
         { element: <IndexPage />, index: true },
         { path: 'user', element: <UserPage /> },
-        { path: 'post', element: <ProductsPage /> },
+        { path: 'post', element: <PostPage /> },
         { path: 'order', element: <BlogPage /> },
         { path: 'report', element: <ProductsPage /> },
         { path: 'auction', element: <BlogPage /> },
         { path: 'purchase', element: <ProductsPage /> },
+        { path: 'ad', element: <AdPage />},
       ],
     },
     {
