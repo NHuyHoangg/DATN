@@ -110,6 +110,8 @@ function NavItem({ item }) {
 
   const active = item.path === pathname;
 
+  console.log(pathname);
+
   return (
     <ListItemButton
       component={RouterLink}

@@ -16,7 +16,7 @@ import IconButton from '@mui/material/IconButton';
 import Label from 'src/components/label';
 import Iconify from 'src/components/iconify';
 
-import DeletePost from './delete-post';
+import DeleteReport from './delete-report';
 // ----------------------------------------------------------------------
 
 export default function UserTableRow({
@@ -47,7 +47,8 @@ export default function UserTableRow({
   waterproof_number,
   gender,
   seller_id,
-  media
+  media,
+  reason,
 }) {
 
   const navigate = useNavigate();
@@ -65,7 +66,7 @@ export default function UserTableRow({
   };
 
   const handleDetail= () => {
-    navigate(`/post/detail/${post_id}`, { state: {change} });
+    navigate(`/report/detail/${post_id}`, { state: {change} });
     setOpen(false);
   }
 
@@ -112,6 +113,7 @@ export default function UserTableRow({
     gender,
     seller_id,
     media,
+    reason
   };
 
   return (
@@ -121,11 +123,9 @@ export default function UserTableRow({
 
         <TableCell>{name}</TableCell>
 
-        <TableCell>{seller_name}</TableCell>
-
         <TableCell>{formatDate}</TableCell>
 
-        <TableCell>{province}</TableCell>
+        <TableCell>{reason}</TableCell>
 
         <TableCell>
           <Label color={(verified === 'denied' && 'error') || (verified === 'waiting' && 'warning') || 'success'}>
@@ -161,7 +161,7 @@ export default function UserTableRow({
         </MenuItem>
       </Popover>
 
-      <DeletePost open={openDelete} setOpen={setOpenDelete} change={change}/>
+      <DeleteReport open={openDelete} setOpen={setOpenDelete} change={change}/>
     </>
   );
 }
@@ -195,4 +195,5 @@ UserTableRow.propTypes = {
   gender: PropTypes.string,
   seller_id: PropTypes.number,
   media: PropTypes.object,
+  reason: PropTypes.string,
 };

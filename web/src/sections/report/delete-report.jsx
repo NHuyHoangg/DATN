@@ -11,7 +11,7 @@ const Title = styled(DialogTitle)({
   fontSize: '24px',
 });
 
-export default function DeletePost({ setOpen, open, change }) {
+export default function DeleteReport({ setOpen, open, change }) {
   const { post_id } = change;
 
 	console.log(post_id);
@@ -31,7 +31,7 @@ export default function DeletePost({ setOpen, open, change }) {
     </Dialog>
   );
 }
-DeletePost.propTypes = {
+DeleteReport.propTypes = {
   setOpen: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
   change: PropTypes.object.isRequired,

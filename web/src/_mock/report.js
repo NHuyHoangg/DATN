@@ -3,7 +3,7 @@ import { faker } from '@faker-js/faker';
 
 // ----------------------------------------------------------------------
 
-export const posts = [...Array(52)].map(() => ({
+export const reports = [...Array(52)].map(() => ({
   post_id: faker.number.int(),
   verified: sample(['verified', 'waiting', 'denied']),
   seller_name: faker.person.fullName(),
@@ -34,4 +34,5 @@ export const posts = [...Array(52)].map(() => ({
   waterproof_num: faker.datatype.boolean(),
   gender: sample(['Nam', 'Nữ']),
   seller_id: faker.number.int(),
+  reason: faker.lorem.sentences(),
 }));
