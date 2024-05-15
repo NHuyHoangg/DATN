@@ -4,7 +4,7 @@ import { Entypo } from "@expo/vector-icons";
 import { useState } from "react";
 import color from "../../constants/color";
 
-const RadioInput = (props) => {
+const RadioInputColumn = (props) => {
   let defaultOption = props.options.findIndex((item) => item === props.value);
   
   const [selectedOption, setSelectedOption] = useState(defaultOption);
@@ -47,7 +47,7 @@ const RadioInput = (props) => {
   );
 };
 
-export default RadioInput;
+export default RadioInputColumn;
 
 const styles = StyleSheet.create({
   root: {
@@ -59,7 +59,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     // backgroundColor: "gray",
     marginHorizontal: "5%",
-    alignItems: "center",
   },
   icon: {
     width: 24,
@@ -84,6 +83,7 @@ const styles = StyleSheet.create({
   },
   radio: {
     marginRight: "5%",
+    color: color.baemin1,
   },
   radioText: {
     fontSize: 13,
@@ -98,7 +98,6 @@ const styles = StyleSheet.create({
   },
   radiosContainer: {
     flex: 2.5,
-    flexDirection: "row",
     // backgroundColor: "red",
     justifyContent: "space-evenly",
   },

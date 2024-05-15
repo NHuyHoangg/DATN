@@ -14,6 +14,7 @@ import { SimpleLineIcons, Entypo, Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 
 import Card1 from "../ui/Card1";
+import IconButton from "../ui/IconButton";
 import color from "../../constants/color";
 import { favoritePostActions } from "../../redux/favorite/favoritePostSlice";
 import { useSelector, useDispatch } from "react-redux";
@@ -32,6 +33,7 @@ const WatchItem1 = memo((props) => {
   const id = props.data.id;
   const watch_id = props.data.watch_id;
   const [isFavorite, setIsFavourite] = useState(props.data.isFavorite);
+  const originalData = props.data;
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -52,8 +54,8 @@ const WatchItem1 = memo((props) => {
         isFavorite: isFavorite,
         data: props.data,
         title: headerName,
-        addFavoritePost: addFavoritePost,
-        deleteFavoritePost: deleteFavoritePost,
+        addFavoritePost: addPostToFavorite,
+        deleteFavoritePost: deletePostFromFavorite,
       });
     } else {
       Alert.alert(
@@ -70,25 +72,66 @@ const WatchItem1 = memo((props) => {
         text: "Hủy",
         style: "cancel",
       },
-      { text: "Xác nhận", style:"cancel" },
+      { text: "Xác nhận", style: "cancel" },
     ]);
-  }
+  };
 
   const confirmDoneOrder = () => {
-    Alert.alert("Xác nhận", "Bạn đã nhận được hàng? Nếu xác nhận, mọi vấn đề về trả hàng sẽ không được chấp nhận!", [
-      {
-        text: "Hủy",
-        style: "cancel",
-      },
-      { text: "Xác nhận", style:"cancel" },
-    ]);
-  }
+    Alert.alert(
+      "Xác nhận",
+      "Bạn đã nhận được hàng? Nếu xác nhận, mọi vấn đề về trả hàng sẽ không được chấp nhận!",
+      [
+        {
+          text: "Hủy",
+          style: "cancel",
+        },
+        { text: "Xác nhận", style: "cancel" },
+      ]
+    );
+  };
 
-  // console.log(props)
+  const changeFavoritesHandler = () => {
+    if (isFavorite) {
+      Alert.alert("Thông báo", "Bạn có muốn xóa sản phẩm này khỏi danh sách yêu thích không?",
+        [
+          { text: "Huỷ", style: "cancel" },
+          { text: "Xác nhận", onPress: async() => {
+            try {
+              await deletePostFromFavorite(token, id);
+              setIsFavourite(false);
+              dispatch(favoritePostActions.remove(id));
+            } catch(err) {
+              Alert.alert("Thông báo", "Đã xảy ra lỗi! Vui lòng thử lại", { text: "Xác nhận" })
+            }
+          }}
+        ]
+      )
+    } else {
+      Alert.alert("Thông báo", "Bạn có muốn thêm sản phẩm này vào danh sách yêu thích không?",
+        [
+          { text: "Huỷ", style: "cancel" },
+          { text: "Xác nhận", onPress: async() => {
+            try {
+              setIsFavourite(true);
+              addPostToFavorite(token, id);
+              dispatch(favoritePostActions.add({ ...originalData, isFavorite: true }));
+            } catch(err) {
+              Alert.alert("Thông báo", "Đã xảy ra lỗi! Vui lòng thử lại", { text: "Xác nhận" })
+            }
+          }}
+        ]
+      )
+    }
+  };
 
   return (
     <Card1>
-      <View style={styles.rootContainer}>
+      <Pressable 
+        style={({ pressed }) => [
+          styles.rootContainer,
+          pressed ? styles.pressed : null,
+        ]}
+        onPress={viewWatchPostHandler}>
         <View style={{ flexDirection: "row", alignItems: "center" }}>
           <ImageBackground
             style={styles.image}
@@ -132,10 +175,68 @@ const WatchItem1 = memo((props) => {
               {name}
             </Text>
             <Text style={[styles.text, styles.price]}>
-              {props.data.price} đ
+              {props.data.formatted_price}
             </Text>
 
-            {["delivering", "done", "return", "sellerDelivering", "sellerDone", "sellerReturn"].includes(screenType) && (
+            {screenType == "favoritePosts" && (
+              <View
+                style={{ flexDirection: "row", justifyContent: "flex-end", alignItems: "flex-end" }}
+              >
+                <IconButton
+                  icon={isFavorite ? "heart" : "hearto"}
+                  color={isFavorite ? color.red : color.baemin1}
+                  onPress={changeFavoritesHandler}
+                  size={28}
+                />
+
+                <Pressable
+                  style={({ pressed }) => [
+                    styles.button,
+                    styles.buttonGreen,
+                    pressed ? styles.pressed : null,
+                    {marginLeft: "7%"}
+                  ]}
+                  onPress={() => navigation.navigate("Payment", { props: props.data })}
+                >
+                  <Text style={[styles.buttonText]}>Mua</Text>
+                </Pressable>
+              </View>
+            )}
+
+            {screenType == "selling" && (
+                <View style={{ flexDirection: "row", justifyContent: "flex-end", alignItems: "flex-end" }}>
+                  <Pressable
+                    style={({ pressed }) => [
+                      styles.button,
+                      styles.buttonRed,
+                      pressed ? styles.pressed : null,
+                    ]}
+                    // onPress={() => navigation.navigate("Refund", { props })}
+                  >
+                    <Text style={[styles.buttonText]}>Xoá</Text>
+                  </Pressable>
+
+                  <Pressable
+                    style={({ pressed }) => [
+                      styles.button,
+                      styles.buttonGreen,
+                      pressed ? styles.pressed : null,
+                    ]}
+                    onPress={() => navigation.navigate("ChooseAd", { props })}
+                  >
+                    <Text style={[styles.buttonText]}>Đẩy tin</Text>
+                  </Pressable>
+                </View>
+              )}
+
+            {[
+              "delivering",
+              "done",
+              "return",
+              "sellerDelivering",
+              "sellerDone",
+              "sellerReturn",
+            ].includes(screenType) && (
               <Pressable
                 style={({ pressed }) => [
                   {
@@ -251,7 +352,12 @@ const WatchItem1 = memo((props) => {
                     styles.buttonGreen,
                     pressed ? styles.pressed : null,
                   ]}
-                  onPress={() => navigation.navigate("RefundDetail", { props, isSeller: true })}
+                  onPress={() =>
+                    navigation.navigate("RefundDetail", {
+                      props,
+                      isSeller: true,
+                    })
+                  }
                 >
                   <Text style={[styles.buttonText]}>Xem chi tiết</Text>
                 </Pressable>
@@ -272,7 +378,7 @@ const WatchItem1 = memo((props) => {
             </View>
           </View>
         </View>
-      </View>
+      </Pressable>
     </Card1>
   );
 });
@@ -302,7 +408,7 @@ const styles = StyleSheet.create({
   },
   text: {
     textAlign: "center",
-    fontSize: 14,
+    fontSize: 16,
     fontFamily: "montserrat-semi-bold",
     padding: 0,
     marginHorizontal: "5%",

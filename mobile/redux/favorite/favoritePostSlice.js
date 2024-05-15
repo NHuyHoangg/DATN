@@ -25,6 +25,7 @@ const favoritePostSlice = createSlice({
           status: item.status,
           size: item.case_size_num,
           price: item.price,
+          formatted_price: item.formatted_price,
           image: item.media_content,
           date: item.date_ago,
           location: item.province,

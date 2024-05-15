@@ -1,6 +1,6 @@
 import { Pressable, StyleSheet } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
-function IconButton({ icon, color, onPress }) {
+function IconButton({ icon, color, onPress, size }) {
   return (
     <Pressable
       onPress={onPress}
@@ -8,7 +8,7 @@ function IconButton({ icon, color, onPress }) {
     >
       <AntDesign
         name={icon}
-        size={24}
+        size={size}
         color={color}
       />
     </Pressable>

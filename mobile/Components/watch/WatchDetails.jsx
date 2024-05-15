@@ -63,27 +63,40 @@ const WatchDetails = (props) => {
   const [error, setError] = useState();
   // console.log("WatchDetails.jsx");
 
-  // const addToFavorite = async () => {
-  //   console.log("addToFavorite clicked");
-  //   setIsFavourite(true);
-  // };
-
-  // const deleteFromFavotite = async () => {
-  //   console.log("deleteFromFavotite clicked");
-  //   setIsFavourite(false);
-  // };
   const changeFavoritesHandler = () => {
     if (isFavorite) {
-      setIsFavourite(false);
-      deleteFavoritePost(token, id);
-      dispatch(favoritePostActions.remove(id));
+      try {
+        Alert.alert("Thông báo", "Bạn có muốn xóa sản phẩm này khỏi danh sách yêu thích không?",
+          [
+            { text: "Huỷ", style: "cancel" },
+            { text: "Xác nhận", onPress: async() => {
+              await deleteFavoritePost(token, id);
+              setIsFavourite(false);
+              dispatch(favoritePostActions.remove(id));
+            }}
+          ]
+        )
+      } catch (err) {
+        Alert.alert("Thông báo", "Đã xảy ra lỗi! Vui lòng thử lại", { text: "Xác nhận" })
+      }
     } else {
-      setIsFavourite(true);
-      addFavoritePost(token, id);
-      dispatch(favoritePostActions.add({ ...originalData, isFavorite: true }));
+      try {
+        Alert.alert("Thông báo", "Bạn có muốn thêm sản phẩm này vào danh sách yêu thích không?",
+          [
+            { text: "Huỷ", style: "cancel" },
+            { text: "Xác nhận", onPress: async() => {
+              await addFavoritePost(token, id);
+              setIsFavourite(true);
+              dispatch(favoritePostActions.add({ ...originalData, isFavorite: true }));
+            }}
+          ]
+        )
+      } catch (err) {
+        Alert.alert("Thông báo", "Đã xảy ra lỗi! Vui lòng thử lại", { text: "Xác nhận" })
+      }
     }
-    // console.log("clicked");
   };
+  
   const deletePostHandler = () => {
     const deletePostDetails = async (token, id) => {
       try {
@@ -196,15 +209,7 @@ const WatchDetails = (props) => {
             );
           } else if (screenType === "favoriteProducts") {
             return null;
-          } else {
-            return (
-              <IconButton
-                icon={isFavorite ? "heart" : "hearto"}
-                color={isFavorite ? color.red : color.baemin1}
-                onPress={changeFavoritesHandler}
-              />
-            );
-          }
+          } 
         }
       },
     });
@@ -218,7 +223,7 @@ const WatchDetails = (props) => {
       try {
         // console.log("id = ", id);
         const data = await fetchWatchDetails(token, id);
-
+        console.log(data)
         dispatch(watchDetailsActions.set(data));
       } catch (err) {
         console.log(err);
@@ -263,7 +268,7 @@ const WatchDetails = (props) => {
     return <LoadingOverlay />;
   }
 
-  console.log(props.route.params.data)
+  // console.log(props.route.params.data)
   // console.log(renderedItem)
   return (
     <ScrollView style={styles.root} showsVerticalScrollIndicator={false}>
@@ -309,13 +314,14 @@ const WatchDetails = (props) => {
             flexDirection: "row",
             marginHorizontal: "5%",
             justifyContent: "space-between",
+            alignItems: "center",
           }}
         >
           <Button
             // onPress={saveWatchHandler}
             onPress={() => {navigation.navigate("Payment", {props: props.route.params.data})}}
             color={color.baemin1}
-            width="80%"
+            width="85%"
             textSize={15}
             borR={7.5}
             textVP="1%"
@@ -342,7 +348,14 @@ const WatchDetails = (props) => {
             </View>
           </Button>
 
-          <Button
+          <IconButton
+            icon={isFavorite ? "heart" : "hearto"}
+            color={isFavorite ? color.red : color.baemin1}
+            onPress={changeFavoritesHandler}
+            size={35}
+          />
+
+          {/* <Button
             onPress={contactSellerHandler}
             color={color.baemin1}
             width="15%"
@@ -355,7 +368,7 @@ const WatchDetails = (props) => {
               size={22}
               color={color}
             />
-          </Button>
+          </Button> */}
 
           {/* <Button
             onPress={saveWatchHandler}

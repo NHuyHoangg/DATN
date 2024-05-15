@@ -113,6 +113,7 @@ export const sendNewPost = async (token, data) => {
     })
     .then((data) => console.log("Send OK!"))
     .catch((err) => console.log(err));
+    console.log(data)
 };
 export const editPost = async (token, data) => {
   const response = await axios

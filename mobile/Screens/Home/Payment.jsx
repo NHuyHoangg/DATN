@@ -20,7 +20,7 @@ import {
   GestureHandlerRootView,
   TextInput,
 } from "react-native-gesture-handler";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { useSelector, useDispatch } from "react-redux";
 import RadioGroup from "react-native-radio-buttons-group";
 
@@ -40,7 +40,7 @@ const screenWidth = Dimensions.get("window").width;
 const screenHeight = Dimensions.get("window").height;
 const avatarSize = screenHeight / 18;
 
-const Payment = (props) => {
+const Payment = (route) => {
   // const data = useSelector(state => state.details.item);
   // console.log(props.route.params.props.data)
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
@@ -105,6 +105,14 @@ const Payment = (props) => {
     if (isAuthenticated) fetchData();
   }, [change]);
 
+  useEffect(() => {
+    setIsLoading(true);
+    if (route.route.params.address) {
+      setAddress(route.route.params.address);
+      setIsLoading(false);
+    }
+  }, [route.route.params.address]);
+
   if (error && !isLoading) {
     return <ErrorOverlay message={error} reload={setChange} />;
   }
@@ -127,7 +135,8 @@ const Payment = (props) => {
     return;
   }
 
-  // console.log(props.route.params.props)
+  console.log("Payment", route.route.params)
+  // console.log(address)
 
   return (
     <GestureHandlerRootView style={styles.root}>
@@ -137,7 +146,7 @@ const Payment = (props) => {
             <View style={{ flexDirection: "row" }}>
               <ImageBackground
                 style={styles.image}
-                source={{ uri: props.route.params.props.image }}
+                source={{ uri: route.route.params.props.image }}
               >
                 <View
                   style={{
@@ -180,7 +189,7 @@ const Payment = (props) => {
                   ]}
                 >
                   {/* {nameLen < 15 ? name : name.slice(0, 15) + "..."} */}
-                  {props.route.params.props.name}
+                  {route.route.params.props.name}
                 </Text>
                 <Text
                   style={[
@@ -190,7 +199,7 @@ const Payment = (props) => {
                   ]}
                 >
                   {/* {props.price} đ */}
-                  {props.route.params.props.formatted_price}
+                  {route.route.params.props.formatted_price}
                 </Text>
               </View>
             </View>
@@ -204,6 +213,7 @@ const Payment = (props) => {
             pressed ? styles.pressed : null,
             { paddingBottom: "5%", flexDirection: "row", alignItems: "center", justifyContent: "space-between" },
           ]}
+          onPress={() => navigation.navigate("ChooseAddress", { props: route.route.params.props, address })}
         >
           <View style={{width: "80%"}}>
             <View
@@ -265,7 +275,7 @@ const Payment = (props) => {
             >
               <Text style={styles.message}>Tiền sản phẩm</Text>
               <Text style={styles.message}>
-                {props.route.params.props.formatted_price}
+                {route.route.params.props.formatted_price}
               </Text>
             </View>
 

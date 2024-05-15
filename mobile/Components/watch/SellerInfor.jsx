@@ -9,6 +9,7 @@ import color from "../../constants/color";
 // import { watchDetailsActions } from "../../redux/watch/watchDetailsSlice";
 const SellerInfor = (props) => {
   const data = useSelector(state => state.details.item);
+  // console.log(data)
   return (
     <View style={styles.root}>
       <Text style={styles.text}>Thông tin người bán</Text>
@@ -24,13 +25,13 @@ const SellerInfor = (props) => {
         }
         label="Địa chỉ"
         readOnly={true}
-        value={!!data.street ?  data.street + ", " + data.ward : "Đã ẩn"}
+        value={!!data.street ?  data.street + ", " + data.ward + ", " + data.district : "Đã ẩn"}
       />
       <Input
         icon={<SimpleLineIcons name="location-pin" size={20} color="black" />}
         label="Khu vực"
         readOnly={true}
-        value={!!data.district ?  data.district + ", " + data.province : "Đã ẩn"}
+        value={!!data.province ? data.province : "Đã ẩn"}
       />
       <Input
         icon={

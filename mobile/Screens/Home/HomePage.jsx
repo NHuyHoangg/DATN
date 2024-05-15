@@ -269,7 +269,7 @@ export default function HomePage({ route, navigation }) {
                 />
               </GestureHandlerRootView>
             </View>
-            <Pressable
+            {/* <Pressable
               onPress={chatIconOnPress}
               style={({ pressed }) => [
                 styles.iconBox,
@@ -282,7 +282,7 @@ export default function HomePage({ route, navigation }) {
                 size={26}
                 color={color.baemin1}
               />
-            </Pressable>
+            </Pressable> */}
           </View>
         </View>
         <View style={styles.suggestContainer}>

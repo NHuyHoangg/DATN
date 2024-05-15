@@ -28,13 +28,11 @@ const WatchList1 = memo((props) => {
     dataList = useSelector((state) => state.trading.soldItems);
   } else if (screenType === "favoritePosts") {
     dataList = useSelector((state) => state.favoritePost.items);
-  } else if (screenType === "favoriteProducts") {
-    dataList = useSelector((state) => state.favoriteProduct.resultList);
-  }
-  const numOfData = 10;
-  for (let i = 0; i < numOfData; i++) {
-    dataList.push(dataGen());
-  }	
+  } 
+  // const numOfData = 10;
+  // for (let i = 0; i < numOfData; i++) {
+  //   dataList.push(dataGen());
+  // }	
 
   const renderWatchItem = useCallback((itemData) => {
     return (
