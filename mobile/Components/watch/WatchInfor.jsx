@@ -32,9 +32,21 @@ const WatchInfor = (props) => {
       /> */}
       <Input
         icon={<Feather name="watch" size={24} color="black" />}
-        label="Hãng"
+        label="Thương hiệu"
         readOnly={true}
-        value={detailsInfor.brand}
+        value={detailsInfor.brand || "Không có"}
+      />
+      <Input
+        icon={<MaterialIcons name="watch" size={24} color="black" />}
+        label="Loại đồng hồ"
+        readOnly={true}
+        value={detailsInfor.engine || "Không có"}
+      />
+      <Input
+        icon={<MaterialIcons name="power-input" size={24} color="black" />}
+        label="Nguồn năng lượng"
+        readOnly={true}
+        value={detailsInfor.power || "Không có"}
       />
       <Input
         icon={
@@ -42,7 +54,7 @@ const WatchInfor = (props) => {
         }
         label="Tình trạng"
         readOnly={true}
-        value={detailsInfor.status}
+        value={detailsInfor.status || "Không có"}
       />
       <Input
         icon={
@@ -52,22 +64,28 @@ const WatchInfor = (props) => {
             color="black"
           />
         }
-        label="Size mặt số"
+        label="Kích thước mặt số"
         readOnly={true}
-        value={detailsInfor.size + " mm"}
+        value={(detailsInfor.case_size + " mm") || "Không có"}
+      />
+      <Input
+        icon={
+          <MaterialCommunityIcons
+            name="clock-time-nine-outline"
+            size={22}
+            color="black"
+          />
+        }
+        label="Màu mặt số"
+        readOnly={true}
+        value={detailsInfor.color || "Không có"}
       />
       <Input
         icon={<FontAwesome5 name="user-circle" size={20} color="black" />}
         label="Kiểu dáng"
         readOnly={true}
-        value={detailsInfor.gender}
+        value={detailsInfor.gender || "Không có"}
       />
-      {/* <Input
-        icon={<Entypo name="ruler" size={24} color="black" />}
-        label="Độ dày"
-        readOnly={true}
-        value="13mm"
-      /> */}
       <Input
         icon={
           <MaterialCommunityIcons
@@ -78,7 +96,7 @@ const WatchInfor = (props) => {
         }
         label="Chống nước"
         readOnly={true}
-        value={detailsInfor.waterproof}
+        value={detailsInfor.waterproof || "Không có"}
       />
       <Input
         icon={
@@ -86,7 +104,23 @@ const WatchInfor = (props) => {
         }
         label="Loại dây"
         readOnly={true}
-        value={detailsInfor.strap_type}
+        value={detailsInfor.strap_material || "Không có"}
+      />
+      <Input
+        icon={
+          <MaterialCommunityIcons name="sine-wave" size={24} color="black" />
+        }
+        label="Màu dây"
+        readOnly={true}
+        value={detailsInfor.strap_color || "Không có"}
+      />
+      <Input
+        icon={
+          <MaterialCommunityIcons name="battery-60" size={24} color="black" />
+        }
+        label="Thời lượng pin"
+        readOnly={true}
+        value={detailsInfor.battery_life || "Không có"}
       />
     </View>
   );
@@ -101,6 +135,7 @@ const styles = StyleSheet.create({
   text: {
     fontFamily: 'montserrat-bold',
     fontSize: 18,
-    marginHorizontal: '5%'
+    marginHorizontal: '5%',
+    color: color.baemin1,
   }
 });

@@ -6,6 +6,7 @@ import {
   Pressable,
   Alert,
   LogBox,
+  ImageBackground,
 } from "react-native";
 import { useState, memo } from "react";
 import { AntDesign } from "@expo/vector-icons";
@@ -17,6 +18,7 @@ import color from "../../constants/color";
 import { favoritePostActions } from "../../redux/favorite/favoritePostSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { deletePostFromFavorite, addPostToFavorite } from "../../utils/watch";
+import AdSvg from "../../assets/images/svg/Ad";
 
 LogBox.ignoreLogs([
   "Non-serializable values were found in the navigation state",
@@ -31,10 +33,7 @@ const WatchItem = memo((props) => {
   const token = useSelector((state) => state.auth.token);
   const id = props.data.id;
   const watch_id = props.data.watch_id;
-  // console.log("id = ", id);
-  // console.log("watch_id = ", watch_id);
   const [isFavorite, setIsFavourite] = useState(props.data.isFavorite);
-  // console.log("isFavorite = ", isFavorite);
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -88,6 +87,8 @@ const WatchItem = memo((props) => {
       console.log(err);
     }
   };
+
+  // console.log(props.data)
   return (
     <Card>
       <Pressable
@@ -98,43 +99,29 @@ const WatchItem = memo((props) => {
         onPress={viewWatchPostHandler}
       >
         <View>
-          <Image style={styles.image} source={{ uri: props.data.image }} />
-          {/* <Image
-            style={styles.image}
-            source={require("../../assets/images/Ctime_logo.jpg")}
-          /> */}
+          <ImageBackground style={styles.image} source={{ uri: props.data.image }}>
+            <View style={{ flexDirection: "row", justifyContent: "space-between", width: "80%"}}>
+              <View style={{backgroundColor: color.verify, flexDirection: "row", padding: 3, borderRadius: 5}}>
+                <Ionicons name="checkmark-circle" size={15} color="white" /> 
+                <Text style={{ color: color.white, fontSize: 10, marginLeft: 3, fontFamily: "montserrat-regular"}}>
+                  Đã kiểm định
+                </Text>
+              </View>
+
+              <AdSvg />
+            </View>
+          </ImageBackground>
         </View>
-        <Pressable
-          android_ripple={{ color: "#ccc" }}
-          style={styles.outerContainer}
-          onPress={viewWatchPostHandler}
-        >
+        <View style={styles.outerContainer}>
           <View style={styles.innerContainer}>
             <Text style={[styles.text, styles.name]}>
               {nameLen < 15 ? name : name.slice(0, 15) + "..."}
             </Text>
-            <View style={styles.detailsContainer}>
-              <View style={styles.detailContainer}>
-                <View style={styles.icon}>
-                  {/* <Entypo
-                    name="dot-single"
-                    size={12}
-                    color="black"
-                  /> */}
-                </View>
-                <Text style={styles.detailText}>{props.data.status}</Text>
-              </View>
-              <View style={styles.detailContainer}>
-                <Text style={styles.detailText}>
-                  {/* <Entypo name="dot-single" size={12} color="black" /> */}
-                  {props.data.size + " mm"}
-                </Text>
-              </View>
-            </View>
+            
           </View>
           <View style={styles.innerContainer}>
             <Text style={[styles.text, styles.price]}>
-              {props.data.price} đ
+              {props.data.formatted_price}
             </Text>
           </View>
           <View style={styles.innerContainer}>
@@ -142,13 +129,12 @@ const WatchItem = memo((props) => {
               <View style={[styles.detailContainer]}>
                 <View>
                   <Ionicons
-                    name="ios-time-outline"
+                    name="time-outline"
                     size={10}
                     color={color.gray}
                     style={styles.icon}
                   />
                 </View>
-
                 <Text style={styles.detailText}>{props.data.date}</Text>
               </View>
               <View style={[styles.detailContainer]}>
@@ -159,14 +145,14 @@ const WatchItem = memo((props) => {
                   style={styles.icon}
                 />
                 <Text style={styles.detailText}>
-                  {props.data.location || (!props.data.location && "Chưa có ")}
+                  {props.data.location || (!props.data.location && "Chưa có")}
                 </Text>
               </View>
             </View>
           </View>
-        </Pressable>
+        </View>
       </Pressable>
-      <Pressable
+      {/* <Pressable
         // onPress={() => setIsFavourite(!isFavourite)}
         style={styles.heartIcon}
       >
@@ -209,7 +195,7 @@ const WatchItem = memo((props) => {
               color="black"
             />
           ))}
-      </Pressable>
+      </Pressable> */}
     </Card>
   );
 });
@@ -219,13 +205,14 @@ export default WatchItem;
 const styles = StyleSheet.create({
   rootContainer: {
     overflow: "hidden",
-    flexDirection: "row",
+    alignItems: "center",
+    // flexDirection: "row",
     // backgroundColor: "gray",
     borderRadius: 8,
   },
   image: {
-    width: 130,
-    height: 130,
+    width: 180,
+    height: 180,
     resizeMode: "cover",
   },
   pressed: {
@@ -234,7 +221,8 @@ const styles = StyleSheet.create({
   outerContainer: {
     flex: 1,
     justifyContent: "space-around",
-    paddingVertical: "3%",
+    paddingVertical: "4%",
+    width: "100%",
     // backgroundColor: 'green'
   },
   innerContainer: {
@@ -242,10 +230,10 @@ const styles = StyleSheet.create({
     // backgroundColor: "red",
   },
   text: {
-    textAlign: "left",
+    textAlign: "center",
     fontSize: 14,
     fontFamily: "montserrat-semi-bold",
-    padding: 0,
+    padding: 2,
     marginHorizontal: "5%",
     // backgroundColor: "green",
   },
@@ -253,17 +241,14 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "flex-start",
     marginHorizontal: "5%",
-    // marginVertical: '2.5%',
-    // backgroundColor: 'green'
+    marginVertical: '1.5%',
   },
   detailContainer: {
     flex: 1,
     flexDirection: "row",
-    justifyContent: "flex-start",
+    justifyContent: "flex-end",
     alignItems: "center",
     marginHorizontal: "0%",
-    // backgroundColor: 'blue'
-    // backgroundColor: "pink",
   },
   detailText: {
     fontFamily: "montserrat-regular",

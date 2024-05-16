@@ -219,7 +219,7 @@ export default function SignUp({ navigation }) {
           rippleColor="#afafaf"
           marX="15%"
           marY="3%"
-          color="#697184"
+          color={color.baemin1}
           textVP="1%"
           borR={8}
           onPress={signUpHandler}
@@ -264,7 +264,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontFamily: "montserrat-medium",
-    color: color.text_blue,
+    color: color.baemin1,
     padding: 2,
   },
   textContainer: {

@@ -11,7 +11,6 @@ export default color = {
   white: "#FFFFFF",
   gray: "#808080",
   background_white: "#F2F1EF",
-  gray: "#B1A6A4",
   lighter_gray: "#D8CFD0",
   border_gray: "#ECECEC",
   button_background: "#697184",
@@ -24,4 +23,5 @@ export default color = {
   red: "#DD575B",
   error50: "#fcc4e4",
   error500: "#9b095c",
+  verify: "#BF9603",
 };

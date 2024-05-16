@@ -1,13 +1,13 @@
 {
   "expo": {
-    "name": "Ctime",
-    "slug": "ctime",
+    "name": "Dho",
+    "slug": "dho",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/images/splash_smaller.png",
+      "image": "./assets/images/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },

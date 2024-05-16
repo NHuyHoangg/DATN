@@ -7,6 +7,7 @@ import OnBoarding3SVG from "../../assets/images/svg/OnBoarding3SVG";
 import { Dimensions } from "react-native";
 import Button from "../../Components/ui/Button";
 import { OnBoardingContent } from "../../constants/data";
+import color from "../../constants/color";
 
 const screenWidth = Dimensions.get("screen").width;
 const screenHeight = Dimensions.get("screen").height;
@@ -59,13 +60,13 @@ export default function OnBoarding1({ navigation, route }) {
       </View>
       <View style={styles.dotContainer}>
         <View
-          style={[styles.dot, pageIndex == 1 && { backgroundColor: "#697184" }]}
+          style={[styles.dot, pageIndex == 1 && { backgroundColor: color.baemin1 }]}
         ></View>
         <View
-          style={[styles.dot, pageIndex == 2 && { backgroundColor: "#697184" }]}
+          style={[styles.dot, pageIndex == 2 && { backgroundColor: color.baemin1 }]}
         ></View>
         <View
-          style={[styles.dot, pageIndex == 3 && { backgroundColor: "#697184" }]}
+          style={[styles.dot, pageIndex == 3 && { backgroundColor: color.baemin1 }]}
         ></View>
       </View>
       <View style={styles.titleContainer}>
@@ -81,8 +82,8 @@ export default function OnBoarding1({ navigation, route }) {
           textHP="1%"
           marX="10%"
           borR={24}
-          color="#E2E8F5"
-          textColor="black"
+          color={color.gray}
+          textColor="white"
           onPress={skipButtonHandler}
         >
           Bỏ qua
@@ -92,7 +93,7 @@ export default function OnBoarding1({ navigation, route }) {
           marX="10%"
           borR={24}
           rippleColor="#afafaf"
-          color="#697184"
+          color={color.baemin1}
           textColor="white"
           onPress={continueButtonHandler}
         >
@@ -104,7 +105,7 @@ export default function OnBoarding1({ navigation, route }) {
           marX="10%"
           borR={20}
           rippleColor="#afafaf"
-          color="#697184"
+          color={color.baemin1}
           textColor="white"
           onPress={skipButtonHandler}
         >
@@ -133,12 +134,13 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
     borderRadius: 120,
     borderWidth: 1.5,
-    borderColor: "#697184",
+    borderColor: color.baemin1,
   },
   title: {
     fontSize: 25,
     fontFamily: "montserrat-semi-bold",
     textAlign: "center",
+    color: color.baemin1,
   },
   titleContainer: {
     paddingVertical: "3%",

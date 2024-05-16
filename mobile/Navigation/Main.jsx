@@ -27,8 +27,8 @@ export default function Main() {
               return <Ionicons name="home-outline" size={27} color={color} />;
             case "FavouriteTab":
               return <Ionicons name="heart-outline" size={27} color={color} />;
-            case "AuctionTab":
-              return <AuctionSvg height={27} width={27} fill={color} />;
+            // case "AuctionTab":
+            //   return <AuctionSvg height={27} width={27} fill={color} />;
             case "TradingTab":
               return <AntDesign name="tagso" size={27} color={color} />;
             case "NotiTab":
@@ -63,11 +63,11 @@ export default function Main() {
         component={FavouriteScreen}
         options={{ title: "Yêu thích" }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="AuctionTab"
         component={FavouriteScreen}
         options={{ title: "Đấu giá" }}
-      />
+      /> */}
       <Tab.Screen
         name="TradingTab"
         component={TradingScreen}

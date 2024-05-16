@@ -14,32 +14,26 @@ const screenWidth = Dimensions.get("screen").width;
 const screenHeight = Dimensions.get("screen").height;
 import { CTIME_WEBSITE } from "@env";
 const url = CTIME_WEBSITE;
-const handlePress = () => {
-  Linking.openURL(url);
-};
 
-export default function EmptyItem({onPress}) {
+export default function EmptyItem({ onPress }) {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Không tìm thấy sản phẩm</Text>
-      <Pressable onPress={handlePress} style={styles.imageContainer}>
-        <Image
-          style={styles.image}
-          source={require("../../assets/images/empty.png")}
-        />
-      </Pressable>
+      <Image
+        style={styles.image}
+        source={require("../../assets/images/empty.png")}
+      />
       <Button
-          textVP="0%"
-          textHP="8%"
-          padY="5%"
-          borR={5}
-          onPress={onPress}
-          rippleColor="#afafaf"
-          color={color.red}
-        >
-          Tải lại
-        </Button>
-      
+        textVP="0%"
+        textHP="8%"
+        padY="5%"
+        borR={5}
+        onPress={onPress}
+        rippleColor="#afafaf"
+        color={color.red}
+      >
+        Tải lại
+      </Button>
     </View>
   );
 }

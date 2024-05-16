@@ -13,6 +13,7 @@ import {
 import Input from "../../Components/ui/Input";
 import Button from "../../Components/ui/Button";
 import RadioInput from "../../Components/ui/RadioInput";
+import RadioInputColumn from "../../Components/ui/RadioInputColumn";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
@@ -23,6 +24,7 @@ import * as Icons from "@expo/vector-icons";
 import color from "../../constants/color";
 import { HeaderBackButton } from "@react-navigation/elements";
 import SelectInput from "../../Components/ui/SelectInput";
+import LoadingOverlay from "../Overlay/LoadingOverlay";
 import { useState, useLayoutEffect, useEffect } from "react";
 import ImageList from "../../Components/ui/ImageList";
 import { useSelector, useDispatch } from "react-redux";
@@ -38,6 +40,7 @@ import {
 import { manipulateAsync } from "expo-image-manipulator";
 import { sendNewPost, editPost } from "../../utils/watch";
 import { tradingActions } from "../../redux/trading/tradingSlice";
+
 const ManageWatch = (props) => {
   const token = useSelector((state) => state.auth.token);
   // console.log("token = ", token);
@@ -52,11 +55,8 @@ const ManageWatch = (props) => {
   watch_id = !!watch_id ? watch_id : "";
   const dispatch = useDispatch();
 
+  const [isLoading, setIsLoading] = useState(false);
   const [inputs, setInputs] = useState({
-    watch_id: {
-      value: isAdding ? "" : watch_id,
-      isValid: true,
-    },
     name: {
       value: isAdding ? "" : detailsInfor.name,
       isValid: true,
@@ -69,21 +69,42 @@ const ManageWatch = (props) => {
       value: isAdding ? "" : detailsInfor.brand,
       isValid: true,
     },
-    size: {
-      value: isAdding ? "" : detailsInfor.size.toString(),
+    case_size: {
+      value: isAdding ? "" : detailsInfor.case_size.toString(),
+      isValid: true,
+    },
+    color: {
+      value: isAdding ? "" : detailsInfor.color,
       isValid: true,
     },
     description: {
       value: isAdding ? "" : detailsInfor.description,
       isValid: true,
     },
-    strap_type: {
-      value: isAdding ? "" : detailsInfor.strap_type,
+    strap_material: {
+      value: isAdding ? "" : detailsInfor.strap_material,
+      isValid: true,
+    },
+    strap_color: {
+      value: isAdding ? "" : detailsInfor.strap_color,
+      isValid: true,
+    },
+    power: {
+      value: isAdding ? "" : detailsInfor.power,
+      isValid: true,
+    },
+    // engine: {
+    //   value: isAdding ? "" : detailsInfor.engine,
+    //   isValid: true,
+    // },
+    battery_life: {
+      value: isAdding ? "" : detailsInfor.battery_life,
       isValid: true,
     },
     status: isAdding ? "Mới" : detailsInfor.status,
     waterproof: isAdding ? "Có" : detailsInfor.waterproof,
     gender: isAdding ? "Nam" : detailsInfor.gender,
+    engine: isAdding ? "Thạch anh" : detailsInfor.engine,
   });
 
   // Config Header
@@ -165,16 +186,20 @@ const ManageWatch = (props) => {
 
   const submitHandler = async () => {
     const postData = {
-      post_id: isAdding ? "" : detailsInfor.id, // T
-      watch_id: inputs.watch_id.value,
+      // post_id: isAdding ? "" : detailsInfor.id, // T
       name: inputs.name.value,
+      power: inputs.power.value,
+      engine: inputs.engine.value,
       price: +inputs.price.value,
       brand: inputs.brand.value,
       status: inputs.status, // T
-      case_size: +inputs.size.value,
+      case_size: +inputs.case_size.value,
+      color: inputs.color.value,
       waterproof: inputs.waterproof, // T
       gender: inputs.gender, // T
-      strap_material: inputs.strap_type.value,
+      strap_material: inputs.strap_material.value,
+      strap_color: inputs.strap_color.value,
+      battery_life: inputs.battery_life.value,
       images: images,
       description: inputs.description.value, // T
     };
@@ -228,7 +253,7 @@ const ManageWatch = (props) => {
       setInputs((curInput) => {
         return {
           ...curInput,
-          size: { value: inputs.size.value, isValid: sizeIsValid },
+          case_size: { value: inputs.case_size.value, isValid: sizeIsValid },
         };
       });
     } else if (!strapTypeIsValid) {
@@ -238,8 +263,8 @@ const ManageWatch = (props) => {
       setInputs((curInput) => {
         return {
           ...curInput,
-          strap_type: {
-            value: inputs.strap_type.value,
+          strap_material: {
+            value: inputs.strap_material.value,
             isValid: strapTypeIsValid,
           },
         };
@@ -265,8 +290,8 @@ const ManageWatch = (props) => {
               if (!isAdding) {
                 dispatch(watchDetailsActions.updatePost(postData));
               }
-              navigation.goBack();
               manageWatchPost(token, postData);
+              // navigation.goBack();
             } catch (err) {
               console.log(err);
             }
@@ -276,35 +301,54 @@ const ManageWatch = (props) => {
     }
   };
   const manageWatchPost = (token, data) => {
+    setIsLoading(true);
     const managePost = async (token, data) => {
-      if (isAdding) {
-        const formattedData = {
-          id: -1,
-          watch_id: data.watch_id,
-          name: data.name,
-          status: data.status,
-          size: data.case_size,
-          price: data.price,
-          image: data.images[0],
-          date: "Đang tải",
-          location: "Đang tải",
-        };
-        dispatch(tradingActions.addNewSellingItem(formattedData));
-        await sendNewPost(token, data);
-        
+        if (isAdding) {
+          try {
+            const formattedData = {
+              id: -1,
+              name: data.name,
+              status: data.status,
+              size: data.case_size,
+              price: data.price,
+              image: data.images[0],
+              date: "Đang tải",
+              location: "Đang tải",
+            };
+            dispatch(tradingActions.addNewSellingItem(formattedData));
+            await sendNewPost(token, data);
+            navigation.goBack();
+          } catch (err) {
+            setIsLoading(false);
+            Alert.alert(
+              "Thông báo",
+              "Có lỗi xảy ra khi đăng sản phẩm. Vui lòng thử lại",
+              [{ text: "Đồng ý" }]
+            );
+            console.log(err);
+          }
       } else {
-        const formattedData = {
-          id: data.post_id,
-          watch_id: data.watch_id,
-          name: data.name,
-          status: data.status,
-          size: data.case_size,
-          price: data.price,
-          image: data.images[0],
-        };
-        dispatch(tradingActions.updateSellingItem(formattedData));
-        await editPost(token, data);
-        
+        try {
+          const formattedData = {
+            id: data.post_id,
+            name: data.name,
+            status: data.status,
+            size: data.case_size,
+            price: data.price,
+            image: data.images[0],
+          };
+          dispatch(tradingActions.updateSellingItem(formattedData));
+          await editPost(token, data);
+          navigation.goBack();
+        } catch (err) {
+          setIsLoading(false);
+          Alert.alert(
+            "Thông báo",
+            "Có lỗi xảy ra khi đăng sản phẩm. Vui lòng thử lại",
+            [{ text: "Đồng ý" }]
+          );
+          console.log(err)
+        }
       }
     };
     managePost(token, data);
@@ -363,6 +407,14 @@ const ManageWatch = (props) => {
       // return [];
     }
   };
+
+  if (isLoading) {
+    return <LoadingOverlay />;
+  }
+
+  // console.log(props)
+  console.log(detailsInfor)
+  
   return (
     <Pressable
       style={styles.root}
@@ -390,21 +442,6 @@ const ManageWatch = (props) => {
       <ScrollView style={styles.form}>
         <Input
           icon={
-            <MaterialCommunityIcons name="identifier" size={24} color="black" />
-          }
-          label="Mã sản phẩm"
-          invalid={false}
-          inputConfig={{
-            placeholder: "Không bắt buộc",
-            maxLength: 30,
-            // autoFocus: true,
-            inputMode: "text",
-            onChangeText: inputChangeHandler.bind(this, "watch_id"),
-            value: inputs.watch_id.value,
-          }}
-        />
-        <Input
-          icon={
             <MaterialCommunityIcons
               name="alphabet-latin"
               size={24}
@@ -416,44 +453,39 @@ const ManageWatch = (props) => {
           inputConfig={{
             placeholder: "Nhập tên đồng hồ",
             maxLength: 30,
-            // autoFocus: true,
             inputMode: "text",
             onChangeText: inputChangeHandler.bind(this, "name"),
             value: inputs.name.value,
           }}
-          // value={detailsInfor.name}
         />
+
+        <RadioInputColumn
+          icon={<MaterialIcons name="watch" size={20} color="black" />}
+          label="Loại đồng hồ"
+          options={["Thạch anh", "Cơ", "Đếm giờ", "Solar", "Thông minh", "Khác"]}
+          value={isAdding ? "Thạch anh" : inputs.engine}
+          onChangeText={inputChangeHandler.bind(this, "engine")}
+        />
+
         <Input
           icon={
             <MaterialIcons
-              name="attach-money"
-              size={20}
-              color={inputs.price.isValid ? "black" : color.red}
+              name="power-input"
+              size={24}
+              color={inputs.power.isValid ? "black" : color.red}
             />
           }
-          label="Giá tiền"
-          invalid={!inputs.price.isValid}
+          label="Nguồn năng lượng"
+          invalid={!inputs.power.isValid}
           inputConfig={{
-            placeholder: "Nhập giá tiền",
-            inputMode: "numeric",
-            maxLength: 30,
-            onChangeText: inputChangeHandler.bind(this, "price"),
-            value: inputs.price.value,
-          }}
-          // value={detailsInfor.price}
-        />
-        {/* <Input
-          icon={<Feather name="globe" size={20} color="black" />}
-          label="Nguồn gốc"
-          inputConfig={{
-            placeholder: "Nhập tên quốc gia",
+            placeholder: "Lên dây cót tự động, pin, ...",
             inputMode: "text",
             maxLength: 20,
-            onChangeText: inputChangeHandler.bind(this, "nation"),
-            value: inputs.nation.value,
+            onChangeText: inputChangeHandler.bind(this, "power"),
+            value: inputs.power.value,
           }}
-          // value={detailsInfor.nation}
-        /> */}
+        />
+
         <Input
           icon={
             <Feather
@@ -471,8 +503,27 @@ const ManageWatch = (props) => {
             onChangeText: inputChangeHandler.bind(this, "brand"),
             value: inputs.brand.value,
           }}
-          // value={detailsInfor.brand}
         />
+
+        <Input
+          icon={
+            <MaterialIcons
+              name="attach-money"
+              size={20}
+              color={inputs.price.isValid ? "black" : color.red}
+            />
+          }
+          label="Giá tiền"
+          invalid={!inputs.price.isValid}
+          inputConfig={{
+            placeholder: "Nhập giá tiền",
+            inputMode: "numeric",
+            maxLength: 30,
+            onChangeText: inputChangeHandler.bind(this, "price"),
+            value: inputs.price.value,
+          }}
+        />
+        
         <RadioInput
           icon={
             <Ionicons name="checkmark-circle-outline" size={22} color="black" />
@@ -482,24 +533,43 @@ const ManageWatch = (props) => {
           value={isAdding ? "Mới" : inputs.status}
           onChangeText={inputChangeHandler.bind(this, "status")}
         />
+
         <Input
           icon={
             <MaterialCommunityIcons
               name="clock-time-nine-outline"
               size={22}
-              color={inputs.size.isValid ? "black" : color.red}
+              color={inputs.case_size.isValid ? "black" : color.red}
             />
           }
-          label="Cỡ mặt số"
-          invalid={!inputs.size.isValid}
+          label="Kích thước mặt số"
+          invalid={!inputs.case_size.isValid}
           inputConfig={{
             placeholder: "Đường kính mặt số (mm)",
             inputMode: "numeric",
             maxLength: 10,
-            onChangeText: inputChangeHandler.bind(this, "size"),
-            value: inputs.size.value,
+            onChangeText: inputChangeHandler.bind(this, "case_size"),
+            value: inputs.case_size.value,
           }}
-          // value={detailsInfor.size}
+        />
+
+        <Input
+          icon={
+            <MaterialCommunityIcons
+              name="watch-import"
+              size={22}
+              color={inputs.color.isValid ? "black" : color.red}
+            />
+          }
+          label="Màu mặt số"
+          invalid={!inputs.color.isValid}
+          inputConfig={{
+            placeholder: "Nhập màu mặt số",
+            inputMode: "text",
+            maxLength: 10,
+            onChangeText: inputChangeHandler.bind(this, "color"),
+            value: inputs.color.value,
+          }}
         />
 
         <RadioInput
@@ -509,16 +579,6 @@ const ManageWatch = (props) => {
           value={isAdding ? "Nam" : inputs.gender}
           onChangeText={inputChangeHandler.bind(this, "gender")}
         />
-
-        {/* <Input
-          icon={<Entypo name="ruler" size={24} color="black" />}
-          label="Độ dày"
-          inputConfig={{
-            placeholder: "Nhập độ dày đồng hồ (mm)",
-            inputMode: "text",
-            maxLength: 20,
-          }}
-        /> */}
 
         <RadioInput
           icon={
@@ -534,32 +594,62 @@ const ManageWatch = (props) => {
           onChangeText={inputChangeHandler.bind(this, "waterproof")}
         />
 
-        {/* <RadioInput
-          label="Loại dây"
-          icon={
-            <MaterialCommunityIcons name="sine-wave" size={24} color="black" />
-          }
-          options={["Kim loại", "Da", "Khác"]}
-        /> */}
         <Input
           icon={
             <MaterialCommunityIcons
               name="sine-wave"
               size={24}
-              color={inputs.strap_type.isValid ? "black" : color.red}
+              color={inputs.strap_material.isValid ? "black" : color.red}
             />
           }
           label="Loại dây"
-          invalid={!inputs.strap_type.isValid}
+          invalid={!inputs.strap_material.isValid}
           inputConfig={{
             placeholder: "Kim loại, Nhựa, Da,...",
             inputMode: "text",
-            onChangeText: inputChangeHandler.bind(this, "strap_type"),
-            value: inputs.strap_type.value,
+            onChangeText: inputChangeHandler.bind(this, "strap_material"),
+            value: inputs.strap_material.value,
           }}
         />
+
         <Input
-          icon={<Ionicons name="md-menu-outline" size={24} color="black" />}
+          icon={
+            <MaterialCommunityIcons
+              name="sine-wave"
+              size={24}
+              color={inputs.strap_color.isValid ? "black" : color.red}
+            />
+          }
+          label="Màu dây"
+          invalid={!inputs.strap_color.isValid}
+          inputConfig={{
+            placeholder: "Nhập màu dây",
+            inputMode: "text",
+            onChangeText: inputChangeHandler.bind(this, "strap_color"),
+            value: inputs.strap_color.value,
+          }}
+        />
+
+        <Input
+          icon={
+            <MaterialCommunityIcons
+              name="battery-60"
+              size={24}
+              color={inputs.battery_life.isValid ? "black" : color.red}
+            />
+          }
+          label="Thời lượng pin"
+          invalid={!inputs.battery_life.isValid}
+          inputConfig={{
+            placeholder: "Nhập thời lượng pin",
+            inputMode: "text",
+            onChangeText: inputChangeHandler.bind(this, "battery_life"),
+            value: inputs.battery_life.value,
+          }}
+        />
+
+        <Input
+          icon={<Ionicons name="menu-outline" size={24} color="black" />}
           label="Mô tả"
           invalid={false}
           inputConfig={{
@@ -569,16 +659,16 @@ const ManageWatch = (props) => {
             onChangeText: inputChangeHandler.bind(this, "description"),
             value: inputs.description.value,
           }}
-          // value={detailsInfor.description}
         />
+        
       </ScrollView>
       <Button
         onPress={submitHandler}
-        color={color.button_indigo}
+        color={color.baemin1}
         marX="5%"
         marY="2.5%"
       >
-        Xong
+        Xác nhận
       </Button>
     </Pressable>
   );

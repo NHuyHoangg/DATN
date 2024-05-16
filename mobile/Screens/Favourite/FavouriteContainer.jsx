@@ -8,13 +8,19 @@ import PostFavourite from "./PostFavourite";
 import ProductFavourite from "./ProductFavourite"
 import WatchDetails from "../../Components/watch/WatchDetails";
 import ViewSavedWatchs from "./ViewSavedWatchs";
+import Payment from "../Home/Payment";
+import MyAddress from "../Account/MyAddress";
+import CreateAddress from "../Account/CreateAddress";
+import ChangeAddress from "../Account/ChangeAdress";
+import ChooseAddress from "../Home/ChooseAddress";
+import Recharge from "../Account/Recharge";
+import ShoppingHistory from "../Account/ShoppingHistory";
 import { useSelector } from "react-redux";
 import LockOverlay from "../Overlay/LockOverlay";
 
-const Tab = createMaterialTopTabNavigator();
 const Stack = createNativeStackNavigator();
 
-const TopTabsContainer = () => {
+export default function FavouriteScreen() {
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated)
 
   if (!isAuthenticated) {
@@ -24,40 +30,10 @@ const TopTabsContainer = () => {
   }
 
   return (
-    <Tab.Navigator
-      initialRouteName="Post"
-      screenOptions={{
-        ...TopTapStyle,
-      }}
-    >
-      <Tab.Screen
-        name="Post"
-        component={PostFavourite}
-        options={{
-          tabBarLabel: "Bảng tin",
-          ...TopTabScreenStyle,
-        }}
-      />
-      
-      <Tab.Screen
-        name="Product"
-        component={ProductFavourite}
-        options={{
-          tabBarLabel: "Sản phẩm",
-          ...TopTabScreenStyle,
-        }}
-      />
-    </Tab.Navigator>
-  );
-}
-
-export default function FavouriteScreen() {
-
-  return (
     <Stack.Navigator>
       <Stack.Screen
         name="Favourite"
-        component={TopTabsContainer}
+        component={PostFavourite}
         options={{
           ...HeaderStyle,
           title: "Yêu thích",
@@ -73,13 +49,70 @@ export default function FavouriteScreen() {
         }}
       />
       <Stack.Screen
+        component={Payment}
+        name="Payment"
+        options={{
+          ...HeaderStyle,
+          title: "Xác nhận thanh toán",
+          // headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="MyAddress"
+        component={MyAddress}
+        options={{
+          ...HeaderStyle,
+          title: "Địa chỉ của tôi",
+        }}
+      />
+      <Stack.Screen
+        name="CreateAddress"
+        component={CreateAddress}
+        options={{
+          ...HeaderStyle,
+          title: "Tạo địa chỉ",
+        }}
+      />
+      <Stack.Screen
+        name="ChangeAddress"
+        component={ChangeAddress}
+        options={{
+          ...HeaderStyle,
+          title: "Sửa địa chỉ",
+        }}
+      />
+      <Stack.Screen
+        name="ChooseAddress"
+        component={ChooseAddress}
+        options={{
+          ...HeaderStyle,
+          title: "Chọn địa chỉ",
+        }}
+      />
+      <Stack.Screen
+        name="Recharge"
+        component={Recharge}
+        options={{
+          ...HeaderStyle,
+          title: "Thanh toán",
+        }}
+      />
+      <Stack.Screen
+        name="ShoppingHistory"
+        component={ShoppingHistory}
+        options={{
+          ...HeaderStyle,
+          title: "Đơn mua",
+        }}
+      />
+      {/* <Stack.Screen
       component={ViewSavedWatchs} 
       name="ViewSavedWatchs"
       options={{
         ...HeaderStyle,
         title: "Sản phẩm tương tự"
       }}
-      />
+      /> */}
     </Stack.Navigator>
   );
 }

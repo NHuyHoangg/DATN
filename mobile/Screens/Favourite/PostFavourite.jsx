@@ -2,7 +2,7 @@ import { StyleSheet, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 
-import WatchList from "../../Components/watch/WatchList";
+import WatchList1 from "../../Components/watch/WatchList1";
 import NotFoundFavourite from './NotFoundFavourite';
 import { getFavoritePosts } from '../../utils/favourite';
 import { favoritePostActions } from '../../redux/favorite/favoritePostSlice';
@@ -55,7 +55,7 @@ export default function PostFavourite({ route, navigation }) {
   return (
     <View style={styles.rootContainer}>
       {found ?
-        <WatchList screenType="favoritePosts"
+        <WatchList1 screenType="favoritePosts"
           onRefreshing={onRefreshing}
           refreshing={refreshing} /> :
         <NotFoundFavourite type="post" />}

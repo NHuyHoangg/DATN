@@ -1,14 +1,27 @@
 import { Pressable, StyleSheet, Text, View, Dimensions } from "react-native";
 import { useEffect, useCallback } from "react";
-import { TextInput, GestureHandlerRootView } from "react-native-gesture-handler";
+import {
+  TextInput,
+  GestureHandlerRootView,
+} from "react-native-gesture-handler";
 import { Ionicons } from "@expo/vector-icons";
 import WatchList from "../../Components/watch/WatchList";
 import FilterModal from "../../Components/ui/FilterModal";
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { watchActions } from "../../redux/watch/watchSlice";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import {
+  HeaderStyle,
+  TopTapStyle,
+  TopTabScreenStyle,
+} from "../../constants/globalStyles";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchWatchPosts, searchWatch } from "../../utils/watch";
+import {
+  fetchWatchPosts,
+  searchWatch,
+  searchWatchName,
+} from "../../utils/watch";
 import { getSeller } from "../../utils/user";
 import { userActions } from "../../redux/user/userSlice";
 import LoadingOverlay from "../Overlay/LoadingOverlay";
@@ -35,27 +48,72 @@ export default function HomePage({ route, navigation }) {
   const [searchState, setSearchState] = useState(false);
   const [inputText, setInputText] = useState();
   const [modalVisible, setModalVisible] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPage, setTotalPage] = useState(1);
+  const [data, setData] = useState([]);
 
   const token = useSelector((state) => state.auth.token);
-  let data = [];
   let favourite = [];
 
   useEffect(() => {
     const getWatchPosts = async () => {
       setIsFetching(true);
       try {
-
-        if (token) {
-          const userData = await getSeller(token);
-          dispatch(userActions.set(userData.isSeller));
-        }
-        if (!searchState) {
-          data = await fetchWatchPosts(token, filterProps);
-        } else data = await searchWatch(inputText);
-        dispatch(watchActions.deleteAll());
-        dispatch(watchActions.set(data));
+          if (inputText) {
+            const { data: dataFetch, currPage: currPage, totalPage: totalPage } = await searchWatchName(inputText, 1);
+            setData(dataFetch);
+            setCurrentPage(currPage);
+            setTotalPage(totalPage);
+            dispatch(watchActions.deleteAll());
+            dispatch(watchActions.set(dataFetch));
+          } else {
+            const { data: dataFetch, currPage: currPage, totalPage: totalPage } = await fetchWatchPosts(token, filterProps, 1);
+            setData(dataFetch);
+            setCurrentPage(currPage);
+            setTotalPage(totalPage);
+            dispatch(watchActions.deleteAll());
+            dispatch(watchActions.set(dataFetch));
+          }
+        // if (!searchState) {
+        //   const { data, currPage, totalPage } = await fetchWatchPosts(
+        //     token,
+        //     filterProps,
+        //     1
+        //   );
+        //   // console.log(data)
+        //   setData(data);
+        //   setCurrentPage(currPage);
+        //   setTotalPage(totalPage);
+        //   dispatch(watchActions.deleteAll());
+        //   dispatch(watchActions.set(data));
+        // } else {
+        //   if (inputText) {
+        //     const { data, currPage, totalPage } = await searchWatchName(
+        //       inputText,
+        //       1
+        //     );
+        //     setData(data);
+        //     setCurrentPage(currPage);
+        //     setTotalPage(totalPage);
+        //     dispatch(watchActions.deleteAll());
+        //     dispatch(watchActions.set(data));
+        //   } else {
+        //     const { data, currPage, totalPage } = await searchWatch(1);
+        //     setData(data);
+        //     setCurrentPage(currPage);
+        //     setTotalPage(totalPage);
+        //     dispatch(watchActions.deleteAll());
+        //     dispatch(watchActions.set(data));
+        //   }
+        // }
+        // dispatch(watchActions.deleteAll());
+        // dispatch(watchActions.set(data));
       } catch (err) {
-        setError("Không thể tải thông tin");
+        // if (data.length == 0)
+        //   dispatch(watchActions.deleteAll());
+        // else
+        //   setError("Không thể tải thông tin");
+        dispatch(watchActions.deleteAll());
       } finally {
         setIsFetching(false);
         setRefreshing(false);
@@ -66,6 +124,77 @@ export default function HomePage({ route, navigation }) {
     };
     getWatchPosts();
   }, [change]);
+
+  const fetchMore = async () => {
+    if (data.length == 0) return;
+    if (currentPage == totalPage) return;
+    if (isFetching) return;
+
+    try {
+      const nextPage = currentPage + 1;
+      if (inputText) {
+        const {
+          data: newData,
+          currPage: c,
+          totalPage: t,
+        } = await searchWatchName(inputText, nextPage);
+        setCurrentPage(nextPage);
+        const updatedData = [...data, ...newData];
+        setData(updatedData)
+        dispatch(watchActions.set(updatedData));
+      } else {
+        const {
+          data: newData,
+          currPage: c,
+          totalPage: t,
+        } = await fetchWatchPosts(token, filterProps, nextPage);
+        setCurrentPage(nextPage);
+        const updatedData = [...data, ...newData];
+        setData(updatedData)
+        dispatch(watchActions.set(updatedData));
+      }
+      // if (!searchState) {
+      //   const {
+      //     data: newData,
+      //     currPage: c,
+      //     totalPage: t,
+      //   } = await fetchWatchPosts(token, filterProps, nextPage);
+      //   console.log("1")
+      //   setCurrentPage(nextPage);
+      //   if (newData) setData((prevData) => [...prevData, ...newData]);
+      //   dispatch(watchActions.set(data));
+      // } else {
+      //   if (inputText) {
+      //     const {
+      //       data: newData,
+      //       currPage: c,
+      //       totalPage: t,
+      //     } = await searchWatchName(inputText, nextPage);
+      //     console.log("2")
+      //     setCurrentPage(nextPage);
+      //     if (newData) setData((prevData) => [...prevData, ...newData]);
+      //     dispatch(watchActions.set(data));
+      //   } else {
+      //     const {
+      //       data: newData,
+      //       currPage: c,
+      //       totalPage: t,
+      //     } = await searchWatch(nextPage);
+      //     console.log("3")
+      //     setCurrentPage(nextPage);
+      //     if (newData) setData((prevData) => [...prevData, ...newData]);
+      //     dispatch(watchActions.set(data));
+      //   }
+      // }
+      // setCurrentPage(nextPage);
+      // if (newData)
+      //   setData(prevData => [...prevData, ...newData]);
+      //   dispatch(watchActions.set(data));
+      // console.log("newData:", newData, c, t)
+    } catch {
+      setError("Không thể tải thông tin");
+    }
+  };
 
   useEffect(() => {
     if (route.params) {
@@ -83,9 +212,11 @@ export default function HomePage({ route, navigation }) {
   function onTyping(text) {
     setInputText(text);
   }
+
   const onRefreshing = () => {
     setRefreshing(true);
     setChange(!change);
+    setCurrentPage(1);
   };
 
   function chatIconOnPress() {
@@ -103,9 +234,7 @@ export default function HomePage({ route, navigation }) {
   if (error && !isFetching) {
     return <ErrorOverlay message={error} reload={setChange} />;
   }
-  // if (isFetching) {
-  //   return <LoadingOverlay />;
-  // }
+  
   return (
     <>
       {modalVisible && <StatusBar backgroundColor="#666666" />}
@@ -140,7 +269,7 @@ export default function HomePage({ route, navigation }) {
                 />
               </GestureHandlerRootView>
             </View>
-            <Pressable
+            {/* <Pressable
               onPress={chatIconOnPress}
               style={({ pressed }) => [
                 styles.iconBox,
@@ -153,7 +282,7 @@ export default function HomePage({ route, navigation }) {
                 size={26}
                 color={color.baemin1}
               />
-            </Pressable>
+            </Pressable> */}
           </View>
         </View>
         <View style={styles.suggestContainer}>
@@ -178,6 +307,32 @@ export default function HomePage({ route, navigation }) {
             </Pressable>
           </View>
         </View>
+
+        {/* <Tab.Navigator
+          initialRouteName="Post"
+          screenOptions={{
+            ...TopTapStyle,
+          }}
+        >
+          <Tab.Screen
+            name="New"
+            component={ListWatch}
+            options={{
+              tabBarLabel: "Hàng mới",
+              ...TopTabScreenStyle,
+            }}
+          />
+          
+          <Tab.Screen
+            name="Old"
+            component={ListWatch}
+            options={{
+              tabBarLabel: "Đã qua sử dụng",
+              ...TopTabScreenStyle,
+            }}
+          />
+        </Tab.Navigator> */}
+
         {isFetching ? (
           <LoadingOverlay />
         ) : (
@@ -185,6 +340,7 @@ export default function HomePage({ route, navigation }) {
             screenType="home"
             refreshing={refreshing}
             onRefreshing={onRefreshing}
+            fetchMore={fetchMore}
           />
         )}
       </SafeAreaView>

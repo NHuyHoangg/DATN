@@ -2,15 +2,17 @@ import { View, Text, TouchableWithoutFeedback, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 import { useState } from "react";
+import color from "../../constants/color";
+
 const RadioInput = (props) => {
   let defaultOption = props.options.findIndex((item) => item === props.value);
   
   const [selectedOption, setSelectedOption] = useState(defaultOption);
   const selectedIcon = (
-    <Ionicons name="radio-button-on-outline" size={13} color="black" />
+    <Ionicons name="radio-button-on-outline" size={13} color={color.baemin1} />
   );
   const unselectedIcon = (
-    <Ionicons name="radio-button-off-sharp" size={13} color="black" />
+    <Ionicons name="radio-button-off-sharp" size={13} color={color.baemin1} />
   );
   
   return (

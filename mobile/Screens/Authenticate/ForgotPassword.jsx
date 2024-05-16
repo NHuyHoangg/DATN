@@ -14,6 +14,7 @@ import { isValidEmail, isValidPhoneNumber } from "../../utils/inputValidation";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { forgotPassword } from "../../utils/authenticate";
 import LoadingOverlay from "../Overlay/LoadingOverlay";
+import color from "../../constants/color";
 export default function ForgotPassword({ route, navigation }) {
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
@@ -120,7 +121,7 @@ export default function ForgotPassword({ route, navigation }) {
           rippleColor="#afafaf"
           marX="15%"
           marY="3%"
-          color="#697184"
+          color={color.baemin1}
           textVP="1%"
           borR={8}
           onPress={forgotPasswordHandler}

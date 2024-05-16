@@ -31,11 +31,29 @@ export const TopTapStyle = {
   // tabBarGap: 10,
 };
 
+export const TopTapScrollStyle = {
+  tabBarIndicatorStyle: {
+    backgroundColor: color.baemin1,
+  },
+  tabBarAndroidRipple: {
+    borderless: true,
+  },
+  tabBarPressColor: "#ccc",
+  tabBarPressOpacity: 0.5,
+  tabBarStyle: {
+    backgroundColor: "#FFFFFF",
+    elevation: 0, // Android
+    shadowOpacity: 0, // iOS
+  },
+  tabBarScrollEnabled: true,
+};
+
 export const TopTabScreenStyle = {
   tabBarLabelStyle: {
     textTransform: "none",
     fontFamily: "montserrat-medium",
   },
   tabBarInactiveTintColor: color.text_black,
+  tabBarActiveTintColor: color.baemin1,
   
 };

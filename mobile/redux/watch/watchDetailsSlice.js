@@ -13,11 +13,13 @@ const watchDetailsSlice = createSlice({
       state.item = {
         // basic infor
         id: action.payload.product_info.id,
-        watch_id: action.payload.product_info.watch_id, 
+        watch_id: action.payload.product_info.watch_id,
         name: action.payload.product_info.name,
         status: action.payload.product_info.status,
-        size: action.payload.product_info.case_size_num,
+        case_size: action.payload.product_info.case_size_num,
+        color: action.payload.product_info.color,
         price: action.payload.product_info.price,
+        formatted_price: action.payload.product_info.formatted_price,
         date: action.payload.product_info.date_ago,
         location: action.payload.product_info.province,
         isFavorite: action.payload.product_info.isFavorite,
@@ -25,8 +27,12 @@ const watchDetailsSlice = createSlice({
         view: action.payload.product_info.view,
         description: action.payload.product_info.description,
         brand: action.payload.product_info.brand,
+        power: action.payload.product_info.power,
+        engine: action.payload.product_info.engine,
         gender: action.payload.product_info.gender,
-        strap_type: action.payload.product_info.strap_material,
+        strap_material: action.payload.product_info.strap_material,
+        strap_color: action.payload.product_info.strap_color,
+        battery_life: action.payload.product_info.battery_life,
         seller: action.payload.product_info.user_name,
         waterproof: action.payload.product_info.waterproof_num ? "Có" : "Không",
         // nation: action.payload.product_info.origin,
@@ -35,11 +41,11 @@ const watchDetailsSlice = createSlice({
         updatedImages: action.payload.media.map((item) => item.content),
         // seller infor
         user_name: action.payload.product_info.user_name,
-        phone: action.payload.product_info.phone,   
+        phone: action.payload.product_info.phone,
         province: action.payload.product_info.province,
         district: action.payload.product_info.district,
         ward: action.payload.product_info.ward,
-        street: action.payload.product_info.street
+        street: action.payload.product_info.street,
       };
     },
     addImages(state, action) {
@@ -79,7 +85,7 @@ const watchDetailsSlice = createSlice({
       state.item.price = action.payload.price;
       state.item.brand = action.payload.brand;
       state.item.status = action.payload.status;
-      state.item.size = action.payload.case_size;
+      state.item.case_size = action.payload.case_size;
       state.item.description = action.payload.description;
       state.item.waterproof = action.payload.waterproof;
       state.item.gender = action.payload.gender;

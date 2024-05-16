@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-
+import { searchWatch } from "../../utils/watch";
 const watchSlice = createSlice({
   name: "watch",
   initialState: {
@@ -22,6 +22,7 @@ const watchSlice = createSlice({
           date: item.date_ago,
           location: item.province,
           isFavorite: item.is_favorite ? true : false,
+          formatted_price: item.formatted_price,
         };
       });
     },

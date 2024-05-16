@@ -10,6 +10,10 @@ import SoldScreen from "./SoldScreen";
 import ManageWatch from "./ManageWatch";
 import WatchDetails from "../../Components/watch/WatchDetails";
 import ManageRequest from "./ManageRequest";
+import MyAddress from "../Account/MyAddress";
+import CreateAddress from "../Account/CreateAddress";
+import ChooseAd from "./ChooseAd";
+import Recharge from "../Account/Recharge";
 import color from "../../constants/color";
 import {
   HeaderStyle,
@@ -21,29 +25,11 @@ import { Header } from "@react-navigation/stack";
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialTopTabNavigator();
 
-
-const SellingStack = () => {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="Selling"
-        component={SellingScreen}
-        options={{
-          tabBarLabel: "Đang bán",
-          ...HeaderStyle,
-        }}
-      />
-      <Stack.Screen
-      name="SellingStack" />
-    </Stack.Navigator>
-  );
-}
-
 const TopTabsContainer = () => {
-  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
   if (!isAuthenticated) {
-    return <LockOverlay />
+    return <LockOverlay />;
   }
 
   return (
@@ -75,9 +61,7 @@ const TopTabsContainer = () => {
 
 export default function TradingScreen() {
   return (
-    <Stack.Navigator
-    initialRouteName="Trading">
-      
+    <Stack.Navigator initialRouteName="Trading">
       <Stack.Screen
         name="Trading"
         component={TopTabsContainer}
@@ -100,9 +84,41 @@ export default function TradingScreen() {
         component={WatchDetails}
         options={{
           ...HeaderStyle,
-          title: "Sản phẩm đang bán"
+          title: "Sản phẩm đang bán",
         }}
-       />
+      />
+      <Stack.Screen
+        name="MyAddress"
+        component={MyAddress}
+        options={{
+          ...HeaderStyle,
+          title: "Địa chỉ của tôi",
+        }}
+      />
+      <Stack.Screen
+        name="CreateAddress"
+        component={CreateAddress}
+        options={{
+          ...HeaderStyle,
+          title: "Tạo địa chỉ",
+        }}
+      />
+      <Stack.Screen
+        name="ChooseAd"
+        component={ChooseAd}
+        options={{
+          ...HeaderStyle,
+          title: "Chọn gói đẩy tin",
+        }}
+      />
+      <Stack.Screen
+        name="Recharge"
+        component={Recharge}
+        options={{
+          ...HeaderStyle,
+          title: "Thanh toán",
+        }}
+      />
       {/* <Stack.Screen
       name="ManageRequest"
       component={ManageRequest}
