@@ -27,6 +27,8 @@ const watchDetailsSlice = createSlice({
         view: action.payload.product_info.view,
         description: action.payload.product_info.description,
         brand: action.payload.product_info.brand,
+        power: action.payload.product_info.power,
+        engine: action.payload.product_info.engine,
         gender: action.payload.product_info.gender,
         strap_material: action.payload.product_info.strap_material,
         strap_color: action.payload.product_info.strap_color,

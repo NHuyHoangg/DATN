@@ -66,6 +66,20 @@ const WatchItem1 = memo((props) => {
     }
   };
 
+  const handleVerify = () => {
+    Alert.alert(
+      "Thông báo",
+      "Bạn có muốn gửi yêu cầu kiểm duyệt bài đăng?",
+      [
+        {
+          text: "Hủy",
+          style: "cancel",
+        },
+        { text: "Xác nhận", style: "cancel" },
+      ]
+    );
+  };
+
   const cancelOrder = () => {
     Alert.alert("Xác nhận", "Bạn có chắc chắn muốn huỷ đơn hàng này?", [
       {
@@ -175,7 +189,7 @@ const WatchItem1 = memo((props) => {
               {name}
             </Text>
             <Text style={[styles.text, styles.price]}>
-              {props.data.formatted_price}
+              {props.data.formatted_price || (<Text>{props.data.price} đ</Text>)}
             </Text>
 
             {screenType == "favoritePosts" && (
@@ -209,17 +223,18 @@ const WatchItem1 = memo((props) => {
                     style={({ pressed }) => [
                       styles.button,
                       styles.buttonRed,
+                      {backgroundColor: color.verify},
                       pressed ? styles.pressed : null,
                     ]}
-                    // onPress={() => navigation.navigate("Refund", { props })}
+                    onPress={handleVerify}
                   >
-                    <Text style={[styles.buttonText]}>Xoá</Text>
+                    <Text style={[styles.buttonText]}>Kiểm định</Text>
                   </Pressable>
 
                   <Pressable
                     style={({ pressed }) => [
                       styles.button,
-                      styles.buttonGreen,
+                      styles.buttonRed,
                       pressed ? styles.pressed : null,
                     ]}
                     onPress={() => navigation.navigate("ChooseAd", { props })}

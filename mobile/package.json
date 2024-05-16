@@ -17,7 +17,7 @@
     "@react-navigation/native-stack": "^6.9.13",
     "@react-navigation/stack": "^6.3.17",
     "@reduxjs/toolkit": "^1.9.5",
-    "@sentry/react-native": "5.19.1",
+    "@sentry/react-native": "~5.20.0",
     "axios": "^1.4.0",
     "expo": "^50.0.11",
     "expo-font": "~11.10.3",
@@ -27,7 +27,7 @@
     "expo-status-bar": "~1.11.1",
     "react": "18.2.0",
     "react-currency-input-field": "^3.8.0",
-    "react-native": "0.73.4",
+    "react-native": "0.73.6",
     "react-native-chart-kit": "^6.12.0",
     "react-native-currency-input": "^1.1.1",
     "react-native-dropdown-select-list": "^2.0.4",
@@ -43,6 +43,7 @@
     "react-native-svg": "^14.1.0",
     "react-native-tab-view": "^3.5.2",
     "react-native-timeline-flatlist": "^0.8.0",
+    "react-native-webview": "13.6.4",
     "react-redux": "^8.1.1"
   },
   "devDependencies": {

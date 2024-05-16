@@ -19,6 +19,7 @@ import Refund from "./Refund";
 import RefundDetail from "./RefundDetail";
 import Balance from "./Balance";
 import Charge from "./Charge";
+import Recharge from "./Recharge";
 
 const Stack = createNativeStackNavigator();
 
@@ -151,6 +152,14 @@ export default function AccountScreen() {
         options={{
           ...HeaderStyle,
           title: "Nạp tiền",
+        }}
+      />
+      <Stack.Screen
+        name="Recharge"
+        component={Recharge}
+        options={{
+          ...HeaderStyle,
+          title: "Thanh toán",
         }}
       />
     </Stack.Navigator>

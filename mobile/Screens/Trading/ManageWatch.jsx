@@ -93,10 +93,10 @@ const ManageWatch = (props) => {
       value: isAdding ? "" : detailsInfor.power,
       isValid: true,
     },
-    engine: {
-      value: isAdding ? "" : detailsInfor.engine,
-      isValid: true,
-    },
+    // engine: {
+    //   value: isAdding ? "" : detailsInfor.engine,
+    //   isValid: true,
+    // },
     battery_life: {
       value: isAdding ? "" : detailsInfor.battery_life,
       isValid: true,
@@ -104,7 +104,7 @@ const ManageWatch = (props) => {
     status: isAdding ? "Mới" : detailsInfor.status,
     waterproof: isAdding ? "Có" : detailsInfor.waterproof,
     gender: isAdding ? "Nam" : detailsInfor.gender,
-    category: isAdding ? "Thạch anh" : detailsInfor.category,
+    engine: isAdding ? "Thạch anh" : detailsInfor.engine,
   });
 
   // Config Header
@@ -188,6 +188,8 @@ const ManageWatch = (props) => {
     const postData = {
       // post_id: isAdding ? "" : detailsInfor.id, // T
       name: inputs.name.value,
+      power: inputs.power.value,
+      engine: inputs.engine.value,
       price: +inputs.price.value,
       brand: inputs.brand.value,
       status: inputs.status, // T
@@ -458,11 +460,30 @@ const ManageWatch = (props) => {
         />
 
         <RadioInputColumn
-          icon={<FontAwesome5 name="user-circle" size={20} color="black" />}
+          icon={<MaterialIcons name="watch" size={20} color="black" />}
           label="Loại đồng hồ"
           options={["Thạch anh", "Cơ", "Đếm giờ", "Solar", "Thông minh", "Khác"]}
-          value={isAdding ? "Thạch anh" : inputs.category}
-          onChangeText={inputChangeHandler.bind(this, "category")}
+          value={isAdding ? "Thạch anh" : inputs.engine}
+          onChangeText={inputChangeHandler.bind(this, "engine")}
+        />
+
+        <Input
+          icon={
+            <MaterialIcons
+              name="power-input"
+              size={24}
+              color={inputs.power.isValid ? "black" : color.red}
+            />
+          }
+          label="Nguồn năng lượng"
+          invalid={!inputs.power.isValid}
+          inputConfig={{
+            placeholder: "Lên dây cót tự động, pin, ...",
+            inputMode: "text",
+            maxLength: 20,
+            onChangeText: inputChangeHandler.bind(this, "power"),
+            value: inputs.power.value,
+          }}
         />
 
         <Input

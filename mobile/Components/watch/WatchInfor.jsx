@@ -37,6 +37,18 @@ const WatchInfor = (props) => {
         value={detailsInfor.brand || "Không có"}
       />
       <Input
+        icon={<MaterialIcons name="watch" size={24} color="black" />}
+        label="Loại đồng hồ"
+        readOnly={true}
+        value={detailsInfor.engine || "Không có"}
+      />
+      <Input
+        icon={<MaterialIcons name="power-input" size={24} color="black" />}
+        label="Nguồn năng lượng"
+        readOnly={true}
+        value={detailsInfor.power || "Không có"}
+      />
+      <Input
         icon={
           <Ionicons name="checkmark-circle-outline" size={22} color="black" />
         }

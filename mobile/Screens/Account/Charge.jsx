@@ -21,7 +21,7 @@ export default function Charge({ route, navigation }) {
 
   const [error, setError] = useState(null);
   const [change, setChange] = useState(true);
-  const [charge, setCharge] = useState(0);
+  const [charge, setCharge] = useState();
   const [isPayment, setIsPayment] = useState("1");
 
   const radioButtons = useMemo(
@@ -55,7 +55,7 @@ export default function Charge({ route, navigation }) {
       return;
     }
 
-    Alert.alert("Xác nhận", "Bạn có muốn lưu những thay đổi vừa nãy?", [
+    Alert.alert("Xác nhận", "Xác nhận thanh toán?", [
       {
         text: "Hủy",
         style: "cancel",
@@ -65,7 +65,7 @@ export default function Charge({ route, navigation }) {
   };
 
   const sendCharge = async () => {
-    navigation.navigate("Balance");
+    navigation.navigate("Recharge", { charge });
   };
 
   const [isLoading, setIsLoading] = useState();
@@ -111,6 +111,7 @@ export default function Charge({ route, navigation }) {
           /> */}
           <CurrencyInput
             value={charge}
+            placeholder="00.000đ"
             onChangeValue={setCharge}
 						style={styles.input}
             minValue={0}
