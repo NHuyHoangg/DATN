@@ -66,19 +66,19 @@ const WatchItem1 = memo((props) => {
     }
   };
 
-  const handleVerify = () => {
-    Alert.alert(
-      "Thông báo",
-      "Bạn có muốn gửi yêu cầu kiểm duyệt bài đăng?",
-      [
-        {
-          text: "Hủy",
-          style: "cancel",
-        },
-        { text: "Xác nhận", style: "cancel" },
-      ]
-    );
-  };
+  // const handleVerify = () => {
+  //   Alert.alert(
+  //     "Thông báo",
+  //     "Bạn có muốn gửi yêu cầu kiểm duyệt bài đăng?",
+  //     [
+  //       {
+  //         text: "Hủy",
+  //         style: "cancel",
+  //       },
+  //       { text: "Xác nhận", style: "cancel" },
+  //     ]
+  //   );
+  // };
 
   const cancelOrder = () => {
     Alert.alert("Xác nhận", "Bạn có chắc chắn muốn huỷ đơn hàng này?", [
@@ -219,7 +219,7 @@ const WatchItem1 = memo((props) => {
 
             {screenType == "selling" && (
                 <View style={{ flexDirection: "row", justifyContent: "flex-end", alignItems: "flex-end" }}>
-                  <Pressable
+                  {/* <Pressable
                     style={({ pressed }) => [
                       styles.button,
                       styles.buttonRed,
@@ -229,7 +229,7 @@ const WatchItem1 = memo((props) => {
                     onPress={handleVerify}
                   >
                     <Text style={[styles.buttonText]}>Kiểm định</Text>
-                  </Pressable>
+                  </Pressable> */}
 
                   <Pressable
                     style={({ pressed }) => [

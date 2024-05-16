@@ -15,9 +15,9 @@ import color from "../../constants/color";
 import { getAddress } from "../../utils/location";
 
 const dataAd = [
-  { id: "1", name: "Gói đẩy tin 3 ngày", price: "10.000đ", description: "Tin đăng của bạn sẽ được đầy 3 lần trong 3 ngày sau khi thanh toán thành công." },
-  { id: "2", name: "Gói đẩy tin 5 ngày", price: "25.000đ", description: "Tin đăng của bạn sẽ được đầy 5 lần trong 5 ngày sau khi thanh toán thành công." },
-  { id: "3", name: "Gói đẩy tin 7 ngày", price: "50.000đ", description: "Tin đăng của bạn sẽ được đầy 7 lần trong 7 ngày sau khi thanh toán thành công." },
+  { id: "1", name: "Gói đẩy tin 3 ngày", price: "10.000đ", num: "10000", description: "Tin đăng của bạn sẽ được đầy 3 lần trong 3 ngày sau khi thanh toán thành công." },
+  { id: "2", name: "Gói đẩy tin 5 ngày", price: "25.000đ", num: "25000", description: "Tin đăng của bạn sẽ được đầy 5 lần trong 5 ngày sau khi thanh toán thành công." },
+  { id: "3", name: "Gói đẩy tin 7 ngày", price: "50.000đ", num: "50000", description: "Tin đăng của bạn sẽ được đầy 7 lần trong 7 ngày sau khi thanh toán thành công." },
 ]
 
 export default function ChooseAd({ route, navigation }) {
@@ -51,6 +51,7 @@ export default function ChooseAd({ route, navigation }) {
   const [isPayment, setIsPayment] = useState("1");
   const [isLoading, setIsLoading] = useState(false);
   const [selectedOption, setSelectedOption] = useState(0);
+  const [charge, setCharge] = useState(dataAd[0].num);
 
   const selectedIcon = (
     <Ionicons name="radio-button-on-outline" size={25} color={color.baemin1} />
@@ -97,7 +98,7 @@ export default function ChooseAd({ route, navigation }) {
 
   if (isLoading) return <LoadingOverlay />;
 
-  // console.log(route.params.props.data)
+  console.log(charge)
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
@@ -116,7 +117,8 @@ export default function ChooseAd({ route, navigation }) {
             ]}
 						onPress={() => {
               setSelectedOption(index);
-              }}
+              setCharge(dataAd[index].num);
+            }}
           >
             {selectedOption == index ? selectedIcon : unselectedIcon}
             
@@ -167,7 +169,7 @@ export default function ChooseAd({ route, navigation }) {
             styles.submit,
             pressed ? styles.pressed : null,
           ]}
-          // onPress={() => navigation.navigate("Payment", {props: route.params.props, address: address})}
+          onPress={() => navigation.navigate("Recharge", { charge, isAd: true })}
         >
           <Text style={styles.buttonText}>Xác nhận</Text>
         </Pressable>

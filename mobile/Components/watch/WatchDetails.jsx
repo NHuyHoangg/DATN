@@ -96,13 +96,41 @@ const WatchDetails = (props) => {
       }
     }
   };
+
+  const handleVerify = () => {
+    Alert.alert(
+      "Thông báo",
+      "Bạn có muốn gửi yêu cầu kiểm duyệt bài đăng?",
+      [
+        {
+          text: "Hủy",
+          style: "cancel",
+        },
+        { text: "Xác nhận", style: "cancel" },
+      ]
+    );
+  };
+
+  const handleDelete = () => {
+    Alert.alert(
+      "Thông báo",
+      "Bạn có muốn xoá bài đăng này?",
+      [
+        {
+          text: "Hủy",
+          style: "cancel",
+        },
+        { text: "Xác nhận", onPress: deletePostHandler },
+      ]
+    );
+  };
   
   const deletePostHandler = () => {
     const deletePostDetails = async (token, id) => {
       try {
+        await deletePost(token, id);
         dispatch(tradingActions.deleteSellingItem(id));
         navigation.goBack();
-        await deletePost(token, id);
       } catch (err) {
         console.log(err);
       }
@@ -307,6 +335,119 @@ const WatchDetails = (props) => {
           </Text>
         )}
       </View>
+
+      {["selling"].includes(screenType) && token ? (
+        <>
+        <View
+          style={{
+            flexDirection: "row",
+            marginHorizontal: "5%",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <Button
+            onPress={handleVerify}
+            color={color.verify}
+            width="65%"
+            textSize={15}
+            borR={7.5}
+            textVP="1%"
+          >
+            <View
+              style={{ flexDirection: "row", justifyContent: "space-between" }}
+            >
+              <Ionicons
+                name="checkmark-circle-outline"
+                size={20}
+                color={color.background_white}
+              />
+              <Text
+                style={{
+                  fontSize: 15,
+                  color: color.white,
+                  textAlign: "center",
+                  marginLeft: 5,
+                  fontFamily: "montserrat-semi-bold",
+                }}
+              >
+                Kiểm định bài đăng
+              </Text>
+            </View>
+          </Button>
+
+          <Button
+            onPress={handleDelete}
+            color={color.red}
+            width="30%"
+            textSize={15}
+            borR={7.5}
+            textVP="1%"
+          >
+            <View
+              style={{ flexDirection: "row", justifyContent: "space-between" }}
+            >
+              <Ionicons
+                name="trash-outline"
+                size={20}
+                color={color.background_white}
+              />
+              <Text
+                style={{
+                  fontSize: 15,
+                  color: color.white,
+                  textAlign: "center",
+                  marginLeft: 5,
+                  fontFamily: "montserrat-semi-bold",
+                }}
+              >
+                Xoá
+              </Text>
+            </View>
+          </Button>
+        </View>
+
+        <View
+          style={{
+            flexDirection: "row",
+            marginHorizontal: "5%",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+        <Button
+            // onPress={() => {navigation.navigate("Payment", {props: props.route.params.data})}}
+            color={color.baemin1}
+            width="98%"
+            textSize={15}
+            borR={7.5}
+            textVP="1%"
+          >
+            <View
+              style={{ flexDirection: "row", justifyContent: "space-between" }}
+            >
+              <Ionicons
+                name="create-outline"
+                size={20}
+                color={color.background_white}
+              />
+              <Text
+                style={{
+                  fontSize: 15,
+                  color: color.white,
+                  textAlign: "center",
+                  marginLeft: 5,
+                  fontFamily: "montserrat-semi-bold",
+                }}
+              >
+                Chỉnh sửa bài đăng
+              </Text>
+            </View>
+          </Button>
+          </View>
+        
+        </>) : null}
+
       {!["selling", "sold", "favoriteProducts"].includes(screenType) &&
       token ? (
         <View

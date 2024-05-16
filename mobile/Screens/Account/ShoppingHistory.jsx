@@ -14,7 +14,7 @@ const Tab = createMaterialTopTabNavigator();
 export default function ShoppingHistory({}) {
   return (
     <Tab.Navigator
-      initialRouteName="Done"
+      initialRouteName="WaitVerify"
       screenOptions={{
         ...TopTapScrollStyle,
       }}

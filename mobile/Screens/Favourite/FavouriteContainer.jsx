@@ -13,6 +13,8 @@ import MyAddress from "../Account/MyAddress";
 import CreateAddress from "../Account/CreateAddress";
 import ChangeAddress from "../Account/ChangeAdress";
 import ChooseAddress from "../Home/ChooseAddress";
+import Recharge from "../Account/Recharge";
+import ShoppingHistory from "../Account/ShoppingHistory";
 import { useSelector } from "react-redux";
 import LockOverlay from "../Overlay/LockOverlay";
 
@@ -85,6 +87,22 @@ export default function FavouriteScreen() {
         options={{
           ...HeaderStyle,
           title: "Chọn địa chỉ",
+        }}
+      />
+      <Stack.Screen
+        name="Recharge"
+        component={Recharge}
+        options={{
+          ...HeaderStyle,
+          title: "Thanh toán",
+        }}
+      />
+      <Stack.Screen
+        name="ShoppingHistory"
+        component={ShoppingHistory}
+        options={{
+          ...HeaderStyle,
+          title: "Đơn mua",
         }}
       />
       {/* <Stack.Screen

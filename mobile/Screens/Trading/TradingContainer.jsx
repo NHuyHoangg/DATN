@@ -13,6 +13,7 @@ import ManageRequest from "./ManageRequest";
 import MyAddress from "../Account/MyAddress";
 import CreateAddress from "../Account/CreateAddress";
 import ChooseAd from "./ChooseAd";
+import Recharge from "../Account/Recharge";
 import color from "../../constants/color";
 import {
   HeaderStyle,
@@ -108,6 +109,14 @@ export default function TradingScreen() {
         options={{
           ...HeaderStyle,
           title: "Chọn gói đẩy tin",
+        }}
+      />
+      <Stack.Screen
+        name="Recharge"
+        component={Recharge}
+        options={{
+          ...HeaderStyle,
+          title: "Thanh toán",
         }}
       />
       {/* <Stack.Screen

@@ -127,7 +127,8 @@ export const editPost = async (token, data) => {
 };
 export const deletePost = async (token, postId) => {
   const response = await axios
-    .delete(`${baseURL}/posts/${postId}`, {
+    .delete(`${baseURL}/posts/${postId}`, 
+    {
       headers: {
         Authorization: token,
       },

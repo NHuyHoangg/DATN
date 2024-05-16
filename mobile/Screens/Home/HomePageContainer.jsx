@@ -9,6 +9,8 @@ import ChatDetail from "./ChatDetail";
 import Payment from "./Payment";
 import MyAddress from "../Account/MyAddress";
 import CreateAddress from "../Account/CreateAddress";
+import Recharge from "../Account/Recharge";
+import ShoppingHistory from "../Account/ShoppingHistory";
 
 const Stack = createNativeStackNavigator();
 
@@ -70,6 +72,22 @@ export default function HomePageContainer() {
         options={{
           ...HeaderStyle,
           title: "Tạo địa chỉ",
+        }}
+      />
+      <Stack.Screen
+        name="Recharge"
+        component={Recharge}
+        options={{
+          ...HeaderStyle,
+          title: "Thanh toán",
+        }}
+      />
+      <Stack.Screen
+        name="ShoppingHistory"
+        component={ShoppingHistory}
+        options={{
+          ...HeaderStyle,
+          title: "Đơn mua",
         }}
       />
 

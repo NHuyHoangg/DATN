@@ -40,6 +40,8 @@ const screenWidth = Dimensions.get("window").width;
 const screenHeight = Dimensions.get("window").height;
 const avatarSize = screenHeight / 18;
 
+const charge = 100000;
+
 const Payment = (route) => {
   // const data = useSelector(state => state.details.item);
   // console.log(props.route.params.props.data)
@@ -344,7 +346,7 @@ const Payment = (route) => {
             styles.submit,
             pressed ? styles.pressed : null,
           ]}
-          // onPress={() => navigation.navigate("Return")}
+          onPress={() => navigation.navigate("Recharge", { charge })}
         >
           <Text style={styles.buttonText}>Xác nhận</Text>
         </Pressable>

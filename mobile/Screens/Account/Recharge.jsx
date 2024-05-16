@@ -1,58 +1,64 @@
-import { Component } from 'react';
-import { StyleSheet, Text, View, Modal, Image } from 'react-native';
+import { Component } from "react";
+import { StyleSheet, Text, View, Modal, Image } from "react-native";
 import React, { useEffect, useState, useCallback, useMemo } from "react";
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useSelector, useDispatch } from "react-redux";
-import LoadingOverlay from '../Overlay/LoadingOverlay';
-import ErrorOverlay from '../Overlay/ErrorOverlay';
-import { createPayment } from '../../utils/recharge';
-import { WebView } from 'react-native-webview';
+import LoadingOverlay from "../Overlay/LoadingOverlay";
+import ErrorOverlay from "../Overlay/ErrorOverlay";
+import { createPayment } from "../../utils/recharge";
+import { WebView } from "react-native-webview";
 
-
-export default function Recharge(props, navigation) {
+export default function Recharge(props) {
   const token = useSelector((state) => state.auth.token);
   const charge = props.route.params.charge;
-  // const navigation = useNavigation();
+  const navigation = useNavigation();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState();
   const [change, setChange] = useState(true);
   const [url, setUrl] = useState("");
-  const [success, setSuccess] = useState(false);
-  const [timeLeft, setTimeLeft] = useState();
+
+  const jsCode = `
+    setInterval(() => {
+      window.ReactNativeWebView.postMessage(JSON.stringify({type: "location", href: window.location.href}));
+    }, 1000);
+  `;
+
+  const onMsg = (event) => {
+    const res = JSON.parse(event.nativeEvent.data);
+    if (res.type === "location" && res.href.includes("https://dho.hcmut.tech/")) {
+      if (props.route.params.isCharge)
+        navigation.navigate("Balance");
+      else if (props.route.params.isAd)
+        navigation.navigate("Trading");
+      else
+        navigation.navigate("ShoppingHistory");
+    }
+  };
 
   useEffect(() => {
     async function fetchLink() {
       setIsLoading(true);
       try {
         const res = await createPayment(token, charge);
-        console.log(res)
+        console.log(res);
         setUrl(res);
         setError(null);
-        setTimeLeft(10);
-      } catch(err) {
+      } catch (err) {
         setError("Không thể tải thông tin");
       } finally {
         setIsLoading(false);
       }
     }
     fetchLink();
-  }, [change])
-
-  useEffect(() => {
-    if (timeLeft == 0) {
-      () => navigation.navigate("Balance");
-    }
-    if (!timeLeft) return;
-    const intervalId = setInterval(() => {
-      setTimeLeft(timeLeft - 1);
-    }, 1000);
-    return () => clearInterval(intervalId);
-  }, [timeLeft]);
+  }, [change]);
 
   // console.log(url)
   // console.log(token)
   // console.log(charge)
+  // console.log(props.route.params.isCharge)
+  // console.log(props.route.params.isAd)
+  console.log(props.route.params)
 
   if (error && !isLoading) {
     return <ErrorOverlay message={error} reload={setChange} />;
@@ -62,28 +68,15 @@ export default function Recharge(props, navigation) {
 
   return (
     <View style={{ flex: 1 }}>
-      {success && (
-          <Modal animationType="slide" transparent={true} visible={success}>
-            <SafeAreaView style={styles.centeredView}>
-              <View style={styles.modalView}>
-                <Image
-                  style={styles.modalImage}
-                  source={require("../../assets/images/Green-Check.png")}
-                />
-                <Text style={styles.title}>THÀNH CÔNG</Text>
-                <Text style={[styles.content]}>
-                  Bạn đã thanh toán thành công!
-                </Text>
-                <Text style={[styles.content]}>
-                  {" "}
-                  Tự động chuyển đến quản lý số dư trong {timeLeft} giây!
-                </Text>
-              </View>
-            </SafeAreaView>
-          </Modal>
-        )}
-
-      <WebView source={{ uri: url }} />
+      <WebView 
+        source={{ uri: url }}
+        androidHardwareAccelerationDisabled
+        javaScriptEnabled
+        injectedJavaScript={jsCode}
+        javaScriptCanOpenWindowsAutomatically
+        collapsable
+        onMessage={onMsg}
+      />
     </View>
   );
 }

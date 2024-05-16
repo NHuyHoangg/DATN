@@ -65,7 +65,7 @@ export default function Charge({ route, navigation }) {
   };
 
   const sendCharge = async () => {
-    navigation.navigate("Recharge", { charge });
+    navigation.navigate("Recharge", { charge, isCharge: true });
   };
 
   const [isLoading, setIsLoading] = useState();
