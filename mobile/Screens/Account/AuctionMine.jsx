@@ -7,7 +7,8 @@ import { getAddress } from "../../utils/location";
 import { tradingActions } from "../../redux/trading/tradingSlice";
 import LoadingOverlay from "../Overlay/LoadingOverlay";
 import ErrorOverlay from "../Overlay/ErrorOverlay";
-const SoldScreen = (props) => {
+
+export default function AuctionMine (props) {
   const token = useSelector((state) => state.auth.token);
   const [isFetching, setIsFetching] = useState(true);
   const [error, setError] = useState();
@@ -52,7 +53,7 @@ const SoldScreen = (props) => {
   return (
     <View style={styles.rootContainer}>
       <WatchList1
-        screenType="sold"
+        screenType="auctionMine"
         refreshing={refreshing}
         onRefreshing={onRefreshing}
       />
@@ -60,7 +61,6 @@ const SoldScreen = (props) => {
   );
 };
 
-export default SoldScreen;
 const styles = StyleSheet.create({
   rootContainer: {
     flex: 1,

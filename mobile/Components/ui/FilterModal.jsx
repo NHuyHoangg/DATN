@@ -132,7 +132,7 @@ export default function FilterModal({
           style={{
             marginHorizontal: "5%",
             justifyContent: "center",
-            alignItems: "flex-start",
+            alignItems: "flex-end",
             marginTop: "5%",
             overflow: "hidden",
           }}
@@ -346,6 +346,7 @@ const styles = StyleSheet.create({
     marginHorizontal: "5%",
     fontSize: 18,
     marginVertical: "1%",
+    color: color.baemin1,
   },
   checkboxContainer: {
     paddingHorizontal: "10%",

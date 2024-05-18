@@ -12,13 +12,13 @@ import EmptyAddress from "../Overlay/EmptyAddress";
 import ErrorOverlay from "../Overlay/ErrorOverlay";
 import RadioGroup from "react-native-radio-buttons-group";
 import color from "../../constants/color";
-import { getAddress } from "../../utils/location";
+import { getAds, useAds } from "../../utils/ads";
 
-const dataAd = [
-  { id: "1", name: "Gói đẩy tin 3 ngày", price: "10.000đ", num: "10000", description: "Tin đăng của bạn sẽ được đầy 3 lần trong 3 ngày sau khi thanh toán thành công." },
-  { id: "2", name: "Gói đẩy tin 5 ngày", price: "25.000đ", num: "25000", description: "Tin đăng của bạn sẽ được đầy 5 lần trong 5 ngày sau khi thanh toán thành công." },
-  { id: "3", name: "Gói đẩy tin 7 ngày", price: "50.000đ", num: "50000", description: "Tin đăng của bạn sẽ được đầy 7 lần trong 7 ngày sau khi thanh toán thành công." },
-]
+// const dataAd = [
+//   { id: "1", name: "Gói đẩy tin 3 ngày", price: "10.000đ", num: "10000", description: "Tin đăng của bạn sẽ được đầy 3 lần trong 3 ngày sau khi thanh toán thành công." },
+//   { id: "2", name: "Gói đẩy tin 5 ngày", price: "25.000đ", num: "25000", description: "Tin đăng của bạn sẽ được đầy 5 lần trong 5 ngày sau khi thanh toán thành công." },
+//   { id: "3", name: "Gói đẩy tin 7 ngày", price: "50.000đ", num: "50000", description: "Tin đăng của bạn sẽ được đầy 7 lần trong 7 ngày sau khi thanh toán thành công." },
+// ]
 
 export default function ChooseAd({ route, navigation }) {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
@@ -28,14 +28,6 @@ export default function ChooseAd({ route, navigation }) {
     () => [
       {
         id: "1",
-        label: "Thanh toán bằng số dư",
-        value: 0,
-        color: color.baemin2,
-        labelStyle: { fontFamily: "montserrat-light", fontSize: 12 },
-        size: 20,
-      },
-      {
-        id: "2",
         label: "Thanh toán qua VNPay",
         value: 0,
         color: color.baemin2,
@@ -49,9 +41,11 @@ export default function ChooseAd({ route, navigation }) {
   const [error, setError] = useState(null);
   const [change, setChange] = useState(true);
   const [isPayment, setIsPayment] = useState("1");
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [selectedOption, setSelectedOption] = useState(0);
-  const [charge, setCharge] = useState(dataAd[0].num);
+  const [charge, setCharge] = useState(10000);
+  const [exp, setExp] = useState(1);
+  const [dataAd, setDataAd] = useState([]);
 
   const selectedIcon = (
     <Ionicons name="radio-button-on-outline" size={25} color={color.baemin1} />
@@ -68,29 +62,26 @@ export default function ChooseAd({ route, navigation }) {
     return true;
   };
 
-  // useEffect(() => {
-  //   async function fetchData() {
-  //     setIsLoading(true);
-  //     try {
-  //       const res = await getAddress(token);
-  //       setDataAddress(res);
-  //       setError(null);
-  //     } catch (error) {
-  //       setError("Không thể tải thông tin");
-  //     } finally {
-  //       setIsLoading(false);
-  //     }
-  //   }
+  useEffect(() => {
+    async function fetchData() {
+      setIsLoading(true);
+      try {
+        const res = await getAds();
+        console.log(res)
+        if (res) {
+          setDataAd(res);
+          // setCharge(dataAd[0].price);
+          setError(null);
+        }
+      } catch (error) {
+        setError("Không thể tải thông tin");
+      } finally {
+        setIsLoading(false);
+      }
+    }
 
-  //   if (isAuthenticated) fetchData();
-  // }, [change]);
-
-  // useEffect(() => {
-  //   if (dataAddress && passAddress) {
-  //     const i = dataAddress.findIndex((item) => isEqual(item, passAddress));
-  //     setSelectedOption(i);
-  //   }
-  // }, [dataAddress]);
+    if (isAuthenticated) fetchData();
+  }, [change]);
 
   if (error && !isLoading) {
     return <ErrorOverlay message={error} reload={setChange} />;
@@ -99,6 +90,8 @@ export default function ChooseAd({ route, navigation }) {
   if (isLoading) return <LoadingOverlay />;
 
   console.log(charge)
+  console.log(exp)
+  console.log(route.params.props.id)
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
@@ -117,7 +110,8 @@ export default function ChooseAd({ route, navigation }) {
             ]}
 						onPress={() => {
               setSelectedOption(index);
-              setCharge(dataAd[index].num);
+              setCharge(dataAd[index].price);
+              setExp(dataAd[index].expiration_day)
             }}
           >
             {selectedOption == index ? selectedIcon : unselectedIcon}
@@ -127,7 +121,7 @@ export default function ChooseAd({ route, navigation }) {
                 <Text style={styles.name}>{ad.name}</Text>
               </View>
 
-              <Text style={[styles.text, {fontFamily: "montserrat-semi-bold"}]}>{ad.price}</Text>
+              <Text style={[styles.text, {fontFamily: "montserrat-semi-bold"}]}>{new Intl.NumberFormat(["ban", "id"]).format(ad.price)}đ</Text>
               <Text style={styles.textMargin}>
                 {ad.description}
               </Text>
@@ -169,7 +163,15 @@ export default function ChooseAd({ route, navigation }) {
             styles.submit,
             pressed ? styles.pressed : null,
           ]}
-          onPress={() => navigation.navigate("Recharge", { charge, isAd: true })}
+          onPress={async () => {
+              try {
+                await useAds(token, route.params.props.id, exp);
+                navigation.navigate("Recharge", { charge, isAd: true });
+              } catch (err) {
+                setError("Có lỗi xảy ra trong quá trình thanh toán");
+              }
+            }
+          }
         >
           <Text style={styles.buttonText}>Xác nhận</Text>
         </Pressable>

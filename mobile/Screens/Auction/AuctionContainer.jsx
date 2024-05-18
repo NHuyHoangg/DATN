@@ -5,13 +5,13 @@ import { createMaterialTopTabNavigator } from "@react-navigation/material-top-ta
 import { useSelector } from "react-redux";
 
 import LockOverlay from "../Overlay/LockOverlay";
-import SellingScreen from "./SellingScreen";
-import SoldScreen from "./SoldScreen";
+import AuctionDone from "./AuctionDone";
+import AuctionInProgress from "./AuctionInProgress";
+import AuctionDetail from "./AuctionDetail";
 import ManageWatch from "./ManageWatch";
 import WatchDetails from "../../Components/watch/WatchDetails";
 import MyAddress from "../Account/MyAddress";
 import CreateAddress from "../Account/CreateAddress";
-import ChooseAd from "./ChooseAd";
 import Recharge from "../Account/Recharge";
 import color from "../../constants/color";
 import {
@@ -32,24 +32,24 @@ const TopTabsContainer = () => {
 
   return (
     <Tab.Navigator
-      initialRouteName="Selling"
+      initialRouteName="InProgress"
       screenOptions={{
         ...TopTapStyle,
       }}
     >
       <Tab.Screen
-        name="Selling"
-        component={SellingScreen}
+        name="InProgress"
+        component={AuctionInProgress}
         options={{
-          tabBarLabel: "Đang bán",
+          tabBarLabel: "Đang diễn ra",
           ...TopTabScreenStyle,
         }}
       />
       <Tab.Screen
-        name="Sold"
-        component={SoldScreen}
+        name="Done"
+        component={AuctionDone}
         options={{
-          tabBarLabel: "Đã bán",
+          tabBarLabel: "Đã kết thúc",
           ...TopTabScreenStyle,
         }}
       />
@@ -57,7 +57,7 @@ const TopTabsContainer = () => {
   );
 };
 
-export default function TradingScreen() {
+export default function AuctionScreen() {
   return (
     <Stack.Navigator initialRouteName="Trading">
       <Stack.Screen
@@ -65,7 +65,7 @@ export default function TradingScreen() {
         component={TopTabsContainer}
         options={{
           ...HeaderStyle,
-          title: "Quản lý tin đăng",
+          title: "Đấu giá",
           color: color.baemin1,
         }}
       />
@@ -102,19 +102,19 @@ export default function TradingScreen() {
         }}
       />
       <Stack.Screen
-        name="ChooseAd"
-        component={ChooseAd}
-        options={{
-          ...HeaderStyle,
-          title: "Chọn gói đẩy tin",
-        }}
-      />
-      <Stack.Screen
         name="Recharge"
         component={Recharge}
         options={{
           ...HeaderStyle,
           title: "Thanh toán",
+        }}
+      />
+      <Stack.Screen
+        name="AuctionDetail"
+        component={AuctionDetail}
+        options={{
+          ...HeaderStyle,
+          title: "Phiên đấu giá",
         }}
       />
       {/* <Stack.Screen

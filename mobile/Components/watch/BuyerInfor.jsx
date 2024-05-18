@@ -3,6 +3,7 @@ import Input from "../ui/Input";
 import { Feather } from "@expo/vector-icons";
 import { SimpleLineIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import color from "../../constants/color";
 const BuyerInfor = (props) => {
   console.log("BuyerInfor.jsx rendered");
   const toggleView = () => {
@@ -13,9 +14,10 @@ const BuyerInfor = (props) => {
       setIcon(eyeIcon);
     }
   };
+  console.log(props.screenType)
   return (
     <View style={styles.root}>
-      <Text style={styles.header}>Thông tin người mua</Text>
+      <Text style={styles.header}>{props.screenType == "auctionDone" ? "Thông tin người thắng đấu giá" : "Thông tin người mua"}</Text>
       <Input
         icon={<Feather name="user" size={24} color="black" />}
         label="Họ và tên"
@@ -60,6 +62,7 @@ const styles = StyleSheet.create({
     fontFamily: "montserrat-bold",
     fontSize: 18,
     marginHorizontal: "5%",
+    color: color.baemin1,
   },
   phone: {
     flexDirection: "row",

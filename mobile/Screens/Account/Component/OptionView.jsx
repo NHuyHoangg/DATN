@@ -39,7 +39,7 @@ export default function OptionView({ type, isize, color, data, setData }) {
             break;
         case "auction":
             text = "Đấu giá của tôi";
-            dest = "ShoppingHistory";
+            dest = "Auction";
             icon = <AuctionSvg height={isize} width={isize} fill={color} style={{ marginRight: '5%' }}/>
             break;
         case "balance":

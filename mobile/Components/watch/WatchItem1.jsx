@@ -37,15 +37,19 @@ const WatchItem1 = memo((props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
+  console.log(screenType)
+
   const synchFetching = () => {};
   let headerName = "";
   if (["favoriteProducts", "home"].includes(screenType))
     headerName = "Chi tiết sản phẩm";
   else if (screenType === "selling") headerName = "Sản phẩm đang bán";
   else if (screenType === "sold") headerName = "Sản phẩm đã bán";
-  else if (screenType === "favoritePosts") headerName = "Bảng tin yêu thích";
-  else headerName = "Sản phẩm yêu thích";
+  else if (screenType === "favoritePosts") headerName = "Sản phẩm yêu thích";
+  else headerName = "Thông tin sản phẩm";
   const viewWatchPostHandler = () => {
+    if (!["home", "selling", "sold", "favoritePosts", "auctionMine"].includes(screenType)) return;
+
     if (id >= 0) {
       navigation.navigate("WatchDetails", {
         screenType: screenType,
@@ -79,6 +83,16 @@ const WatchItem1 = memo((props) => {
   //     ]
   //   );
   // };
+
+  const deleteAuction = () => {
+    Alert.alert("Xác nhận", "Bạn có chắc chắn muốn xoá phiên đấu giá này?", [
+      {
+        text: "Hủy",
+        style: "cancel",
+      },
+      { text: "Xác nhận", style: "cancel" },
+    ]);
+  };
 
   const cancelOrder = () => {
     Alert.alert("Xác nhận", "Bạn có chắc chắn muốn huỷ đơn hàng này?", [
@@ -237,9 +251,35 @@ const WatchItem1 = memo((props) => {
                       styles.buttonRed,
                       pressed ? styles.pressed : null,
                     ]}
-                    onPress={() => navigation.navigate("ChooseAd", { props })}
+                    onPress={() => navigation.navigate("ChooseAd", { props: props.data })}
                   >
                     <Text style={[styles.buttonText]}>Đẩy tin</Text>
+                  </Pressable>
+                </View>
+              )}
+
+              {screenType == "auctionMine" && (
+                <View style={{ flexDirection: "row", justifyContent: "flex-end", alignItems: "flex-end" }}>
+                  <Pressable
+                    style={({ pressed }) => [
+                      styles.button,
+                      styles.buttonRed,
+                      pressed ? styles.pressed : null,
+                    ]}
+                    onPress={deleteAuction}
+                  >
+                    <Text style={[styles.buttonText]}>Xoá</Text>
+                  </Pressable>
+
+                  <Pressable
+                    style={({ pressed }) => [
+                      styles.button,
+                      styles.buttonGreen,
+                      pressed ? styles.pressed : null,
+                    ]}
+                    onPress={() => navigation.navigate("ManageWatch", { isAdding: false })}
+                  >
+                    <Text style={[styles.buttonText]}>Chỉnh sửa</Text>
                   </Pressable>
                 </View>
               )}

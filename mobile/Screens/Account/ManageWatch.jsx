@@ -37,6 +37,7 @@ import {
   PermissionStatus,
   MediaTypeOptions,
 } from "expo-image-picker";
+import DateTimePicker from '@react-native-community/datetimepicker';
 import { manipulateAsync } from "expo-image-manipulator";
 import { sendNewPost, editPost } from "../../utils/watch";
 import { tradingActions } from "../../redux/trading/tradingSlice";
@@ -50,6 +51,31 @@ const ManageWatch = (props) => {
   const images = useSelector((state) => state.details.item.updatedImages);
   const imagesLen = images.length;
   const originalImages = useSelector((state) => state.details.item.images);
+  const [date, setDate] = useState(new Date());
+  const today = new Date();
+  const [mode, setMode] = useState('date');
+  const [show, setShow] = useState(false);
+
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate;
+    setShow(false);
+    setDate(currentDate);
+    inputChangeHandler("end_date", currentDate);
+  };
+
+  const showMode = (currentMode) => {
+    setShow(true);
+    setMode(currentMode);
+  };
+
+  const showDatepicker = () => {
+    showMode('date');
+  };
+
+  const showTimepicker = () => {
+    showMode('time');
+  };
+
   let detailsInfor = useSelector((state) => state.details.item);
   let watch_id = detailsInfor.watch_id;
   watch_id = !!watch_id ? watch_id : "";
@@ -105,13 +131,23 @@ const ManageWatch = (props) => {
     waterproof: isAdding ? "Có" : detailsInfor.waterproof,
     gender: isAdding ? "Nam" : detailsInfor.gender,
     engine: isAdding ? "Thạch anh" : detailsInfor.engine,
+    end_date: {
+      value: isAdding ? date : detailsInfor.end_date,
+      isValid: true,
+    },
+    step: {
+      value: isAdding ? "" : detailsInfor.step,
+      isValid: true,
+    },
   });
+
+  console.log(inputs)
 
   // Config Header
   useLayoutEffect(() => {
     const title = props.route.params.isAdding
-      ? "Thêm đồng hồ"
-      : "Sửa thông tin đồng hồ";
+      ? "Tạo phiên đấu giá"
+      : "Sửa phiên đấu giá";
     props.navigation.setOptions({
       title: title,
       headerTitleAlign: "center",
@@ -202,6 +238,8 @@ const ManageWatch = (props) => {
       battery_life: inputs.battery_life.value,
       images: images,
       description: inputs.description.value, // T
+      end_date: inputs.end_date.value,
+      step: inputs.step.value
     };
     // console.log("postData = ", postData);
     const nameIsValid = postData.name.trim().length > 0;
@@ -269,6 +307,19 @@ const ManageWatch = (props) => {
           },
         };
       });
+    } else if (inputs.end_date.value <= today) {
+      Alert.alert("Thông báo", "Bạn vui lòng chọn ngày kết thúc khác hôm nay", [
+        { text: "Đồng ý" },
+      ]);
+      setInputs((curInput) => {
+        return {
+          ...curInput,
+          end_date: {
+            value: inputs.end_date.value,
+            isValid: strapTypeIsValid,
+          },
+        };
+      });
     } else {
       // console.log("submit! ", typeof postData);
       // console.log(postData);
@@ -315,8 +366,8 @@ const ManageWatch = (props) => {
               date: "Đang tải",
               location: "Đang tải",
             };
-            dispatch(tradingActions.addNewSellingItem(formattedData));
-            await sendNewPost(token, data);
+            // dispatch(tradingActions.addNewSellingItem(formattedData));
+            // await sendNewPost(token, data);
             navigation.goBack();
           } catch (err) {
             setIsLoading(false);
@@ -337,9 +388,8 @@ const ManageWatch = (props) => {
             price: data.price,
             image: data.images[0],
           };
-          dispatch(tradingActions.updateSellingItem(formattedData));
-          await editPost(token, data);
-          console.log(1);
+          // dispatch(tradingActions.updateSellingItem(formattedData));
+          // await editPost(token, data);
           navigation.goBack();
         } catch (err) {
           setIsLoading(false);
@@ -415,7 +465,6 @@ const ManageWatch = (props) => {
   }
 
   // console.log(props)
-  console.log(detailsInfor)
   
   return (
     <Pressable
@@ -504,25 +553,6 @@ const ManageWatch = (props) => {
             maxLength: 20,
             onChangeText: inputChangeHandler.bind(this, "brand"),
             value: inputs.brand.value,
-          }}
-        />
-
-        <Input
-          icon={
-            <MaterialIcons
-              name="attach-money"
-              size={20}
-              color={inputs.price.isValid ? "black" : color.red}
-            />
-          }
-          label="Giá tiền"
-          invalid={!inputs.price.isValid}
-          inputConfig={{
-            placeholder: "Nhập giá tiền",
-            inputMode: "numeric",
-            maxLength: 30,
-            onChangeText: inputChangeHandler.bind(this, "price"),
-            value: inputs.price.value,
           }}
         />
         
@@ -662,6 +692,79 @@ const ManageWatch = (props) => {
             value: inputs.description.value,
           }}
         />
+
+        <Input
+          icon={
+            <MaterialIcons
+              name="attach-money"
+              size={20}
+              color={inputs.price.isValid ? "black" : color.red}
+            />
+          }
+          label="Giá khởi điểm"
+          invalid={!inputs.price.isValid}
+          inputConfig={{
+            placeholder: "Nhập giá tiền",
+            inputMode: "numeric",
+            maxLength: 30,
+            onChangeText: inputChangeHandler.bind(this, "price"),
+            value: inputs.price.value,
+          }}
+        />
+
+        <Input
+          icon={
+            <MaterialIcons
+              name="attach-money"
+              size={20}
+              color={inputs.step.isValid ? "black" : color.red}
+            />
+          }
+          label="Bội giá"
+          invalid={!inputs.step.isValid}
+          inputConfig={{
+            placeholder: "Nhập giá tiền",
+            inputMode: "numeric",
+            maxLength: 30,
+            onChangeText: inputChangeHandler.bind(this, "step"),
+            value: inputs.step.value,
+          }}
+        />
+
+        <Input
+          icon={
+            <MaterialCommunityIcons
+              name="clock-time-nine-outline"
+              size={20}
+              color={date ? "black" : color.red}
+            />
+          }
+          label="Ngày kết thúc"
+          invalid={!date}
+          inputConfig={{
+            placeholder: "Chọn ngày kết thúc",
+            // inputMode: "numeric",
+            maxLength: 30,
+            // onChangeText: inputChangeHandler.bind(this, "end_date"),
+            onChangeText: setDate,
+            value: date.toLocaleString(),
+          }}
+        />
+        <View style={{flexDirection: "row", justifyContent: "space-around"}}>
+          <Text style={{color: color.baemin1}} onPress={showDatepicker}>Chọn ngày</Text>
+          <Text style={{color: color.baemin1}} onPress={showTimepicker}>Chọn thời gian</Text>
+        </View>
+        {show && (
+          <DateTimePicker
+            testID="dateTimePicker"
+            value={date}
+            mode={mode}
+            display="spinner"
+            timeZoneName={'Asia/Bangkok'}
+            is24Hour={true}
+            onChange={onChange}
+          />
+        )}
         
       </ScrollView>
       <Button

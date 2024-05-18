@@ -6,6 +6,7 @@ import FavouriteScreen from "../Screens/Favourite/FavouriteContainer";
 import TradingScreen from "../Screens/Trading/TradingContainer";
 import AccountScreen from "../Screens/Account/AccountContainer";
 import NotiScreen from "../Screens/Notification/NotiContainer";
+import AuctionScreen from "../Screens/Auction/AuctionContainer"
 import Ionicons from "@expo/vector-icons/Ionicons";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import AuctionSvg from "../assets/images/svg/Auction";
@@ -27,8 +28,8 @@ export default function Main() {
               return <Ionicons name="home-outline" size={27} color={color} />;
             case "FavouriteTab":
               return <Ionicons name="heart-outline" size={27} color={color} />;
-            // case "AuctionTab":
-            //   return <AuctionSvg height={27} width={27} fill={color} />;
+            case "AuctionTab":
+              return <AuctionSvg height={27} width={27} fill={color} />;
             case "TradingTab":
               return <AntDesign name="tagso" size={27} color={color} />;
             case "NotiTab":
@@ -63,11 +64,11 @@ export default function Main() {
         component={FavouriteScreen}
         options={{ title: "Yêu thích" }}
       />
-      {/* <Tab.Screen
+      <Tab.Screen
         name="AuctionTab"
-        component={FavouriteScreen}
+        component={AuctionScreen}
         options={{ title: "Đấu giá" }}
-      /> */}
+      />
       <Tab.Screen
         name="TradingTab"
         component={TradingScreen}

@@ -206,7 +206,8 @@ export const dataGen = () => {
     parseInt(Math.random() * 1000) +
     ".000";
   return {
-    id: Math.random().toString(),
+    // id: Math.random().toString(),
+    id: ["419", "417", "415", "229"][Math.floor(Math.random() * 4)],
     name: name[nameIdx],
     nation: nation[nationIdx],
     brand: brand[brandIdx],
@@ -218,5 +219,9 @@ export const dataGen = () => {
     waterproof: waterproof[waterproofIdx] ? "Có hỗ trợ" : "Không hỗ trợ",
     typeOfWatchChain: typeOfWatchChain[typeOfWatchChainIdx],
     price: priceVal,
+    priceNow: Number(priceVal.replace(/[^0-9-]+/g,"")),
+    begin: 1000000,
+    step: 200000,
+    end: "23:59 22/01/2024",
   };
 };

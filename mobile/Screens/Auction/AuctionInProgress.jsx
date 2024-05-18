@@ -10,7 +10,7 @@ import { useNavigation } from "@react-navigation/native";
 import Button from "../../Components/ui/Button";
 import color from "../../constants/color";
 import { Platform } from "react-native";
-import WatchList1 from "../../Components/watch/WatchList1";
+import WatchList from "../../Components/watch/WatchList";
 import { useSelector, useDispatch } from "react-redux";
 import { tradingActions } from "../../redux/trading/tradingSlice";
 import { watchDetailsActions } from "../../redux/watch/watchDetailsSlice";
@@ -21,7 +21,8 @@ import { useState, useEffect, Fragment } from "react";
 import LoadingOverlay from "../Overlay/LoadingOverlay";
 import ErrorOverlay from "../Overlay/ErrorOverlay";
 import SellerModal from "../../Components/ui/SellerModal";
-const SellingScreen = (props) => {
+
+export default function AuctionInProgress(props) {
   const token = useSelector((state) => state.auth.token);
   // console.log("token in SellingScreen = ", token);
   // const validSeller = useSelector((state) => state.user.isSeller);
@@ -112,8 +113,8 @@ const SellingScreen = (props) => {
             Đăng sản phẩm
           </Button>
         </View>
-        <WatchList1
-          screenType="selling"
+        <WatchList
+          screenType="auctionInProgress"
           refreshing={refreshing}
           onRefreshing={onRefreshing}
         />
@@ -121,8 +122,6 @@ const SellingScreen = (props) => {
     </Fragment>
   );
 };
-
-export default SellingScreen;
 
 const styles = StyleSheet.create({
   rootContainer: {

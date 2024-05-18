@@ -23,6 +23,8 @@ const watchSlice = createSlice({
           location: item.province,
           isFavorite: item.is_favorite ? true : false,
           formatted_price: item.formatted_price,
+          is_ads: item.is_ads,
+          is_verified: item.is_verified,
         };
       });
     },

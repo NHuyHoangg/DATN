@@ -11,8 +11,10 @@ import { AntDesign } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
 import Input from "../ui/Input";
 const WatchInfor = (props) => {
-  const detailsInfor = useSelector(state => state.details.item);
+  const detailsInfor = useSelector((state) => state.details.item);
+  const screenType = props.screenType;
   // console.log("details infor in WatchInfor.jsx = ", detailsInfor);
+  console.log(screenType);
   return (
     <View style={styles.root}>
       <Text style={styles.text}>Thông tin chi tiết</Text>
@@ -66,7 +68,7 @@ const WatchInfor = (props) => {
         }
         label="Kích thước mặt số"
         readOnly={true}
-        value={(detailsInfor.case_size + " mm") || "Không có"}
+        value={detailsInfor.case_size + " mm" || "Không có"}
       />
       <Input
         icon={
@@ -122,6 +124,48 @@ const WatchInfor = (props) => {
         readOnly={true}
         value={detailsInfor.battery_life || "Không có"}
       />
+      {screenType && (
+        <>
+          <Input
+            icon={
+              <MaterialIcons
+                name="attach-money"
+                size={24}
+                color="black"
+              />
+            }
+            label="Giá khởi điểm"
+            readOnly={true}
+            // value={detailsInfor.strap_material || "Không có"}
+            value={detailsInfor.price}
+          />
+          <Input
+            icon={
+              <MaterialCommunityIcons
+                name="cash-plus"
+                size={24}
+                color="black"
+              />
+            }
+            label="Bội giá"
+            readOnly={true}
+            // value={detailsInfor.strap_color || "Không có"}
+            value={detailsInfor.price}đ
+          />
+          <Input
+            icon={
+              <Ionicons
+                name="time-outline"
+                size={24}
+                color="black"
+              />
+            }
+            label="Ngày kết thúc"
+            readOnly={true}
+            value={"Không có"}
+          />
+        </>
+      )}
     </View>
   );
 };
@@ -129,13 +173,13 @@ const WatchInfor = (props) => {
 export default WatchInfor;
 
 const styles = StyleSheet.create({
-  root:{
-    marginVertical: '2.5%',
+  root: {
+    marginVertical: "2.5%",
   },
   text: {
-    fontFamily: 'montserrat-bold',
+    fontFamily: "montserrat-bold",
     fontSize: 18,
-    marginHorizontal: '5%',
+    marginHorizontal: "5%",
     color: color.baemin1,
-  }
+  },
 });

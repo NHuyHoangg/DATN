@@ -1,5 +1,5 @@
 import { Text, View, StyleSheet, Alert } from "react-native";
-import WatchList1 from "../../Components/watch/WatchList1";
+import WatchList from "../../Components/watch/WatchList";
 import { useState, useEffect, useLayoutEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchSoldPost } from "../../utils/watch";
@@ -7,7 +7,8 @@ import { getAddress } from "../../utils/location";
 import { tradingActions } from "../../redux/trading/tradingSlice";
 import LoadingOverlay from "../Overlay/LoadingOverlay";
 import ErrorOverlay from "../Overlay/ErrorOverlay";
-const SoldScreen = (props) => {
+
+export default function AuctionDone (props) {
   const token = useSelector((state) => state.auth.token);
   const [isFetching, setIsFetching] = useState(true);
   const [error, setError] = useState();
@@ -51,8 +52,8 @@ const SoldScreen = (props) => {
   }
   return (
     <View style={styles.rootContainer}>
-      <WatchList1
-        screenType="sold"
+      <WatchList
+        screenType="auctionDone"
         refreshing={refreshing}
         onRefreshing={onRefreshing}
       />
@@ -60,7 +61,6 @@ const SoldScreen = (props) => {
   );
 };
 
-export default SoldScreen;
 const styles = StyleSheet.create({
   rootContainer: {
     flex: 1,
