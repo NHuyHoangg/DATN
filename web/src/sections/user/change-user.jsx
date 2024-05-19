@@ -1,5 +1,7 @@
+/* eslint-disable */
 import PropTypes from 'prop-types';
 import { useState, useCallback } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -8,6 +10,7 @@ import { Box, Select, styled, MenuItem, FormLabel, TextField, DialogActions } fr
 // import palette from '../../../theme/palette';
 // import { CreateQuestionAction, GetQuestionAction } from '../../../redux/actions/questionAction';
 import { isValidEmail, isValidPhoneNumber } from 'src/utils/inputValidation';
+import { changeUser } from 'src/utils/users';
 
 const InputBox = styled(Box)({
   marginLeft: '20px',
@@ -29,16 +32,22 @@ const Label = styled(FormLabel)({
 });
 
 export default function ChangeUser({ setOpen, open, change }) {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const [validationErrors, setValidationErrors] = useState({});
+  const [error, setError] = useState();
   const [data, setData] = useState({
+    id: change.id,
     first_name: change.first_name,
     last_name: change.last_name,
     email: change.email,
-    phone_number: change.phone_number,
-    password: change.password,
-    status: change.status,
-    role: change.role,
+    phone: change.phone_number,
+    is_active: change.status,
+    is_admin: change.role,
   });
+
+  console.log(data)
 
   const handleClose = () => {
     setOpen(false);
@@ -60,7 +69,7 @@ export default function ChangeUser({ setOpen, open, change }) {
   );
 
   const handleCreateClick = async () => {
-    if (data.last_name && data.first_name && data.email && data.phone_number && data.password) {
+    if (data.last_name && data.first_name && data.email && data.phone && data.password) {
       setOpen(false);
       // window.location.reload();
     } else {
@@ -68,12 +77,12 @@ export default function ChangeUser({ setOpen, open, change }) {
         setValidationErrors(preError => ({...preError, last_name: 'Vui lòng điền đầy đủ'}))
       if (!data.first_name)
         setValidationErrors(preError => ({...preError, first_name: 'Vui lòng điền đầy đủ'}))
-      if (!data.phone_number) {
-        setValidationErrors(preError => ({...preError, phone_number: 'Vui lòng điền đầy đủ'}))
+      if (!data.phone) {
+        setValidationErrors(preError => ({...preError, phone: 'Vui lòng điền đầy đủ'}))
       } else {
-        const {isValid: isPhone, message: messagePhone} = isValidPhoneNumber(data.phone_number);
+        const {isValid: isPhone, message: messagePhone} = isValidPhoneNumber(data.phone);
         if (!isPhone)
-          setValidationErrors(preError => ({...preError, phone_number: messagePhone}))
+          setValidationErrors(preError => ({...preError, phone: messagePhone}))
       }
       if (!data.email){
         setValidationErrors(preError => ({...preError, email: 'Vui lòng điền đầy đủ'}))
@@ -82,8 +91,17 @@ export default function ChangeUser({ setOpen, open, change }) {
         if (!isEmail)
           setValidationErrors(preError => ({...preError, email: messageEmail}))
       }
-      if (!data.password)
-        setValidationErrors(preError => ({...preError, password: 'Vui lòng điền đầy đủ'}))
+    }
+    try {
+      if (validationErrors) {
+        await changeUser(data);
+        setError(null);
+        setOpen(false);
+        window.location.reload();
+      }
+    } catch (err) {
+      console.log(err);
+      setError("Có lỗi xảy ra khi thực hiện! Vui lòng thử lại!");
     }
   };
   
@@ -121,31 +139,24 @@ export default function ChangeUser({ setOpen, open, change }) {
         <Label>Số điện thoại</Label>
         <InputText
           type="text"
-          value={data?.phone_number}
-          name="phone_number"
+          value={data?.phone}
+          name="phone"
           onChange={handleChangeValue}
-          helperText={validationErrors.phone_number}
-          error={Boolean(validationErrors.phone_number)}
-        />
-        <Label>Mật khẩu</Label>
-        <InputText
-          type="password"
-          value={data?.password}
-          name="password"
-          onChange={handleChangeValue}
-          helperText={validationErrors.password}
-          error={Boolean(validationErrors.password)}
+          helperText={validationErrors.phone}
+          error={Boolean(validationErrors.phone)}
         />
         <Label>Trạng thái</Label>
-        <SelectBox value={data.status} name="status" onChange={handleChangeValue}>
-          <MenuItem value="active">Active</MenuItem>
-          <MenuItem value="block">Block</MenuItem>
+        <SelectBox value={data.is_active} name="is_active" onChange={handleChangeValue}>
+          <MenuItem value="1">Active</MenuItem>
+          <MenuItem value="0">Block</MenuItem>
         </SelectBox>
         <Label>Phân quyền</Label>
-        <SelectBox value={data.role} name="role" onChange={handleChangeValue}>
-          <MenuItem value="user">Người dùng</MenuItem>
-          <MenuItem value="admin">Admin</MenuItem>
+        <SelectBox value={data.is_admin} name="is_admin" onChange={handleChangeValue}>
+          <MenuItem value="0">Người dùng</MenuItem>
+          <MenuItem value="1">Admin</MenuItem>
         </SelectBox>
+
+        {error && <Label sx={{color: "error.main"}}>{error}</Label>}
       </InputBox>
       <DialogActions>
         <Button sx={{color: "error.main"}} onClick={handleClose}>Huỷ</Button>

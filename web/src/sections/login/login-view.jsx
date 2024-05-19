@@ -26,7 +26,7 @@ export default function LoginView() {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleClick = () => {
-    router.push('/');
+    router.push('/dashboard');
   };
 
   const renderForm = (

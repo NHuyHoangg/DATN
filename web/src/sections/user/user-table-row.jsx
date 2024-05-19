@@ -22,6 +22,7 @@ export default function UserTableRow({
   selected,
   first_name,
   last_name,
+  name,
   role,
   status,
   email,
@@ -59,18 +60,20 @@ export default function UserTableRow({
       <TableRow hover tabIndex={-1} role="checkbox" selected={selected}>
         <TableCell>{id}</TableCell>
 
-        <TableCell>{first_name.concat(" ", last_name)}</TableCell>
+        <TableCell>{name}</TableCell>
 
         <TableCell>{email}</TableCell>
 
-        {role === 'admin' ? (
+        {role === 1 ? (
           <TableCell>Admin</TableCell>
         ) : (
           <TableCell>Người dùng</TableCell>
         )}
 
+        {/* <TableCell>{phone_number}</TableCell> */}
+
         <TableCell>
-          <Label color={(status === 'block' && 'error') || 'success'}>{status}</Label>
+          <Label color={(status === 0 && 'error') || 'success'}>{(status === 0 && 'Blocked') || 'Active'}</Label>
         </TableCell>
 
         <TableCell align="right">
@@ -110,9 +113,10 @@ export default function UserTableRow({
 UserTableRow.propTypes = {
   first_name: PropTypes.any,
   last_name: PropTypes.any,
+  name: PropTypes.any,
   role: PropTypes.any,
   selected: PropTypes.any,
-  status: PropTypes.string,
+  status: PropTypes.any,
   email: PropTypes.string,
   id: PropTypes.number,
   password: PropTypes.string,

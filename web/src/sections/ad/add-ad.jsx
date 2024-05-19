@@ -1,10 +1,13 @@
+/* eslint-disable */
 import PropTypes from 'prop-types';
 import { useState, useCallback } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import { Box, styled, FormLabel, TextField, DialogActions } from '@mui/material';
+import { createAd } from 'src/utils/ad';
 // import palette from '../../../theme/palette';
 
 const InputBox = styled(Box)({
@@ -23,11 +26,15 @@ const Label = styled(FormLabel)({
 });
 
 export default function AddAd({ setOpen, open }) {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const [validationErrors, setValidationErrors] = useState({});
+  const [error, setError] = useState();
   const [data, setData] = useState({
     name: '',
     price: '',
-    duration: '',
+    expiration_day: '',
     description: '',
   });
 
@@ -59,10 +66,21 @@ export default function AddAd({ setOpen, open }) {
         setValidationErrors(preError => ({...preError, name: 'Vui lòng điền đầy đủ'}))
       if (!data.price)
         setValidationErrors(preError => ({...preError, price: 'Vui lòng điền đầy đủ'}))
-      if (!data.duration)
-        setValidationErrors(preError => ({...preError, duration: 'Vui lòng điền đầy đủ'}))
+      if (!data.expiration_day)
+        setValidationErrors(preError => ({...preError, expiration_day: 'Vui lòng điền đầy đủ'}))
       if (!data.description)
         setValidationErrors(preError => ({...preError, description: 'Vui lòng điền đầy đủ'}))
+    }
+    try {
+      if (validationErrors) {
+        await createAd(data);
+        setError(null);
+        setOpen(false);
+        window.location.reload();
+      }
+    } catch (err) {
+      console.log(err);
+      setError("Có lỗi xảy ra khi thực hiện! Vui lòng thử lại!");
     }
   };
   
@@ -91,11 +109,11 @@ export default function AddAd({ setOpen, open }) {
         <Label>Thời hạn (ngày)</Label>
           <InputText
             type="text"
-            value={data?.duration}
-            name="duration"
+            value={data?.expiration_day}
+            name="expiration_day"
             onChange={handleChangeValue}
-            helperText={validationErrors.duration}
-            error={Boolean(validationErrors.duration)}
+            helperText={validationErrors.expiration_day}
+            error={Boolean(validationErrors.expiration_day)}
           />
         <Label>Mô tả</Label>
         <InputText
@@ -107,6 +125,8 @@ export default function AddAd({ setOpen, open }) {
           helperText={validationErrors.description}
           error={Boolean(validationErrors.description)}
         />
+
+        {error && <Label sx={{color: "error.main"}}>{error}</Label>}
       </InputBox>
       <DialogActions>
         <Button sx={{color: "error.main"}} onClick={handleClose}>Huỷ</Button>

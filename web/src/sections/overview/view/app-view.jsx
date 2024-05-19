@@ -1,7 +1,9 @@
+/* eslint-disable */
 // import { faker } from '@faker-js/faker';
 
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Unstable_Grid2';
+import { Card, Typography, styled } from '@mui/material';
 // import Typography from '@mui/material/Typography';
 
 // import Iconify from 'src/components/iconify';
@@ -54,7 +56,7 @@ export default function AppView() {
         <Grid container xs={12} md={6} lg={4}>
           <Grid xs={6} lg={6} md={6}>
             <AppWidgetSummary
-              title="Weekly Sales"
+              title="Bài đăng mới"
               total={714000}
               color="success"
               icon={<img alt="icon" src="/assets/icons/glass/ic_glass_bag.png" />}
@@ -62,7 +64,7 @@ export default function AppView() {
           </Grid>
           <Grid xs={6} md={6}>
             <AppWidgetSummary
-              title="New Users"
+              title="Người dùng mới"
               total={1352831}
               color="info"
               icon={<img alt="icon" src="/assets/icons/glass/ic_glass_users.png" />}
@@ -70,7 +72,7 @@ export default function AppView() {
           </Grid>
           <Grid xs={6} md={6}>
             <AppWidgetSummary
-              title="Item Orders"
+              title="Đơn hàng mới"
               total={1723315}
               color="warning"
               icon={<img alt="icon" src="/assets/icons/glass/ic_glass_buy.png" />}
@@ -78,14 +80,13 @@ export default function AppView() {
           </Grid>
           <Grid xs={6} md={6}>
             <AppWidgetSummary
-              title="Bug Reports"
+              title="Báo cáo bài đăng"
               total={234}
               color="error"
               icon={<img alt="icon" src="/assets/icons/glass/ic_glass_message.png" />}
             />
           </Grid>
         </Grid>
-
 
         {/* <Grid xs={12} md={6} lg={4}>
           <AppCurrentVisits
@@ -207,6 +208,89 @@ export default function AppView() {
             ]}
           />
         </Grid> */}
+      </Grid>
+      <Grid container spacing={2}>
+      <Grid item xs={12} md={12} lg={6}>
+        <Card sx={{ p: 3, my: 3, width: '100%' }}>
+          <Typography variant="h6">
+            Người dùng mới gần đây
+          </Typography>
+
+          <Grid xs={12} lg={12} md={12} container justifyContent="space-between" sx={{ my: 1 }}>
+            <Grid item>
+              <Typography variant="body1">Duc Phan</Typography>
+            </Grid>
+            <Grid item>
+              <Typography variant="body1">1 phút trước</Typography>
+            </Grid>
+          </Grid>
+          <Grid xs={12} lg={12} md={12} container justifyContent="space-between" sx={{ my: 1 }}>
+            <Grid item>
+              <Typography variant="body1">Duc Phan</Typography>
+            </Grid>
+            <Grid item>
+              <Typography variant="body1">1 phút trước</Typography>
+            </Grid>
+          </Grid>
+          <Grid xs={12} lg={12} md={12} container justifyContent="space-between" sx={{ my: 1 }}>
+            <Grid item>
+              <Typography variant="body1">Duc Phan</Typography>
+            </Grid>
+            <Grid item>
+              <Typography variant="body1">1 phút trước</Typography>
+            </Grid>
+          </Grid>
+          <Grid xs={12} lg={12} md={12} container justifyContent="space-between" sx={{ my: 1 }}>
+            <Grid item>
+              <Typography variant="body1">Duc Phan</Typography>
+            </Grid>
+            <Grid item>
+              <Typography variant="body1">1 phút trước</Typography>
+            </Grid>
+          </Grid>
+        </Card>
+      </Grid>
+
+      <Grid item xs={12} md={12} lg={6}>
+        <Card sx={{ p: 3, my: 3, width: '100%' }}>
+          <Typography variant="h6">
+            Đơn hàng mới gần đây
+          </Typography>
+
+          <Grid xs={12} lg={12} md={12} container justifyContent="space-between" sx={{ my: 1 }}>
+            <Grid item>
+              <Typography variant="body1">Citizen FB1443-08A</Typography>
+            </Grid>
+            <Grid item>
+              <Typography variant="body1">1 phút trước</Typography>
+            </Grid>
+          </Grid>
+          <Grid xs={12} lg={12} md={12} container justifyContent="space-between" sx={{ my: 1 }}>
+            <Grid item>
+              <Typography variant="body1">Citizen FB1443-08A</Typography>
+            </Grid>
+            <Grid item>
+              <Typography variant="body1">1 phút trước</Typography>
+            </Grid>
+          </Grid>
+          <Grid xs={12} lg={12} md={12} container justifyContent="space-between" sx={{ my: 1 }}>
+            <Grid item>
+              <Typography variant="body1">Citizen FB1443-08A</Typography>
+            </Grid>
+            <Grid item>
+              <Typography variant="body1">1 phút trước</Typography>
+            </Grid>
+          </Grid>
+          <Grid xs={12} lg={12} md={12} container justifyContent="space-between" sx={{ my: 1 }}>
+            <Grid item>
+              <Typography variant="body1">Citizen FB1443-08A</Typography>
+            </Grid>
+            <Grid item>
+              <Typography variant="body1">1 phút trước</Typography>
+            </Grid>
+          </Grid>
+        </Card>
+      </Grid>
       </Grid>
     </Container>
   );
