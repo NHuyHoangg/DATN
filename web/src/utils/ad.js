@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const API_URL = 'https://dho.hcmut.tech/';
 const token =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEwMDAwMDQiLCJpYXQiOjE3MTYwMzI3NDd9.fSAuo5-4_OUpn1roA_qEWe3NzJivmZR8IPiBi91D2Kc';
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEwMDAwMTQiLCJpYXQiOjE3MTYzNzU4MjZ9.2cuBjhiSnoqxE1JhteyKVpxnHiqm60nDRPkgPPVNx_w';
 
 export const getAd = async () => {
   const response = await axios.get(API_URL + 'ads');

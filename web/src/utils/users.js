@@ -1,23 +1,26 @@
 /* eslint-disable */
-import axios from "axios";
+import axios from 'axios';
 
-const API_URL = "https://dho.hcmut.tech/";
-const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEwMDAwMDQiLCJpYXQiOjE3MTYwMzI3NDd9.fSAuo5-4_OUpn1roA_qEWe3NzJivmZR8IPiBi91D2Kc";
+const API_URL = 'https://dho.hcmut.tech/';
+const token =
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEwMDAwMTQiLCJpYXQiOjE3MTYzNzU4MjZ9.2cuBjhiSnoqxE1JhteyKVpxnHiqm60nDRPkgPPVNx_w';
 
 export const getUser = async () => {
-  const response = await axios.get(API_URL + "admin/users", {
-    headers: {
-      Authorization: token,
-    },
-  });
-  console.log(response)
-
-  return response.data;
+  try {
+    const response = await axios.get(API_URL + 'admin/users', {
+      headers: {
+        Authorization: token,
+      },
+    });
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
 };
 
 export const createUser = async (info) => {
   try {
-    const response = await axios.post(API_URL + "admin/users-create", info, {
+    const response = await axios.post(API_URL + 'admin/users-create', info, {
       headers: {
         Authorization: token,
       },
@@ -31,7 +34,7 @@ export const createUser = async (info) => {
 
 export const changeUser = async (info) => {
   try {
-    const response = await axios.post(API_URL + "admin/users-edit", info, {
+    const response = await axios.post(API_URL + 'admin/users-edit', info, {
       headers: {
         Authorization: token,
       },
@@ -43,3 +46,19 @@ export const changeUser = async (info) => {
   }
 };
 
+export const blockUser = async (id) => {
+  try {
+    const response = await axios.post(API_URL + 'admin/users-block',
+    {
+      id: id,
+    } , {
+      headers: {
+        Authorization: token,
+      },
+    });
+    console.log(response);
+    return response.status;
+  } catch (error) {
+    throw error;
+  }
+};

@@ -14,7 +14,7 @@ import color from "../../constants/color";
 
 const dataBalance = [
   {
-    des: "Nạp tiền từ ví Momo",
+    des: "Nạp tiền từ ví VNpay",
     balance: "+50.000đ",
     time: "9:53 12-11-2023",
     isDone: 1,
@@ -32,7 +32,7 @@ const dataBalance = [
     isDone: 0,
   },
   {
-    des: "Nạp tiền từ ví Momo",
+    des: "Nạp tiền từ ví VNpay",
     balance: "+50.000đ",
     time: "9:53 12-11-2023",
     isDone: 1,
@@ -44,7 +44,7 @@ const dataBalance = [
     isDone: 0,
   },
   {
-    des: "Nạp tiền từ ví Momo",
+    des: "Nạp tiền từ ví VNpay",
     balance: "+50.000đ",
     time: "9:53 12-11-2023",
     isDone: 1,

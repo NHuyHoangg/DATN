@@ -47,11 +47,12 @@ export function applyFilter({ inputData, comparator, filterName, filterVerified 
   inputData = stabilizedThis.map((el) => el[0]);
 
   if (filterName && filterVerified) {
+    console.log("do")
     inputData = inputData.filter(
       (user) => user.name.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
     );
     inputData = inputData.filter(
-      (user) => user.verified.toLowerCase().indexOf(filterVerified.toLowerCase()) !== -1
+      (user) => user.is_verified === filterVerified
     );
   }
   else {
@@ -75,8 +76,9 @@ export function applyFilterVerified({ inputData, comparator, filterVerified, fil
   inputData = stabilizedThis.map((el) => el[0]);
 
   if (filterVerified && filterName) {
+    console.log("do")
     inputData = inputData.filter(
-      (user) => user.verified.toLowerCase().indexOf(filterVerified.toLowerCase()) !== -1
+      (user) => user.is_verified === filterVerified
     );
     inputData = inputData.filter(
       (user) => user.name.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
@@ -84,7 +86,7 @@ export function applyFilterVerified({ inputData, comparator, filterVerified, fil
   }
   else {
     inputData = inputData.filter(
-      (user) => user.verified.toLowerCase().indexOf(filterVerified.toLowerCase()) !== -1
+      (user) => user.is_verified === filterVerified
     );
   }
 

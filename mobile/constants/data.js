@@ -207,7 +207,7 @@ export const dataGen = () => {
     ".000";
   return {
     // id: Math.random().toString(),
-    id: ["419", "417", "415", "229"][Math.floor(Math.random() * 4)],
+    id: ["196", "194", "193", "190"][Math.floor(Math.random() * 4)],
     name: name[nameIdx],
     nation: nation[nationIdx],
     brand: brand[brandIdx],

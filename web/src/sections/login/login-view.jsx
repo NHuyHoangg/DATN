@@ -82,7 +82,7 @@ export default function LoginView() {
             maxWidth: 420,
           }}
         >
-          <Typography variant="h4" sx={{ mb: 3 }} >Đăng nhập Hệ thống DHO</Typography>
+          <Typography variant="h4" sx={{ mb: 3 }} >Đăng nhập Hệ thống DHo</Typography>
 
           {renderForm}
         </Card>

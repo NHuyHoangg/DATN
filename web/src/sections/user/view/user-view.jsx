@@ -48,6 +48,7 @@ export default function UserPage() {
   const [open, setOpen] = useState(false);
 
   const [users, setUsers] = useState([]);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -55,7 +56,7 @@ export default function UserPage() {
         const res = await getUser();
         setUsers(res)
       } catch (err) {
-        // navigate(`${url}/create`);
+        setError(true);
       }
     }
 
@@ -163,7 +164,7 @@ export default function UserPage() {
                   emptyRows={emptyRows(page, rowsPerPage, users.length)}
                 />
 
-                {notFound && <TableNoData query={filterName} />}
+                {notFound || error && <TableNoData query={filterName} />}
               </TableBody>
 
               <AddUser open={open} setOpen={setOpen}/>

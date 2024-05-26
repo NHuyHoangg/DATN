@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 
@@ -13,14 +14,15 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import InputAdornment from '@mui/material/InputAdornment';
 
 import Iconify from 'src/components/iconify';
+import { amber } from '@mui/material/colors';
 
 // ----------------------------------------------------------------------
 
 const SORT_OPTIONS = [
   { value: '', label: 'None' },
-  { value: 'verified', label: 'Đã duyệt' },
-  { value: 'waiting', label: 'Đang chờ' },
-  { value: 'denied', label: 'Từ chối' },
+  { value: 2, label: 'Đã duyệt' },
+  { value: 0, label: 'Đang chờ' },
+  { value: 1, label: 'Từ chối' },
 ];
 export default function UserTableToolbar({ numSelected, filterName, onFilterName, filterVerified, onFilterVerified }) {
   const [open, setOpen] = useState(null);
@@ -32,6 +34,8 @@ export default function UserTableToolbar({ numSelected, filterName, onFilterName
   const handleClose = () => {
     setOpen(null);
   };
+
+  console.log(filterVerified)
 
   return (
     <Toolbar
@@ -74,7 +78,7 @@ export default function UserTableToolbar({ numSelected, filterName, onFilterName
       >
         Lọc trạng thái:&nbsp;
         <Typography component="span" variant="subtitle2" sx={{ color: 'text.secondary' }}>
-          {SORT_OPTIONS.find(option => option.value === filterVerified).label}
+          {SORT_OPTIONS.find(option => option.value === filterVerified)?.label}
         </Typography>
       </Button>
 
@@ -108,6 +112,6 @@ UserTableToolbar.propTypes = {
   numSelected: PropTypes.number,
   filterName: PropTypes.string,
   onFilterName: PropTypes.func,
-  filterVerified: PropTypes.string,
+  filterVerified: PropTypes.number,
   onFilterVerified: PropTypes.func,
 };
