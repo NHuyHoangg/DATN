@@ -51,7 +51,7 @@ export function applyFilter({ inputData, comparator, filterName, filterVerified 
       (user) => user.name.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
     );
     inputData = inputData.filter(
-      (user) => user.verified.toLowerCase().indexOf(filterVerified.toLowerCase()) !== -1
+      (user) => user.order_status.toLowerCase().indexOf(filterVerified.toLowerCase()) !== -1
     );
   }
   else {
@@ -76,7 +76,7 @@ export function applyFilterVerified({ inputData, comparator, filterVerified, fil
 
   if (filterVerified && filterName) {
     inputData = inputData.filter(
-      (user) => user.verified.toLowerCase().indexOf(filterVerified.toLowerCase()) !== -1
+      (user) => user.order_status.toLowerCase().indexOf(filterVerified.toLowerCase()) !== -1
     );
     inputData = inputData.filter(
       (user) => user.name.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
@@ -84,7 +84,7 @@ export function applyFilterVerified({ inputData, comparator, filterVerified, fil
   }
   else {
     inputData = inputData.filter(
-      (user) => user.verified.toLowerCase().indexOf(filterVerified.toLowerCase()) !== -1
+      (user) => user.order_status.toLowerCase().indexOf(filterVerified.toLowerCase()) !== -1
     );
   }
 

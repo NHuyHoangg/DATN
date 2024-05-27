@@ -59,6 +59,7 @@ export default function UserTableRow({
   gender,
   seller_id,
   media,
+  order_status,
 }) {
   const navigate = useNavigate();
 
@@ -123,6 +124,7 @@ export default function UserTableRow({
     gender,
     seller_id,
     media,
+    order_status,
   };
 
   return (
@@ -133,6 +135,18 @@ export default function UserTableRow({
             <Typography gutterBottom variant="subtitle1" component="div">
               Đơn hàng: {post_id}
             </Typography>
+          </Grid>
+
+          <Grid item>
+            <Label color={(order_status === 'waiting' && 'info') || 
+            (order_status === 'delivering' && 'warning') || 
+            (order_status === 'refund' && 'error') || 
+            'success'}>
+              {(order_status === 'waiting' && 'Đang chờ') || 
+              (order_status === 'delivering' && 'Đang vận chuyển') || 
+              (order_status === 'refund' && 'Trả hàng') || 
+              'Hoàn thành'}
+            </Label>
           </Grid>
         </Grid>
 
@@ -244,6 +258,7 @@ UserTableRow.propTypes = {
   email: PropTypes.string,
   post_id: PropTypes.number,
   verified: PropTypes.string,
+  order_status: PropTypes.string,
   seller_name: PropTypes.string,
   phone_number: PropTypes.string,
   street: PropTypes.string,

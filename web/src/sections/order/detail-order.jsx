@@ -6,15 +6,25 @@ import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import IconButton from '@mui/material/IconButton';
-import { Card, Grid, Stack, styled, Container, Typography, DialogActions, DialogTitle } from '@mui/material';
+import {
+  Card,
+  Grid,
+  Stack,
+  styled,
+  Container,
+  Typography,
+  DialogActions,
+  DialogTitle,
+} from '@mui/material';
 
 import Iconify from 'src/components/iconify';
+import { setDate } from 'date-fns';
 
 const Img = styled('img')({
   margin: 'auto',
   display: 'block',
-  width: '90%',
-  height: '90%',
+  width: '70%',
+  height: '70%',
   maxWidth: '100%',
   maxHeight: '100%',
 });
@@ -28,13 +38,26 @@ const SmallImg = styled('img')({
   maxHeight: '100%',
 });
 
+const SmallerImg = styled('img')({
+  margin: 'auto',
+  display: 'block',
+  width: '10%',
+  height: '10%',
+  maxWidth: '100%',
+  maxHeight: '100%',
+});
+
 const Title = styled(DialogTitle)({
   fontSize: '24px',
 });
 
 export default function DetailOrder() {
   const location = useLocation();
+  const navigate = useNavigate();
   const { change } = location.state;
+  const [isDetail, setIsDetail] = useState(true);
+  const [isCustomer, setIsCustomer] = useState(false);
+  const [isRefund, setIsRefund] = useState(false);
   const [index, setIndex] = useState(0);
   const [page, setPage] = useState(0);
   const [openPic, setOpenPic] = useState(false);
@@ -82,6 +105,10 @@ export default function DetailOrder() {
     setOpenVerified(false);
   };
 
+  const handleNavigate = () => {
+    navigate('/order');
+  }
+
   const OpenImg = (
     <Dialog onClose={handleClose} open={openPic} fullWidth maxWidth="sm">
       <Img alt="complex" src={change.media[index].content} />
@@ -90,25 +117,51 @@ export default function DetailOrder() {
 
   const OpenDelete = (
     <Dialog onClose={handleCloseDelete} open={openDelete} fullWidth maxWidth="sm">
-      <Title sx={{color: "custom.baemin1"}}>Bạn có muốn từ chối kiểm định bài đăng này?</Title>
-      
+      <Title sx={{ color: 'custom.baemin1' }}>Bạn có muốn từ chối đơn trả hàng này?</Title>
+
       <DialogActions>
-        <Button sx={{color: "error.main"}} onClick={handleCloseDelete}>Huỷ</Button>
-        <Button sx={{color: "custom.baemin1"}} onClick={handleCloseDelete}>Xác nhận</Button>
+        <Button sx={{ color: 'error.main' }} onClick={handleCloseDelete}>
+          Huỷ
+        </Button>
+        <Button sx={{ color: 'custom.baemin1' }} onClick={handleNavigate}>
+          Xác nhận
+        </Button>
       </DialogActions>
     </Dialog>
   );
 
   const OpenVerified = (
     <Dialog onClose={handleCloseVerified} open={openVerified} fullWidth maxWidth="sm">
-      <Title sx={{color: "custom.baemin1"}}>Bạn có chấp nhận kiểm định bài đăng này?</Title>
-      
+      <Title sx={{ color: 'custom.baemin1' }}>Bạn có chấp nhận đơn trả hàng này?</Title>
+
       <DialogActions>
-        <Button sx={{color: "error.main"}} onClick={handleCloseVerified}>Huỷ</Button>
-        <Button sx={{color: "custom.baemin1"}} onClick={handleCloseVerified}>Xác nhận</Button>
+        <Button sx={{ color: 'error.main' }} onClick={handleCloseVerified}>
+          Huỷ
+        </Button>
+        <Button sx={{ color: 'custom.baemin1' }} onClick={handleNavigate}>
+          Xác nhận
+        </Button>
       </DialogActions>
     </Dialog>
   );
+
+  const handleDetailTab = () => {
+    setIsDetail(true);
+    setIsCustomer(false);
+    setIsRefund(false);
+  }
+
+  const handleCustomerTab = () => {
+    setIsCustomer(true);
+    setIsDetail(false);
+    setIsRefund(false);
+  }
+
+  const handleRefundTab = () => {
+    setIsRefund(true);
+    setIsCustomer(false);
+    setIsDetail(false);
+  }
 
   return (
     <>
@@ -117,7 +170,7 @@ export default function DetailOrder() {
       </Helmet>
 
       <Container>
-        {change.verified === 'waiting' && (
+        {change.order_status === 'refund' && (
           <Stack direction="row" alignItems="center" justifyContent="flex-end" mb={5}>
             <Button
               variant="contained"
@@ -246,108 +299,188 @@ export default function DetailOrder() {
 
           <Grid item xs={12}>
             <Card sx={{ p: 3 }}>
-              <Typography variant="h4" sx={{ color: 'custom.baemin1', my: 3 }}>
-                Mô tả
-              </Typography>
-              <Grid container spacing={1} columnSpacing={1}>
-                <Grid item xs={4} my={1}>
-                  <Stack direction="row" alignItems="center">
-                    <Iconify width={20} sx={{ mr: 1 }} icon="mingcute:watch-line" />
-                    <Typography variant="h6">Hãng</Typography>
-                  </Stack>
-                  <Typography sx={{ ml: 1 }}>{change.brand}</Typography>
-                </Grid>
-
-                <Grid item xs={4} my={1}>
-                  <Stack direction="row" alignItems="center">
-                    <Iconify width={20} sx={{ mr: 1 }} icon="iconamoon:category-light" />
-                    <Typography variant="h6">Loại đồng hồ</Typography>
-                  </Stack>
-                  <Typography sx={{ ml: 1 }}>{change.brand}</Typography>
-                </Grid>
-
-                <Grid item xs={4} my={1}>
-                  <Stack direction="row" alignItems="center">
-                    <Iconify width={20} sx={{ mr: 1 }} icon="icon-park-outline:oceanengine" />
-                    <Typography variant="h6">Động cơ</Typography>
-                  </Stack>
-                  <Typography sx={{ ml: 1 }}>{change.engine}</Typography>
-                </Grid>
-
-                <Grid item xs={4} my={1}>
-                  <Stack direction="row" alignItems="center">
-                    <Iconify width={20} sx={{ mr: 1 }} icon="radix-icons:button" />
-                    <Typography variant="h6">Số nút bấm</Typography>
-                  </Stack>
-                  <Typography sx={{ ml: 1 }}>{change.engine}</Typography>
-                </Grid>
-
-                <Grid item xs={4} my={1}>
-                  <Stack direction="row" alignItems="center">
-                    <Iconify width={20} sx={{ mr: 1 }} icon="eva:checkmark-circle-2-outline" />
-                    <Typography variant="h6">Tình trạng</Typography>
-                  </Stack>
-                  <Typography sx={{ ml: 1 }}>
-                    {(change.status === 'new' && 'Mới') || 'Cũ'}
+              <Grid container spacing={6}>
+                <Grid item onClick={handleDetailTab}>
+                  <Typography variant="h4" sx={{ color: isDetail ? 'custom.baemin1' : 'inherit', my: 2, ":hover": {cursor: "pointer"} }}>
+                    Mô tả
                   </Typography>
                 </Grid>
 
-                <Grid item xs={4} my={1}>
-                  <Stack direction="row" alignItems="center">
-                    <Iconify width={20} sx={{ mr: 1 }} icon="eva:clock-outline" />
-                    <Typography variant="h6">Kích thước mặt số</Typography>
-                  </Stack>
-                  <Typography sx={{ ml: 1 }}>{change.case_size} mm</Typography>
+                <Grid item onClick={handleCustomerTab}>
+                  <Typography variant="h4" sx={{ color: isCustomer ? 'custom.baemin1' : 'inherit', my: 2, ":hover": {cursor: "pointer"} }}>
+                    Thông tin người mua
+                  </Typography>
                 </Grid>
 
-                <Grid item xs={4} my={1}>
-                  <Stack direction="row" alignItems="center">
-                    <Iconify width={20} sx={{ mr: 1 }} icon="eva:clock-outline" />
-                    <Typography variant="h6">Màu mặt kính</Typography>
-                  </Stack>
-                  <Typography sx={{ ml: 1 }}>{change.case_size}</Typography>
-                </Grid>
-
-                <Grid item xs={4} my={1}>
-                  <Stack direction="row" alignItems="center">
-                    <Iconify width={20} sx={{ mr: 1 }} icon="solar:user-circle-broken" />
-                    <Typography variant="h6">Kiểu dáng</Typography>
-                  </Stack>
-                  <Typography sx={{ ml: 1 }}>{change.gender}</Typography>
-                </Grid>
-
-                <Grid item xs={4} my={1}>
-                  <Stack direction="row" alignItems="center">
-                    <Iconify width={20} sx={{ mr: 1 }} icon="mdi:water-off-outline" />
-                    <Typography variant="h6">Chống nước</Typography>
-                  </Stack>
-                  <Typography sx={{ ml: 1 }}>{change.waterproof}</Typography>
-                </Grid>
-
-                <Grid item xs={4} my={1}>
-                  <Stack direction="row" alignItems="center">
-                    <Iconify width={20} sx={{ mr: 1 }} icon="logos:fabric" />
-                    <Typography variant="h6">Loại dây</Typography>
-                  </Stack>
-                  <Typography sx={{ ml: 1 }}>{change.strap_material}</Typography>
-                </Grid>
-
-                <Grid item xs={4} my={1}>
-                  <Stack direction="row" alignItems="center">
-                    <Iconify width={20} sx={{ mr: 1 }} icon="logos:fabric" />
-                    <Typography variant="h6">Màu dây</Typography>
-                  </Stack>
-                  <Typography sx={{ ml: 1 }}>{change.strap_material}</Typography>
-                </Grid>
-
-                <Grid item xs={4} my={1}>
-                  <Stack direction="row" alignItems="center">
-                    <Iconify width={20} sx={{ mr: 1 }} icon="mage:battery-full" />
-                    <Typography variant="h6">Thời gian sử dụng pin</Typography>
-                  </Stack>
-                  <Typography sx={{ ml: 1 }}>{change.battery_life}</Typography>
+                <Grid item onClick={handleRefundTab}>
+                  <Typography variant="h4" sx={{ color: isRefund ? 'custom.baemin1' : 'inherit', my: 2, ":hover": {cursor: "pointer"} }}>
+                    Thông tin trả hàng
+                  </Typography>
                 </Grid>
               </Grid>
+
+              {isRefund && (
+                <Grid container spacing={1} columnSpacing={1}>
+                  <Grid item xs={12} my={1}>
+                    <Stack direction="row" alignItems="center">
+                      <Iconify width={20} sx={{ mr: 1 }} icon="bx:detail" />
+                      <Typography variant="h6">Lý do trả hàng</Typography>
+                    </Stack>
+                    <Typography sx={{ ml: 1 }}>Sai so với mô tả</Typography>
+                  </Grid>
+
+                  <Grid item xs={12} my={1}>
+                    <Stack direction="row" alignItems="center">
+                      <Iconify width={20} sx={{ mr: 1 }} icon="eva:image-outline" />
+                      <Typography variant="h6">Hình ảnh cung cấp</Typography>
+                    </Stack>
+                    <Stack direction="row" my={3}>
+                      {change.media.map((item) => (
+                        <SmallerImg alt="complex" src={item.content} />
+                      ))}
+                    </Stack>
+                  </Grid>
+                </Grid>
+              )}
+
+              {isCustomer && (
+                <Grid container spacing={1} columnSpacing={1}>
+                  <Grid item xs={12} my={1}>
+                    <Stack direction="row" alignItems="center">
+                      <Iconify width={20} sx={{ mr: 1 }} icon="eva:person-outline" />
+                      <Typography variant="h6">Họ và tên</Typography>
+                    </Stack>
+                    <Typography sx={{ ml: 1 }}>{change.seller_name}</Typography>
+                  </Grid>
+
+                  <Grid item xs={12} my={1}>
+                    <Stack direction="row" alignItems="center">
+                      <Iconify width={20} sx={{ mr: 1 }} icon="eva:phone-outline" />
+                      <Typography variant="h6">Số điện thoại</Typography>
+                    </Stack>
+                    <Typography sx={{ ml: 1 }}>{change.phone_number}</Typography>
+                  </Grid>
+
+                  <Grid item xs={12} my={1}>
+                    <Stack direction="row" alignItems="center">
+                      <Iconify width={20} sx={{ mr: 1 }} icon="eva:home-outline" />
+                      <Typography variant="h6">Địa chỉ</Typography>
+                    </Stack>
+                    <Typography sx={{ ml: 1 }}>
+                      {change.street.concat(
+                        ', ',
+                        change.ward,
+                        ', ',
+                        change.district,
+                        ', ',
+                        change.province
+                      )}
+                    </Typography>
+                  </Grid>
+                </Grid>
+              )}
+
+              {isDetail && (
+                <Grid container spacing={1} columnSpacing={1}>
+                  <Grid item xs={4} my={1}>
+                    <Stack direction="row" alignItems="center">
+                      <Iconify width={20} sx={{ mr: 1 }} icon="mingcute:watch-line" />
+                      <Typography variant="h6">Hãng</Typography>
+                    </Stack>
+                    <Typography sx={{ ml: 1 }}>{change.brand}</Typography>
+                  </Grid>
+
+                  <Grid item xs={4} my={1}>
+                    <Stack direction="row" alignItems="center">
+                      <Iconify width={20} sx={{ mr: 1 }} icon="iconamoon:category-light" />
+                      <Typography variant="h6">Loại đồng hồ</Typography>
+                    </Stack>
+                    <Typography sx={{ ml: 1 }}>{change.brand}</Typography>
+                  </Grid>
+
+                  <Grid item xs={4} my={1}>
+                    <Stack direction="row" alignItems="center">
+                      <Iconify width={20} sx={{ mr: 1 }} icon="icon-park-outline:oceanengine" />
+                      <Typography variant="h6">Động cơ</Typography>
+                    </Stack>
+                    <Typography sx={{ ml: 1 }}>{change.engine}</Typography>
+                  </Grid>
+
+                  <Grid item xs={4} my={1}>
+                    <Stack direction="row" alignItems="center">
+                      <Iconify width={20} sx={{ mr: 1 }} icon="radix-icons:button" />
+                      <Typography variant="h6">Số nút bấm</Typography>
+                    </Stack>
+                    <Typography sx={{ ml: 1 }}>{change.engine}</Typography>
+                  </Grid>
+
+                  <Grid item xs={4} my={1}>
+                    <Stack direction="row" alignItems="center">
+                      <Iconify width={20} sx={{ mr: 1 }} icon="eva:checkmark-circle-2-outline" />
+                      <Typography variant="h6">Tình trạng</Typography>
+                    </Stack>
+                    <Typography sx={{ ml: 1 }}>
+                      {(change.status === 'new' && 'Mới') || 'Cũ'}
+                    </Typography>
+                  </Grid>
+
+                  <Grid item xs={4} my={1}>
+                    <Stack direction="row" alignItems="center">
+                      <Iconify width={20} sx={{ mr: 1 }} icon="eva:clock-outline" />
+                      <Typography variant="h6">Kích thước mặt số</Typography>
+                    </Stack>
+                    <Typography sx={{ ml: 1 }}>{change.case_size} mm</Typography>
+                  </Grid>
+
+                  <Grid item xs={4} my={1}>
+                    <Stack direction="row" alignItems="center">
+                      <Iconify width={20} sx={{ mr: 1 }} icon="eva:clock-outline" />
+                      <Typography variant="h6">Màu mặt kính</Typography>
+                    </Stack>
+                    <Typography sx={{ ml: 1 }}>{change.case_size}</Typography>
+                  </Grid>
+
+                  <Grid item xs={4} my={1}>
+                    <Stack direction="row" alignItems="center">
+                      <Iconify width={20} sx={{ mr: 1 }} icon="solar:user-circle-broken" />
+                      <Typography variant="h6">Kiểu dáng</Typography>
+                    </Stack>
+                    <Typography sx={{ ml: 1 }}>{change.gender}</Typography>
+                  </Grid>
+
+                  <Grid item xs={4} my={1}>
+                    <Stack direction="row" alignItems="center">
+                      <Iconify width={20} sx={{ mr: 1 }} icon="mdi:water-off-outline" />
+                      <Typography variant="h6">Chống nước</Typography>
+                    </Stack>
+                    <Typography sx={{ ml: 1 }}>{change.waterproof}</Typography>
+                  </Grid>
+
+                  <Grid item xs={4} my={1}>
+                    <Stack direction="row" alignItems="center">
+                      <Iconify width={20} sx={{ mr: 1 }} icon="logos:fabric" />
+                      <Typography variant="h6">Loại dây</Typography>
+                    </Stack>
+                    <Typography sx={{ ml: 1 }}>{change.strap_material}</Typography>
+                  </Grid>
+
+                  <Grid item xs={4} my={1}>
+                    <Stack direction="row" alignItems="center">
+                      <Iconify width={20} sx={{ mr: 1 }} icon="logos:fabric" />
+                      <Typography variant="h6">Màu dây</Typography>
+                    </Stack>
+                    <Typography sx={{ ml: 1 }}>{change.strap_material}</Typography>
+                  </Grid>
+
+                  <Grid item xs={4} my={1}>
+                    <Stack direction="row" alignItems="center">
+                      <Iconify width={20} sx={{ mr: 1 }} icon="mage:battery-full" />
+                      <Typography variant="h6">Thời gian sử dụng pin</Typography>
+                    </Stack>
+                    <Typography sx={{ ml: 1 }}>{change.battery_life}</Typography>
+                  </Grid>
+                </Grid>
+              )}
             </Card>
           </Grid>
         </Grid>

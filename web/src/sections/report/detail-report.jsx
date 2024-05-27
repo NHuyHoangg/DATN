@@ -13,8 +13,8 @@ import Iconify from 'src/components/iconify';
 const Img = styled('img')({
   margin: 'auto',
   display: 'block',
-  width: '90%',
-  height: '90%',
+  width: '70%',
+  height: '70%',
   maxWidth: '100%',
   maxHeight: '100%',
 });
@@ -34,6 +34,7 @@ const Title = styled(DialogTitle)({
 
 export default function DetailReport() {
   const location = useLocation();
+  const navigate = useNavigate();
   const { change } = location.state;
   const [index, setIndex] = useState(0);
   const [page, setPage] = useState(0);
@@ -82,6 +83,10 @@ export default function DetailReport() {
     setOpenVerified(false);
   };
 
+  const handleNavigate = () => {
+    navigate('/report');
+  }
+
   const OpenImg = (
     <Dialog onClose={handleClose} open={openPic} fullWidth maxWidth="sm">
       <Img alt="complex" src={change.media[index].content} />
@@ -94,7 +99,7 @@ export default function DetailReport() {
       
       <DialogActions>
         <Button sx={{color: "error.main"}} onClick={handleCloseDelete}>Huỷ</Button>
-        <Button sx={{color: "custom.baemin1"}} onClick={handleCloseDelete}>Xác nhận</Button>
+        <Button sx={{color: "custom.baemin1"}} onClick={handleNavigate}>Xác nhận</Button>
       </DialogActions>
     </Dialog>
   );
@@ -105,7 +110,7 @@ export default function DetailReport() {
       
       <DialogActions>
         <Button sx={{color: "error.main"}} onClick={handleCloseVerified}>Huỷ</Button>
-        <Button sx={{color: "custom.baemin1"}} onClick={handleCloseVerified}>Xác nhận</Button>
+        <Button sx={{color: "custom.baemin1"}} onClick={handleNavigate}>Xác nhận</Button>
       </DialogActions>
     </Dialog>
   );

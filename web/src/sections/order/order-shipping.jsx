@@ -123,7 +123,7 @@ export default function OrderShipping() {
                 Thông tin vận chuyển
               </Typography>
 
-              <Stack direction="row" alignItems="center" onClick={() => {navigate(`/order/detail/${change.post_id}`, { state: { change } })}} >
+              <Stack direction="row" alignItems="center" onClick={() => {navigate(`/order/detail/${change.post_id}`, { state: { change } })}} sx={{":hover": {cursor: "pointer"}}} >
                 <Img alt="complex" onClick={handleOpen} src={change.media[index].content} />
                 <Stack direction="column">
                   <Typography variant="h6" paragraph>

@@ -226,26 +226,26 @@ export default function AppView() {
           </Grid>
           <Grid xs={12} lg={12} md={12} container justifyContent="space-between" sx={{ my: 1 }}>
             <Grid item>
-              <Typography variant="body1">Duc Phan</Typography>
+              <Typography variant="body1">Hello Hi</Typography>
             </Grid>
             <Grid item>
-              <Typography variant="body1">1 phút trước</Typography>
-            </Grid>
-          </Grid>
-          <Grid xs={12} lg={12} md={12} container justifyContent="space-between" sx={{ my: 1 }}>
-            <Grid item>
-              <Typography variant="body1">Duc Phan</Typography>
-            </Grid>
-            <Grid item>
-              <Typography variant="body1">1 phút trước</Typography>
+              <Typography variant="body1">18 phút trước</Typography>
             </Grid>
           </Grid>
           <Grid xs={12} lg={12} md={12} container justifyContent="space-between" sx={{ my: 1 }}>
             <Grid item>
-              <Typography variant="body1">Duc Phan</Typography>
+              <Typography variant="body1">Lẽo Lẽo</Typography>
             </Grid>
             <Grid item>
-              <Typography variant="body1">1 phút trước</Typography>
+              <Typography variant="body1">2 ngày trước</Typography>
+            </Grid>
+          </Grid>
+          <Grid xs={12} lg={12} md={12} container justifyContent="space-between" sx={{ my: 1 }}>
+            <Grid item>
+              <Typography variant="body1">Phan Name</Typography>
+            </Grid>
+            <Grid item>
+              <Typography variant="body1">3 ngày trước</Typography>
             </Grid>
           </Grid>
         </Card>
@@ -262,31 +262,31 @@ export default function AppView() {
               <Typography variant="body1">Citizen FB1443-08A</Typography>
             </Grid>
             <Grid item>
-              <Typography variant="body1">1 phút trước</Typography>
+              <Typography variant="body1">12 phút trước</Typography>
             </Grid>
           </Grid>
           <Grid xs={12} lg={12} md={12} container justifyContent="space-between" sx={{ my: 1 }}>
             <Grid item>
-              <Typography variant="body1">Citizen FB1443-08A</Typography>
+              <Typography variant="body1">Casio MTP-1374D-1AVDF Nam Quartz</Typography>
             </Grid>
             <Grid item>
-              <Typography variant="body1">1 phút trước</Typography>
-            </Grid>
-          </Grid>
-          <Grid xs={12} lg={12} md={12} container justifyContent="space-between" sx={{ my: 1 }}>
-            <Grid item>
-              <Typography variant="body1">Citizen FB1443-08A</Typography>
-            </Grid>
-            <Grid item>
-              <Typography variant="body1">1 phút trước</Typography>
+              <Typography variant="body1">4 giờ trước</Typography>
             </Grid>
           </Grid>
           <Grid xs={12} lg={12} md={12} container justifyContent="space-between" sx={{ my: 1 }}>
             <Grid item>
-              <Typography variant="body1">Citizen FB1443-08A</Typography>
+              <Typography variant="body1">Pierre Lannier 255F466 Nam Quartz</Typography>
             </Grid>
             <Grid item>
-              <Typography variant="body1">1 phút trước</Typography>
+              <Typography variant="body1">1 ngày trước</Typography>
+            </Grid>
+          </Grid>
+          <Grid xs={12} lg={12} md={12} container justifyContent="space-between" sx={{ my: 1 }}>
+            <Grid item>
+              <Typography variant="body1">Casio G-SHOCK GA-110AC-7ADR Nam Quartz</Typography>
+            </Grid>
+            <Grid item>
+              <Typography variant="body1">2 ngày trước</Typography>
             </Grid>
           </Grid>
         </Card>

@@ -132,7 +132,7 @@ export default function OrderPage() {
                     <UserTableRow
                       key={row.post_id}
                       post_id={row.post_id}
-                      verified={row.verified}
+                      order_status={row.order_status}
                       seller_name={row.seller_name}
                       phone_number={row.phone_number}
                       email={row.email}

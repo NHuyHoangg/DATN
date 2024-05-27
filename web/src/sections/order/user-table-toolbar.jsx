@@ -18,9 +18,10 @@ import Iconify from 'src/components/iconify';
 
 const SORT_OPTIONS = [
   { value: '', label: 'None' },
-  { value: 'verified', label: 'Đã duyệt' },
+  { value: 'done', label: 'Hoàn thành' },
   { value: 'waiting', label: 'Đang chờ' },
-  { value: 'denied', label: 'Từ chối' },
+  { value: 'delivering', label: 'Đang vận chuyển' },
+  { value: 'refund', label: 'Trả hàng' },
 ];
 export default function UserTableToolbar({ numSelected, filterName, onFilterName, filterVerified, onFilterVerified }) {
   const [open, setOpen] = useState(null);
