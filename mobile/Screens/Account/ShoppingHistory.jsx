@@ -32,7 +32,7 @@ export default function ShoppingHistory({}) {
         name="WaitGet"
         component={OrderWaitGet}
         options={{
-          tabBarLabel: "Chờ lấy hàng",
+          tabBarLabel: "Chờ thanh toán",
           ...TopTabScreenStyle,
         }}
         

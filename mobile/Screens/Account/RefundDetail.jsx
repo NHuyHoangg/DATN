@@ -107,7 +107,7 @@ const RefundDetail = (props) => {
                     width: "80%",
                   }}
                 >
-                  <View
+                  {/* <View
                     style={{
                       backgroundColor: color.verify,
                       flexDirection: "row",
@@ -126,7 +126,7 @@ const RefundDetail = (props) => {
                     >
                       Đã kiểm định
                     </Text>
-                  </View>
+                  </View> */}
 
                   {/* <AdSvg /> */}
                 </View>
@@ -215,7 +215,7 @@ const RefundDetail = (props) => {
           <Text style={styles.text}>Đã hoàn lại số tiền {props.route.params.props.data.price}đ vào tài khoản!</Text>
         </View>
 
-        <View
+        {/* <View
           style={{
             flexDirection: "row",
             alignItems: "center",
@@ -225,7 +225,7 @@ const RefundDetail = (props) => {
         >
           <Ionicons name="close-circle-outline" size={20} color={color.red} />
           <Text style={[styles.text, {color: color.red}]}>Đã huỷ trả hàng!</Text>
-        </View>
+        </View> */}
 
         {/* {(isAdding && imagesLen > 0) || (!isAdding && imagesLen > 0) ? ( */}
         {imagesLen > 0 ? (

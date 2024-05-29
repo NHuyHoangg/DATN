@@ -166,6 +166,7 @@ export default function ChooseAd({ route, navigation }) {
           onPress={async () => {
               try {
                 await useAds(token, route.params.props.id, exp);
+                console.log(route.params.props.id, exp)
                 navigation.navigate("Recharge", { charge, isAd: true });
               } catch (err) {
                 setError("Có lỗi xảy ra trong quá trình thanh toán");

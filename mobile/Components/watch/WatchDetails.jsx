@@ -42,6 +42,7 @@ import LoadingOverlay from "../../Screens/Overlay/LoadingOverlay";
 import ErrorOverlay from "../../Screens/Overlay/ErrorOverlay";
 import IconButton from "../ui/IconButton";
 import AuctionModal from "../ui/AuctionModal";
+import ReportModal from "../ui/ReportModal";
 import Review from "./Review";
 import AdSvg from "../../assets/images/svg/Ad";
 import { err } from "react-native-svg";
@@ -67,6 +68,7 @@ const WatchDetails = (props) => {
   const [error, setError] = useState();
   const [change, setChange] = useState(false);
   const [modal, setModal] = useState(false);
+  const [modalReport, setModalReport] = useState(false);
   const [auctionPrice, setAuctionPrice] = useState(
     props.route.params.data.price
   );
@@ -76,6 +78,10 @@ const WatchDetails = (props) => {
 
   const openModal = () => {
     setModal(!modal);
+  };
+
+  const openModalReport = () => {
+    setModalReport(!modalReport);
   };
 
   const changeAuctionPrice = () => {
@@ -344,6 +350,13 @@ const WatchDetails = (props) => {
           />
         )}
 
+        {modalReport && (
+          <ReportModal
+            onPress={openModalReport}
+            modalVisible={modalReport}
+          />
+        )}
+
         <Slider images={renderedItem.images} />
 
         <View style={styles.contentContainer}>
@@ -363,7 +376,7 @@ const WatchDetails = (props) => {
                 }}
               >
                 {props.route.params.data.is_ads &&
-                props.route.params.data.is_ads !== 0 ? (
+                props.route.params.data.is_ads !== "0" ? (
                   <AdSvg height={30} width={30} />
                 ) : null}
 
@@ -728,7 +741,7 @@ const WatchDetails = (props) => {
             "auctionJoin",
             "auctionMine",
           ].includes(screenType) && (
-            <Pressable style={styles.warning}>
+            <Pressable style={styles.warning} onPress={openModalReport}>
               <View style={styles.icon}>
                 <Ionicons name="warning-outline" size={16} color="black" />
               </View>

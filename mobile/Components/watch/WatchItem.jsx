@@ -144,7 +144,7 @@ const WatchItem = memo((props) => {
                 </View>
               ) : null}
 
-              {props.data.is_ads && props.data.is_ads !== 0 ? (
+              {props.data.is_ads && props.data.is_ads !== '0' ? (
                 <AdSvg height={30} width={30} />
               ) : null}
             </View>

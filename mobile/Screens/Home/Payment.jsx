@@ -157,7 +157,7 @@ const Payment = (route) => {
                     width: "80%",
                   }}
                 >
-                  <View
+                  {/* <View
                     style={{
                       backgroundColor: color.verify,
                       flexDirection: "row",
@@ -176,7 +176,7 @@ const Payment = (route) => {
                     >
                       Đã kiểm định
                     </Text>
-                  </View>
+                  </View> */}
 
                   {/* <AdSvg /> */}
                 </View>
@@ -201,7 +201,7 @@ const Payment = (route) => {
                   ]}
                 >
                   {/* {props.price} đ */}
-                  {route.route.params.props.formatted_price}
+                  {route.route.params.props.formatted_price || route.route.params.props.price}
                 </Text>
               </View>
             </View>
@@ -277,7 +277,7 @@ const Payment = (route) => {
             >
               <Text style={styles.message}>Tiền sản phẩm</Text>
               <Text style={styles.message}>
-                {route.route.params.props.formatted_price}
+                {route.route.params.props.formatted_price || route.route.params.props.price}
               </Text>
             </View>
 
@@ -346,7 +346,12 @@ const Payment = (route) => {
             styles.submit,
             pressed ? styles.pressed : null,
           ]}
-          onPress={() => navigation.navigate("Recharge", { charge })}
+          onPress={() => {
+            if (isPayment === "1")
+              navigation.navigate("WaitVerify")
+            else
+              navigation.navigate("Recharge", { charge })
+            }}
         >
           <Text style={styles.buttonText}>Xác nhận</Text>
         </Pressable>

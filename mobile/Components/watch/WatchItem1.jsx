@@ -113,7 +113,7 @@ const WatchItem1 = memo((props) => {
           text: "Hủy",
           style: "cancel",
         },
-        { text: "Xác nhận", style: "cancel" },
+        { text: "Xác nhận", onPress: () => navigation.navigate("Done") },
       ]
     );
   };
@@ -172,7 +172,8 @@ const WatchItem1 = memo((props) => {
                 width: "80%",
               }}
             >
-              <View
+            {props.data.is_verfied && props.data.is_verfied !== 0 ?
+              (<View
                 style={{
                   backgroundColor: color.verify,
                   flexDirection: "row",
@@ -191,8 +192,8 @@ const WatchItem1 = memo((props) => {
                 >
                   Đã kiểm định
                 </Text>
-              </View>
-
+              </View>) : null
+            }
               {/* <AdSvg /> */}
             </View>
           </ImageBackground>
@@ -316,7 +317,7 @@ const WatchItem1 = memo((props) => {
                     styles.buttonGreen,
                     pressed ? styles.pressed : null,
                   ]}
-                  // onPress={}
+                  onPress={() => navigation.navigate("Payment", { props: props.data })}
                 >
                   <Text style={[styles.buttonText]}>Thanh toán</Text>
                 </Pressable>

@@ -26,6 +26,7 @@ import AuctionMine from "./AuctionMine";
 import AuctionDetail from "./AuctionDetail";
 import WatchDetails from "../../Components/watch/WatchDetails";
 import ManageWatch from "./ManageWatch";
+import Payment from "../Home/Payment";
 
 const Stack = createNativeStackNavigator();
 
@@ -214,6 +215,14 @@ export default function AccountScreen() {
         options={{
           ...HeaderStyle,
           title: "Quản lý đồng hồ",
+        }}
+      />
+      <Stack.Screen
+        name="Payment"
+        component={Payment}
+        options={{
+          ...HeaderStyle,
+          title: "Xác nhận thanh toán",
         }}
       />
     </Stack.Navigator>

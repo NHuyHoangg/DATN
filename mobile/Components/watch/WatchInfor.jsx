@@ -124,7 +124,7 @@ const WatchInfor = (props) => {
         readOnly={true}
         value={detailsInfor.battery_life || "Không có"}
       />
-      {screenType && (
+      {["auctionInProgress", "auctionJoin", "auctionMine", "auctionDone"].includes(screenType) && (
         <>
           <Input
             icon={
