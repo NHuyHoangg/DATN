@@ -291,13 +291,6 @@ const Payment = (route) => {
             <View
               style={{ flexDirection: "row", justifyContent: "space-between" }}
             >
-              <Text style={styles.message}>Phí kiểm định</Text>
-              <Text style={styles.message}>70.000 đ</Text>
-            </View>
-
-            <View
-              style={{ flexDirection: "row", justifyContent: "space-between" }}
-            >
               <Text
                 style={{ fontFamily: "montserrat-semi-bold", fontSize: 16 }}
               >

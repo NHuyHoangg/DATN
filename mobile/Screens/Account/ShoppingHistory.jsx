@@ -7,6 +7,9 @@ import OrderDelivering from './OrderDelivering';
 import OrderDone from './OrderDone';
 import OrderReturn from './OrderReturn';
 import OrderWaitGet from './OrderWaitGet';
+import OrderWaitPayment from './OrderWaitPayment';
+import OrderCancel from './OrderCancel';
+import OrderReturning from './OrderReturning';
 import React from 'react'
 
 const Tab = createMaterialTopTabNavigator();
@@ -26,16 +29,22 @@ export default function ShoppingHistory({}) {
           tabBarLabel: "Chờ xác nhận",
           ...TopTabScreenStyle,
         }}
-        
       />
       <Tab.Screen
         name="WaitGet"
         component={OrderWaitGet}
         options={{
+          tabBarLabel: "Chờ lấy hàng",
+          ...TopTabScreenStyle,
+        }}
+      />
+      <Tab.Screen
+        name="WaitPayment"
+        component={OrderWaitPayment}
+        options={{
           tabBarLabel: "Chờ thanh toán",
           ...TopTabScreenStyle,
         }}
-        
       />
       <Tab.Screen
         name="Delivering"
@@ -58,6 +67,22 @@ export default function ShoppingHistory({}) {
         component={OrderReturn}
         options={{
           tabBarLabel: "Trả hàng",
+          ...TopTabScreenStyle,
+        }}
+      />
+      <Tab.Screen
+        name="Returning"
+        component={OrderReturning}
+        options={{
+          tabBarLabel: "Đang trả hàng",
+          ...TopTabScreenStyle,
+        }}
+      />
+      <Tab.Screen
+        name="Cancel"
+        component={OrderCancel}
+        options={{
+          tabBarLabel: "Đơn huỷ",
           ...TopTabScreenStyle,
         }}
       />

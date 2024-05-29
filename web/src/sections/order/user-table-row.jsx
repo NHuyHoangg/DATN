@@ -139,12 +139,14 @@ export default function UserTableRow({
 
           <Grid item>
             <Label color={(order_status === 'waiting' && 'info') || 
-            (order_status === 'delivering' && 'warning') || 
-            (order_status === 'refund' && 'error') || 
+            ((order_status === 'delivering' || order_status === 'return') && 'warning') || 
+            ((order_status === 'refund' || order_status === 'cancel') && 'error') || 
             'success'}>
-              {(order_status === 'waiting' && 'Đang chờ') || 
+              {(order_status === 'waiting' && 'Chờ lấy hàng') || 
+              (order_status === 'return' && 'Đang hoàn hàng') || 
               (order_status === 'delivering' && 'Đang vận chuyển') || 
-              (order_status === 'refund' && 'Trả hàng') || 
+              (order_status === 'refund' && 'Xác nhận trả hàng') || 
+              (order_status === 'cancel' && 'Đơn huỷ') || 
               'Hoàn thành'}
             </Label>
           </Grid>

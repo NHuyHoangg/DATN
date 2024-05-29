@@ -6,7 +6,7 @@ import { faker } from '@faker-js/faker';
 export const posts = [...Array(52)].map(() => ({
   post_id: faker.number.int(),
   verified: sample(['verified', 'waiting', 'denied']),
-  order_status: sample(['waiting', 'delivering', 'done', 'refund']),
+  order_status: sample(['waiting', 'delivering', 'done', 'refund', 'return', 'cancel']),
   seller_name: faker.person.fullName(),
   phone_number: faker.phone.number(),
   email: faker.internet.email(),

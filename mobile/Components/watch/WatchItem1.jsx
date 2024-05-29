@@ -306,6 +306,7 @@ const WatchItem1 = memo((props) => {
               "sellerDelivering",
               "sellerDone",
               "sellerReturn",
+              "returning",
             ].includes(screenType) && (
               <Pressable
                 style={({ pressed }) => [
@@ -324,7 +325,7 @@ const WatchItem1 = memo((props) => {
             )}
 
             <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
-              {screenType == "waitGet" && (
+              {screenType == "waitPayment" && (
                 <Pressable
                   style={({ pressed }) => [
                     styles.button,
