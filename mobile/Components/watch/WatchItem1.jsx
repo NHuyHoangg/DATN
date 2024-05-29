@@ -100,7 +100,7 @@ const WatchItem1 = memo((props) => {
         text: "Hủy",
         style: "cancel",
       },
-      { text: "Xác nhận", style: "cancel" },
+      { text: "Xác nhận", onPress: () => navigation.navigate("Cancel")},
     ]);
   };
 
@@ -307,6 +307,7 @@ const WatchItem1 = memo((props) => {
               "sellerDone",
               "sellerReturn",
               "returning",
+              "sellerReturning",
             ].includes(screenType) && (
               <Pressable
                 style={({ pressed }) => [
