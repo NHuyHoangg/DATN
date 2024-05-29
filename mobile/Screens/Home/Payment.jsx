@@ -33,14 +33,13 @@ import color from "../../constants/color";
 import { Dimensions } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { getAddress } from "../../utils/location";
+import { orderReview } from "../../utils/recharge";
 import LoadingOverlay from "../Overlay/LoadingOverlay";
 import ErrorOverlay from "../Overlay/ErrorOverlay";
 
 const screenWidth = Dimensions.get("window").width;
 const screenHeight = Dimensions.get("window").height;
 const avatarSize = screenHeight / 18;
-
-const charge = 100000;
 
 const Payment = (route) => {
   // const data = useSelector(state => state.details.item);
@@ -84,18 +83,23 @@ const Payment = (route) => {
   const [error, setError] = useState(null);
   const [change, setChange] = useState(true);
   const [address, setAddress] = useState();
+  const [shipping, setShipping] = useState();
+  const [total, setTotal] = useState();
 
   const [dataAddress, setDataAddress] = useState([]);
   useEffect(() => {
     async function fetchData() {
       setIsLoading(true);
       try {
-        const res = await getAddress(token);
+        const res1 = await getAddress(token);
+        const res2 = await orderReview(token, route.route.params.props.id);
         // console.log(res);
-        if (res) {
-          setDataAddress(res);
-          setAddress(res.filter(item => item.is_default === 1)[0])
+        if (res1 && res2) {
+          setDataAddress(res1);
+          setAddress(res1.filter(item => item.is_default === 1)[0])
           setError(null);
+          setShipping(res2.shipping);
+          setTotal(res2.total);
         }
       } catch (error) {
         setError("Không thể tải thông tin");
@@ -137,7 +141,7 @@ const Payment = (route) => {
     return;
   }
 
-  console.log("Payment", route.route.params)
+  // console.log("Payment", route.route.params)
   // console.log(address)
 
   return (
@@ -285,7 +289,7 @@ const Payment = (route) => {
               style={{ flexDirection: "row", justifyContent: "space-between" }}
             >
               <Text style={styles.message}>Phí vận chuyển</Text>
-              <Text style={styles.message}>70.000 đ</Text>
+              <Text style={styles.message}>{new Intl.NumberFormat(['ban', 'id']).format(shipping)} đ</Text>
             </View>
 
             <View
@@ -299,7 +303,7 @@ const Payment = (route) => {
               <Text
                 style={{ fontFamily: "montserrat-semi-bold", fontSize: 16 }}
               >
-                700.000 đ
+                {new Intl.NumberFormat(['ban', 'id']).format(total)} đ
               </Text>
             </View>
           </View>
@@ -341,9 +345,9 @@ const Payment = (route) => {
           ]}
           onPress={() => {
             if (isPayment === "1")
-              navigation.navigate("WaitVerify")
+              navigation.navigate("ShoppingHistory")
             else
-              navigation.navigate("Recharge", { charge })
+              navigation.navigate("Recharge", { charge: total })
             }}
         >
           <Text style={styles.buttonText}>Xác nhận</Text>
