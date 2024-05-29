@@ -32,7 +32,7 @@ export default function LoginView() {
   const renderForm = (
     <>
       <Stack spacing={3}>
-        <TextField name="text" label="Tên đăng nhập" inputProps={{ mb: 3 }}/>
+        <TextField name="email" label="Email" inputProps={{ mb: 3 }}/>
 
         <TextField
           name="password"
