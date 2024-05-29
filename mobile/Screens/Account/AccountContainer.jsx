@@ -27,6 +27,7 @@ import AuctionDetail from "./AuctionDetail";
 import WatchDetails from "../../Components/watch/WatchDetails";
 import ManageWatch from "./ManageWatch";
 import Payment from "../Home/Payment";
+import ChooseAddress from "../Home/ChooseAddress"
 
 const Stack = createNativeStackNavigator();
 
@@ -223,6 +224,14 @@ export default function AccountScreen() {
         options={{
           ...HeaderStyle,
           title: "Xác nhận thanh toán",
+        }}
+      />
+      <Stack.Screen
+        name="ChooseAddress"
+        component={ChooseAddress}
+        options={{
+          ...HeaderStyle,
+          title: "Chọn địa chỉ",
         }}
       />
     </Stack.Navigator>

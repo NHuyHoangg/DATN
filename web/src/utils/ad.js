@@ -37,3 +37,17 @@ export const changeAd = async (info) => {
     return error.response.status;
   }
 };
+
+export const deleteAd = async (id) => {
+  try {
+    const response = await axios.post(API_URL + 'admin/service-block', id, {
+      headers: {
+        Authorization: token,
+      },
+    });
+    console.log(response);
+    return response.status;
+  } catch (error) {
+    return error.response.status;
+  }
+};

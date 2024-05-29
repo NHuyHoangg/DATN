@@ -104,6 +104,20 @@ const WatchItem1 = memo((props) => {
     ]);
   };
 
+  const confirmOrder = () => {
+    Alert.alert(
+      "Xác nhận",
+      "Bạn có muốn chấp nhận giao đơn hàng này?",
+      [
+        {
+          text: "Hủy",
+          style: "cancel",
+        },
+        { text: "Xác nhận", onPress: () => navigation.navigate("WaitGet") },
+      ]
+    );
+  };
+
   const confirmDoneOrder = () => {
     Alert.alert(
       "Xác nhận",
@@ -355,7 +369,7 @@ const WatchItem1 = memo((props) => {
                       styles.buttonGreen,
                       pressed ? styles.pressed : null,
                     ]}
-                    // onPress={}
+                    onPress={confirmOrder}
                   >
                     <Text style={[styles.buttonText]}>Xác nhận</Text>
                   </Pressable>

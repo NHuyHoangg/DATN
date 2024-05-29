@@ -168,6 +168,7 @@ const AuctionDetail = (route) => {
                     width: "80%",
                   }}
                 >
+                  {route.route.params.props.is_verified && route.route.params.props.is_verified !== 0 ? (
                   <View
                     style={{
                       backgroundColor: color.verify,
@@ -187,8 +188,8 @@ const AuctionDetail = (route) => {
                     >
                       Đã kiểm định
                     </Text>
-                  </View>
-
+                  </View>) : null
+                  }
                   {/* <AdSvg /> */}
                 </View>
               </ImageBackground>

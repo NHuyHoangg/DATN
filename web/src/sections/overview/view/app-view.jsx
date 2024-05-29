@@ -57,7 +57,7 @@ export default function AppView() {
           <Grid xs={6} lg={6} md={6}>
             <AppWidgetSummary
               title="Bài đăng mới"
-              total={714000}
+              total={63}
               color="success"
               icon={<img alt="icon" src="/assets/icons/glass/ic_glass_bag.png" />}
             />
@@ -65,7 +65,7 @@ export default function AppView() {
           <Grid xs={6} md={6}>
             <AppWidgetSummary
               title="Người dùng mới"
-              total={1352831}
+              total={5}
               color="info"
               icon={<img alt="icon" src="/assets/icons/glass/ic_glass_users.png" />}
             />
@@ -73,7 +73,7 @@ export default function AppView() {
           <Grid xs={6} md={6}>
             <AppWidgetSummary
               title="Đơn hàng mới"
-              total={1723315}
+              total={63}
               color="warning"
               icon={<img alt="icon" src="/assets/icons/glass/ic_glass_buy.png" />}
             />
@@ -81,7 +81,7 @@ export default function AppView() {
           <Grid xs={6} md={6}>
             <AppWidgetSummary
               title="Báo cáo bài đăng"
-              total={234}
+              total={32}
               color="error"
               icon={<img alt="icon" src="/assets/icons/glass/ic_glass_message.png" />}
             />
@@ -218,7 +218,7 @@ export default function AppView() {
 
           <Grid xs={12} lg={12} md={12} container justifyContent="space-between" sx={{ my: 1 }}>
             <Grid item>
-              <Typography variant="body1">Duc Phan</Typography>
+              <Typography variant="body1">Pink Duc</Typography>
             </Grid>
             <Grid item>
               <Typography variant="body1">1 phút trước</Typography>

@@ -380,7 +380,7 @@ const WatchDetails = (props) => {
                   <AdSvg height={30} width={30} />
                 ) : null}
 
-                {props.route.params.data.is_verified !== 0 ? (
+                {props.route.params.data.is_verified && props.route.params.data.is_verified !== 0 ? (
                   <View
                     style={{
                       backgroundColor: color.verify,
