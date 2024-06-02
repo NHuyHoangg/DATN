@@ -127,6 +127,8 @@ export default function UserTableRow({
     order_status,
   };
 
+  console.log(date);
+
   return (
     <>
       <TableRow hover tabIndex={-1} role="checkbox" selected={selected}>

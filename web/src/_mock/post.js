@@ -29,7 +29,7 @@ export const posts = [...Array(52)].map(() => ({
   price: faker.number.int(),
   case_size: faker.number.int(),
   status: sample(['old', 'new']),
-  date: faker.date.anytime(),
+  date: faker.date.recent({ days: 10, refDate: '2024-05-28T00:00:00.000Z' }),
   // media: [...Array(6)].map((_, hello) =>({
   //   content: `/assets/images/avatars/avatar_${hello + 1}.jpg`,
   //   product_index: hello+1,

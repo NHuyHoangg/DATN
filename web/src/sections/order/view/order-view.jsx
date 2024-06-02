@@ -1,4 +1,6 @@
+/* eslint-disable */
 import { useState } from 'react';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 
 import Card from '@mui/material/Card';
 // import Stack from '@mui/material/Stack';
@@ -25,6 +27,13 @@ import { emptyRows, applyFilter, getComparator, applyFilterVerified } from '../u
 // ----------------------------------------------------------------------
 
 export default function OrderPage() {
+  const label = useParams();
+  console.log(label);
+  let date;
+  if (label)
+    date = new Date(label.date);
+  console.log(date);
+
   const [page, setPage] = useState(0);
 
   const [order, setOrder] = useState('asc');
@@ -37,7 +46,13 @@ export default function OrderPage() {
 
   const [filterVerified, setFilterVerified] = useState('');
 
+  const [filterDate, setFilterDate] = useState();
+
   const [rowsPerPage, setRowsPerPage] = useState(5);
+
+  if (label) {
+    // console.log(date);
+  }
 
   const handleSort = (event, id) => {
     const isAsc = orderBy === id && order === 'asc';
@@ -89,6 +104,28 @@ export default function OrderPage() {
     filterName,
   });
 
+  const formatDateToDMY = (dateString) => {
+    const dateObj = new Date(dateString);
+    const day = String(dateObj.getDate()).padStart(2, '0');
+    const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+    const year = dateObj.getFullYear();
+    return `${day}-${month}-${year}`;
+  };
+
+  const filterByDate = (data, filterDate) => {
+    if (!filterDate) return data;
+    return data.filter(row => {
+      return formatDateToDMY(row.date) == formatDateToDMY(filterDate)
+    });
+  };
+
+  const filteredData = filterVerified.length === 0 ? dataFiltered : dataFilteredVerified;
+  let dateFilteredData;
+  if (label.date) {
+    dateFilteredData = filterByDate(filteredData, date);
+  } else dateFilteredData = filteredData;
+  const paginatedData = dateFilteredData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+
   const notFound = (!dataFiltered.length && !!filterName) || (!dataFilteredVerified.length && !!filterVerified);
 
   console.log(filterVerified.length)
@@ -126,8 +163,7 @@ export default function OrderPage() {
                 ]}
               />
               <TableBody>
-                {(filterVerified.length === 0 ? dataFiltered : dataFilteredVerified)
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                {paginatedData
                   .map((row) => (
                     <UserTableRow
                       key={row.post_id}
@@ -176,7 +212,7 @@ export default function OrderPage() {
         <TablePagination
           page={page}
           component="div"
-          count={(filterVerified.length === 0 ? dataFiltered.length : dataFilteredVerified.length)}
+          count={label.date ? paginatedData.length : (filterVerified.length === 0 ? dataFiltered.length : dataFilteredVerified.length)}
           rowsPerPage={rowsPerPage}
           onPageChange={handleChangePage}
           rowsPerPageOptions={[5, 10, 25]}

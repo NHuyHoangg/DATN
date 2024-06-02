@@ -53,8 +53,7 @@ export function applyFilter({ inputData, comparator, filterName, filterVerified 
     inputData = inputData.filter(
       (user) => user.order_status.toLowerCase().indexOf(filterVerified.toLowerCase()) !== -1
     );
-  }
-  else {
+  } else {
     inputData = inputData.filter(
       (user) => user.name.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
     );
@@ -81,8 +80,7 @@ export function applyFilterVerified({ inputData, comparator, filterVerified, fil
     inputData = inputData.filter(
       (user) => user.name.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
     );
-  }
-  else {
+  } else {
     inputData = inputData.filter(
       (user) => user.order_status.toLowerCase().indexOf(filterVerified.toLowerCase()) !== -1
     );

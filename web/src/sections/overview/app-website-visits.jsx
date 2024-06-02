@@ -1,3 +1,6 @@
+/* eslint-disable */
+import { useState } from 'react';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import Box from '@mui/material/Box';
@@ -8,8 +11,12 @@ import Chart, { useChart } from 'src/components/chart';
 
 // ----------------------------------------------------------------------
 
-export default function AppWebsiteVisits({ title, subheader, chart, ...other }) {
+export default function AppWebsiteVisits({ title, subheader, chart, height, ...other }) {
   const { labels, colors, series, options } = chart;
+  const navigate = useNavigate();
+
+  const [axisData, setAxisData] = useState();
+  const [clickedLabel, setClickedLabel] = useState('');
 
   const chartOptions = useChart({
     colors,
@@ -38,6 +45,17 @@ export default function AppWebsiteVisits({ title, subheader, chart, ...other }) 
       },
     },
     ...options,
+    chart: {
+      events: {
+        click: function(event, chartContext, config) {
+          const dataPointIndex = config.dataPointIndex;
+          const label = labels[dataPointIndex];
+          setAxisData(config);
+          setClickedLabel(label);
+          navigate(`/order/date/${encodeURIComponent(label)}`);
+        }
+      }
+    }
   });
 
   return (
@@ -51,7 +69,7 @@ export default function AppWebsiteVisits({ title, subheader, chart, ...other }) 
           series={series}
           options={chartOptions}
           width="100%"
-          height={364}
+          height={height}
         />
       </Box>
     </Card>

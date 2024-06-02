@@ -48,6 +48,7 @@ export default function Router() {
         { path: 'order', 
           children: [
             { path: '', element: <OrderPage /> },
+            { path: 'date/:date', element: <OrderPage /> },
             { path: 'detail/:post_id', element: <DetailOrder /> },
             { path: 'shipping/:post_id', element: <OrderShipping /> },
           ]
@@ -71,10 +72,10 @@ export default function Router() {
       path: '404',
       element: <Page404 />,
     },
-    {
-      path: '*',
-      element: <Navigate to="/404" replace />,
-    },
+    // {
+    //   path: '*',
+    //   element: <Navigate to="/404" replace />,
+    // },
   ]);
 
   return routes;
