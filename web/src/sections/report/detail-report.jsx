@@ -204,7 +204,7 @@ export default function DetailReport() {
             </Typography>
 
             <Typography variant="h3" sx={{ color: 'custom.baemin1' }}>
-              {change.price} đ
+              {new Intl.NumberFormat(['ban', 'id']).format(change.price)} đ
             </Typography>
 
             <Card sx={{ p: 3, my: 3 }}>

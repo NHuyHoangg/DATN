@@ -30,7 +30,7 @@ export default function AppWebsiteVisits({ title, subheader, chart, height, ...o
     },
     labels,
     xaxis: {
-      type: 'datetime',
+      type: 'category',
     },
     tooltip: {
       shared: true,
