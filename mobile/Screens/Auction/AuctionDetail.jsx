@@ -49,24 +49,24 @@ const dataTime = [
   {
     time: "19:34 03/11/2023",
     title: "5.100.000đ",
-    description: "Nguyễn Văn An",
+    description: "",
   },
   {
-    time: "19:34 03/11/2023",
+    time: "17:56 03/11/2023",
     title: "5.000.000đ",
-    description: "Nguyễn Văn Bình",
+    description: "",
   },
   {
-    time: "19:34 03/11/2023",
+    time: "16:23 03/11/2023",
     title: "4.500.000đ",
-    description: "Nguyễn Văn An",
+    description: "",
   },
   {
-    time: "19:34 03/11/2023",
+    time: "12:25 03/11/2023",
     title: "4.000.000đ",
-    description: "Nguyễn Văn Bình",
+    description: "",
   },
-  { time: "19:34 03/11/2023", title: "2.500.000đ", description: "Khởi điểm" },
+  { time: "10:31 03/11/2023", title: "2.500.000đ", description: "Khởi điểm" },
 ];
 
 const AuctionDetail = (route) => {

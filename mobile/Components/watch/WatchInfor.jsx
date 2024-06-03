@@ -150,7 +150,7 @@ const WatchInfor = (props) => {
             label="Bội giá"
             readOnly={true}
             // value={detailsInfor.strap_color || "Không có"}
-            value={detailsInfor.price}đ
+            value={"200000"}
           />
           <Input
             icon={

@@ -70,7 +70,7 @@ const WatchDetails = (props) => {
   const [modal, setModal] = useState(false);
   const [modalReport, setModalReport] = useState(false);
   const [auctionPrice, setAuctionPrice] = useState(
-    props.route.params.data.price
+    props.route.params.data.priceNow
   );
   // console.log("WatchDetails.jsx");
 
@@ -351,10 +351,7 @@ const WatchDetails = (props) => {
         )}
 
         {modalReport && (
-          <ReportModal
-            onPress={openModalReport}
-            modalVisible={modalReport}
-          />
+          <ReportModal onPress={openModalReport} modalVisible={modalReport} />
         )}
 
         <Slider images={renderedItem.images} />
@@ -362,10 +359,18 @@ const WatchDetails = (props) => {
         <View style={styles.contentContainer}>
           <Text style={styles.watchName}>{renderedItem.name}</Text>
           {screenType !== "favoriteProducts" && (
-            <View style={{ flexDirection: "row", justifyContent: "space-between", }}>
-              <Text style={[styles.price, { width: "30%" }]}>
-                {renderedItem.formatted_price}
-              </Text>
+            <View
+              style={{ flexDirection: "row", justifyContent: "space-between" }}
+            >
+              {["auctionInProgress"].includes(screenType) ? (
+                <Text style={[styles.price, { width: "30%" }]}>
+                  {new Intl.NumberFormat(['ban', 'id']).format(auctionPrice)} đ
+                </Text>
+              ) : (
+                <Text style={[styles.price, { width: "30%" }]}>
+                  {renderedItem.formatted_price}
+                </Text>
+              )}
 
               <View
                 style={{
@@ -380,7 +385,8 @@ const WatchDetails = (props) => {
                   <AdSvg height={30} width={30} />
                 ) : null}
 
-                {props.route.params.data.is_verified && props.route.params.data.is_verified !== 0 ? (
+                {props.route.params.data.is_verified &&
+                props.route.params.data.is_verified !== 0 ? (
                   <View
                     style={{
                       backgroundColor: color.verify,

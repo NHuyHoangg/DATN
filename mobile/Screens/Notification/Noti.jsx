@@ -29,42 +29,42 @@ const dataNoti = [
     date: "12:59 27/02/2024",
   },
   {
-    uri: "https://media.shopdongho.com/2023/04/dong-ho-Casio-MTP-VT01L-1BUDF-1.jpg",
-    title: "Đơn hàng đã được giao thành công!",
+    uri: "https://media.shopdongho.com/2021/05/hinh-anh-AE-1200WHD-1AVDF-new-2.jpg",
+    title: "Bài viết của bạn đã được kiểm định!",
     description:
-      "Đơn hàng với mã vận đơn HFJSKNV đã được giao thành công. Hãy đánh giá đơn hàng ngay nhé!",
+      "Sản phẩm Citizen FB1443-08A của bạn đã được kiểm định. Hãy kiểm tra ngay nhé!",
     date: "12:59 27/02/2024",
   },
   {
-    uri: "https://media.shopdongho.com/2023/04/dong-ho-Casio-MTP-VT01L-1BUDF-1.jpg",
-    title: "Đơn hàng đã được giao thành công!",
+    uri: "https://media.shopdongho.com/2018/09/casio-mtp-1374d-1avdf.jpg",
+    title: "Bạn đã thắng phiên đấu giá!",
     description:
-      "Đơn hàng với mã vận đơn HFJSKNV đã được giao thành công. Hãy đánh giá đơn hàng ngay nhé!",
+      "Bạn đã thắng phiên đấu giá. Hãy kiểm tra ngay nhé!",
     date: "12:59 27/02/2024",
   },
   {
-    uri: "https://media.shopdongho.com/2023/04/dong-ho-Casio-MTP-VT01L-1BUDF-1.jpg",
-    title: "Đơn hàng đã được giao thành công!",
+    uri: "https://media.shopdongho.com/2008/01/casio-edifice-EFR-526L-1AVUDF.jpg",
+    title: "Đơn hàng đang trên đường giao tới bạn",
     description:
-      "Đơn hàng với mã vận đơn HFJSKNV đã được giao thành công. Hãy đánh giá đơn hàng ngay nhé!",
+      "Đơn hàng với mã vận đơn HFJSKNV đang trên đường giao tới bạn. Hãy kiểm tra ngay nhé!",
     date: "12:59 27/02/2024",
   },
   {
-    uri: "https://media.shopdongho.com/2023/04/dong-ho-Casio-MTP-VT01L-1BUDF-1.jpg",
-    title: "Đơn hàng đã được giao thành công!",
+    uri: "https://media.shopdongho.com/2018/09/dong-ho-casio-efr-526l-7avudf-nam-pin-day-da-a-1.jpg",
+    title: "Bạn đã đăng tin đăng mới!",
     description:
-      "Đơn hàng với mã vận đơn HFJSKNV đã được giao thành công. Hãy đánh giá đơn hàng ngay nhé!",
+      "Sản phẩm Citizen FB1443-08A của bạn đã được đăng tin. Hãy kiểm tra ngay nhé!",
     date: "12:59 27/02/2024",
   },
   {
-    uri: "https://media.shopdongho.com/2023/04/dong-ho-Casio-MTP-VT01L-1BUDF-1.jpg",
-    title: "Đơn hàng đã được giao thành công!",
+    uri: "https://media.shopdongho.com/2018/09/casio-mtp-v300g-7audf.jpg",
+    title: "Bạn đã báo cáo bài viết!",
     description:
-      "Đơn hàng với mã vận đơn HFJSKNV đã được giao thành công. Hãy đánh giá đơn hàng ngay nhé!",
+      "Bạn đã báo cáo sản phẩm Citizen FB1443-08A. Hãy kiểm tra ngay nhé!",
     date: "12:59 27/02/2024",
   },
   {
-    uri: "https://media.shopdongho.com/2023/04/dong-ho-Casio-MTP-VT01L-1BUDF-1.jpg",
+    uri: "https://media.shopdongho.com/2018/06/casio-mtp-1375l-7avdf.jpg",
     title: "Đơn hàng đã được giao thành công!",
     description:
       "Đơn hàng với mã vận đơn HFJSKNV đã được giao thành công. Hãy đánh giá đơn hàng ngay nhé!",

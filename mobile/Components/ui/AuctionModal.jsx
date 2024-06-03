@@ -50,10 +50,10 @@ export default function AuctionModal({
   setAuctionPrice,
   changeAuctionPrice,
 }) {
-  const [now, setNow] = useState((priceNow + step).toString());
+  const [now, setNow] = useState((parseInt(auctionPrice) + step).toString());
 
   const onChangePrice = (value) => {
-    const numValue = parseInt(value.replace(/,/g, ''), 10);
+    const numValue = parseInt(value.replace(/,/g, ""), 10);
     if (!isNaN(numValue)) {
       setNow(value);
       setAuctionPrice(numValue);
@@ -63,28 +63,39 @@ export default function AuctionModal({
   };
 
   const increaseStep = () => {
-    const newNow = parseInt(now.replace(/,/g, '')) + step;
+    const newNow = parseInt(now.replace(/,/g, "")) + step;
     setNow(newNow.toString());
     setAuctionPrice(newNow);
   };
 
   const decreaseStep = () => {
-    const currentNow = parseInt(now.replace(/,/g, ''));
-    if (currentNow - step <= 0 || currentNow - step <= priceNow) return;
+    const currentNow = parseInt(now.replace(/,/g, ""));
+    if (currentNow - step <= 0 || currentNow - step <= parseInt(priceNow))
+      return;
     const newNow = currentNow - step;
     setNow(newNow.toString());
     setAuctionPrice(newNow);
   };
 
   const submitAuction = () => {
-    Alert.alert("Thông báo", "Bạn có muốn tham gia đấu giá?", [
-      { text: "Huỷ", style: "cancel" },
-      { text: "Xác nhận", onPress: () => changeAuctionPrice() },
-    ]);
+    if (now <= parseInt(priceNow)) {
+      Alert.alert("Lỗi", "Số tiền đấu giá phải lớn hơn số tiền hiện tại. Vui lòng thử lại", [
+        { text: "Xác nhận", style: "cancel" },
+      ]);
+    } else if (now - parseInt(priceNow) < step) {
+      Alert.alert("Lỗi", "Số tiền đấu giá phải từ bội giá trở lên. Vui lòng thử lại", [
+        { text: "Xác nhận", style: "cancel" },
+      ]);
+    } else {
+      Alert.alert("Thông báo", "Bạn có muốn tham gia đấu giá?", [
+        { text: "Huỷ", style: "cancel" },
+        { text: "Xác nhận", onPress: () => changeAuctionPrice() },
+      ]);
+    }
   };
 
   console.log("price", now);
-  console.log(auctionPrice)
+  console.log(auctionPrice);
   console.log(typeof now);
 
   return (
@@ -168,7 +179,7 @@ export default function AuctionModal({
               placeholder={now.toString()}
               width="45%"
               onChangeText={onChangePrice}
-              readOnly={true}
+              // readOnly={true}
             />
 
             <Pressable onPress={increaseStep}>
