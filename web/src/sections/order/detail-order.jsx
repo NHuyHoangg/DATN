@@ -334,22 +334,24 @@ export default function DetailOrder() {
                   </Typography>
                 </Grid>
 
-                <Grid item onClick={handleRefundTab}>
-                  <Typography
-                    variant="h4"
-                    sx={{
-                      color: isRefund ? 'white' : 'inherit',
-                      backgroundColor: isRefund ? 'custom.baemin1' : 'inherit',
-                      borderRadius: 2,
-                      py: 2,
-                      px: 4,
-                      my: 2,
-                      ':hover': { cursor: 'pointer' },
-                    }}
-                  >
-                    Thông tin trả hàng
-                  </Typography>
-                </Grid>
+                {(change.order_status === 'refund' || change.order_status === 'return') && (
+                  <Grid item onClick={handleRefundTab}>
+                    <Typography
+                      variant="h4"
+                      sx={{
+                        color: isRefund ? 'white' : 'inherit',
+                        backgroundColor: isRefund ? 'custom.baemin1' : 'inherit',
+                        borderRadius: 2,
+                        py: 2,
+                        px: 4,
+                        my: 2,
+                        ':hover': { cursor: 'pointer' },
+                      }}
+                    >
+                      Thông tin trả hàng
+                    </Typography>
+                  </Grid>
+                )}
               </Grid>
 
               {isRefund && (
@@ -420,7 +422,7 @@ export default function DetailOrder() {
                       <Iconify width={20} sx={{ mr: 1 }} icon="mingcute:watch-line" />
                       <Typography variant="h6">Hãng</Typography>
                     </Stack>
-                    <Typography sx={{ ml: 1 }}>{change.brand || "Không có thông tin"}</Typography>
+                    <Typography sx={{ ml: 1 }}>{change.brand || 'Không có thông tin'}</Typography>
                   </Grid>
 
                   <Grid item xs={4} my={1}>
@@ -428,7 +430,7 @@ export default function DetailOrder() {
                       <Iconify width={20} sx={{ mr: 1 }} icon="iconamoon:category-light" />
                       <Typography variant="h6">Loại đồng hồ</Typography>
                     </Stack>
-                    <Typography sx={{ ml: 1 }}>{change.brand || "Không có thông tin"}</Typography>
+                    <Typography sx={{ ml: 1 }}>{change.brand || 'Không có thông tin'}</Typography>
                   </Grid>
 
                   <Grid item xs={4} my={1}>
@@ -436,7 +438,7 @@ export default function DetailOrder() {
                       <Iconify width={20} sx={{ mr: 1 }} icon="icon-park-outline:oceanengine" />
                       <Typography variant="h6">Động cơ</Typography>
                     </Stack>
-                    <Typography sx={{ ml: 1 }}>{change.engine || "Không có thông tin"}</Typography>
+                    <Typography sx={{ ml: 1 }}>{change.engine || 'Không có thông tin'}</Typography>
                   </Grid>
 
                   <Grid item xs={4} my={1}>
@@ -444,7 +446,7 @@ export default function DetailOrder() {
                       <Iconify width={20} sx={{ mr: 1 }} icon="radix-icons:button" />
                       <Typography variant="h6">Số nút bấm</Typography>
                     </Stack>
-                    <Typography sx={{ ml: 1 }}>{change.engine || "Không có thông tin"}</Typography>
+                    <Typography sx={{ ml: 1 }}>{change.engine || 'Không có thông tin'}</Typography>
                   </Grid>
 
                   <Grid item xs={4} my={1}>
@@ -462,7 +464,9 @@ export default function DetailOrder() {
                       <Iconify width={20} sx={{ mr: 1 }} icon="eva:clock-outline" />
                       <Typography variant="h6">Kích thước mặt số</Typography>
                     </Stack>
-                    <Typography sx={{ ml: 1 }}>{change.case_size || "Không có thông tin"} mm</Typography>
+                    <Typography sx={{ ml: 1 }}>
+                      {change.case_size || 'Không có thông tin'} mm
+                    </Typography>
                   </Grid>
 
                   <Grid item xs={4} my={1}>
@@ -470,7 +474,9 @@ export default function DetailOrder() {
                       <Iconify width={20} sx={{ mr: 1 }} icon="eva:clock-outline" />
                       <Typography variant="h6">Màu mặt kính</Typography>
                     </Stack>
-                    <Typography sx={{ ml: 1 }}>{change.case_size || "Không có thông tin"}</Typography>
+                    <Typography sx={{ ml: 1 }}>
+                      {change.case_size || 'Không có thông tin'}
+                    </Typography>
                   </Grid>
 
                   <Grid item xs={4} my={1}>
@@ -478,7 +484,7 @@ export default function DetailOrder() {
                       <Iconify width={20} sx={{ mr: 1 }} icon="solar:user-circle-broken" />
                       <Typography variant="h6">Kiểu dáng</Typography>
                     </Stack>
-                    <Typography sx={{ ml: 1 }}>{change.gender || "Không có thông tin"}</Typography>
+                    <Typography sx={{ ml: 1 }}>{change.gender || 'Không có thông tin'}</Typography>
                   </Grid>
 
                   <Grid item xs={4} my={1}>
@@ -486,7 +492,9 @@ export default function DetailOrder() {
                       <Iconify width={20} sx={{ mr: 1 }} icon="mdi:water-off-outline" />
                       <Typography variant="h6">Chống nước</Typography>
                     </Stack>
-                    <Typography sx={{ ml: 1 }}>{change.waterproof || "Không có thông tin"}</Typography>
+                    <Typography sx={{ ml: 1 }}>
+                      {change.waterproof || 'Không có thông tin'}
+                    </Typography>
                   </Grid>
 
                   <Grid item xs={4} my={1}>
@@ -494,7 +502,9 @@ export default function DetailOrder() {
                       <Iconify width={20} sx={{ mr: 1 }} icon="logos:fabric" />
                       <Typography variant="h6">Loại dây</Typography>
                     </Stack>
-                    <Typography sx={{ ml: 1 }}>{change.strap_material || "Không có thông tin"}</Typography>
+                    <Typography sx={{ ml: 1 }}>
+                      {change.strap_material || 'Không có thông tin'}
+                    </Typography>
                   </Grid>
 
                   <Grid item xs={4} my={1}>
@@ -502,7 +512,9 @@ export default function DetailOrder() {
                       <Iconify width={20} sx={{ mr: 1 }} icon="logos:fabric" />
                       <Typography variant="h6">Màu dây</Typography>
                     </Stack>
-                    <Typography sx={{ ml: 1 }}>{change.strap_material || "Không có thông tin"}</Typography>
+                    <Typography sx={{ ml: 1 }}>
+                      {change.strap_material || 'Không có thông tin'}
+                    </Typography>
                   </Grid>
 
                   <Grid item xs={4} my={1}>
@@ -510,7 +522,9 @@ export default function DetailOrder() {
                       <Iconify width={20} sx={{ mr: 1 }} icon="mage:battery-full" />
                       <Typography variant="h6">Thời gian sử dụng pin</Typography>
                     </Stack>
-                    <Typography sx={{ ml: 1 }}>{change.battery_life || "Không có thông tin"}</Typography>
+                    <Typography sx={{ ml: 1 }}>
+                      {change.battery_life || 'Không có thông tin'}
+                    </Typography>
                   </Grid>
                 </Grid>
               )}

@@ -89,7 +89,7 @@ export default function Balance({ route, navigation }) {
         contentContainerStyle={{ paddingBottom: 15 }}
       >
         <View style={{ alignItems: "center" }}>
-          <Text style={styles.balance}>123.456 đ</Text>
+          <Text style={styles.balance}>230.000 đ</Text>
           <Pressable
             android_ripple={{ color: "#ccc" }}
             style={({ pressed }) => [

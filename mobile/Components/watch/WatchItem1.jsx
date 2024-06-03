@@ -186,7 +186,7 @@ const WatchItem1 = memo((props) => {
                 width: "80%",
               }}
             >
-            {props.data.is_verfied && props.data.is_verfied !== 0 ?
+            {props.data.is_verified && props.data.is_verified !== 0 ?
               (<View
                 style={{
                   backgroundColor: color.verify,
