@@ -4,7 +4,7 @@
     "slug": "dho",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/splash.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/images/splash.png",
@@ -43,9 +43,8 @@
     ],
     "extra": {
       "eas": {
-        "projectId": "44c34909-e247-474c-b444-eec63df09eea"
+        "projectId": "12439da7-04b9-4adc-9a48-470a10215435"
       }
-    },
-    "owner": "tanto_2012017"
+    }
   }
 }
