@@ -20,7 +20,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/splash-1024.png",
+        "foregroundImage": "./assets/images/new-icon.png",
         "backgroundColor": "#ffffff"
       },
       "permissions": [
