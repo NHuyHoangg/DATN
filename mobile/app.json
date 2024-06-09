@@ -4,7 +4,7 @@
     "slug": "dho",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/new-icon.png",
+    "icon": "./assets/images/icon-fix.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/images/splash.png",
