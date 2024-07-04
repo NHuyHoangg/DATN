@@ -108,7 +108,7 @@ Nav.propTypes = {
 function NavItem({ item }) {
   const pathname = usePathname();
 
-  const active = item.path === pathname;
+  const active = pathname.includes(item.path);
 
   console.log(pathname);
 

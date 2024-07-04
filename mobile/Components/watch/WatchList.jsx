@@ -26,14 +26,11 @@ const WatchList = memo((props) => {
   if (screenType === "home") {
     // console.log("home")
     dataList = useSelector((state) => state.watch.items);
-  } else if (screenType === "selling") {
-    dataList = useSelector((state) => state.trading.sellingItems);
-  } else if (screenType === "sold") {
-    dataList = useSelector((state) => state.trading.soldItems);
-  } else if (screenType === "favoritePosts") {
-    dataList = useSelector((state) => state.favoritePost.items);
-  } else if (screenType === "favoriteProducts") {
-    dataList = useSelector((state) => state.favoriteProduct.resultList);
+  } else {
+    const numOfData = 4;
+    for (let i = 0; i < numOfData; i++) {
+      dataList.push(dataGen());
+    }	
   }
   // const numOfData = 10;
   // for (let i = 0; i < numOfData; i++) {

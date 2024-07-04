@@ -339,6 +339,7 @@ const ManageWatch = (props) => {
           };
           dispatch(tradingActions.updateSellingItem(formattedData));
           await editPost(token, data);
+          console.log(1);
           navigation.goBack();
         } catch (err) {
           setIsLoading(false);
@@ -347,6 +348,7 @@ const ManageWatch = (props) => {
             "Có lỗi xảy ra khi đăng sản phẩm. Vui lòng thử lại",
             [{ text: "Đồng ý" }]
           );
+          console("lỗi")
           console.log(err)
         }
       }

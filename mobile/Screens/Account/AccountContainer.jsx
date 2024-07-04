@@ -20,6 +20,14 @@ import RefundDetail from "./RefundDetail";
 import Balance from "./Balance";
 import Charge from "./Charge";
 import Recharge from "./Recharge";
+import Auction from "./Auction";
+import AuctionJoin from "./AuctionJoin";
+import AuctionMine from "./AuctionMine";
+import AuctionDetail from "./AuctionDetail";
+import WatchDetails from "../../Components/watch/WatchDetails";
+import ManageWatch from "./ManageWatch";
+import Payment from "../Home/Payment";
+import ChooseAddress from "../Home/ChooseAddress"
 
 const Stack = createNativeStackNavigator();
 
@@ -160,6 +168,70 @@ export default function AccountScreen() {
         options={{
           ...HeaderStyle,
           title: "Thanh toán",
+        }}
+      />
+      <Stack.Screen
+        name="Auction"
+        component={Auction}
+        options={{
+          ...HeaderStyle,
+          title: "Đấu giá của tôi",
+        }}
+      />
+      <Stack.Screen
+        name="AuctionJoin"
+        component={AuctionJoin}
+        options={{
+          ...HeaderStyle,
+          title: "Lịch sử tham gia",
+        }}
+      />
+      <Stack.Screen
+        name="AuctionMine"
+        component={AuctionMine}
+        options={{
+          ...HeaderStyle,
+          title: "Đấu giá của tôi",
+        }}
+      />
+      <Stack.Screen
+        name="AuctionDetail"
+        component={AuctionDetail}
+        options={{
+          ...HeaderStyle,
+          title: "Thông tin sản phẩm",
+        }}
+      />
+      <Stack.Screen
+        name="WatchDetails"
+        component={WatchDetails}
+        options={{
+          ...HeaderStyle,
+          title: "Thông tin sản phẩm",
+        }}
+      />
+      <Stack.Screen
+        name="ManageWatch"
+        component={ManageWatch}
+        options={{
+          ...HeaderStyle,
+          title: "Quản lý đồng hồ",
+        }}
+      />
+      <Stack.Screen
+        name="Payment"
+        component={Payment}
+        options={{
+          ...HeaderStyle,
+          title: "Xác nhận thanh toán",
+        }}
+      />
+      <Stack.Screen
+        name="ChooseAddress"
+        component={ChooseAddress}
+        options={{
+          ...HeaderStyle,
+          title: "Chọn địa chỉ",
         }}
       />
     </Stack.Navigator>

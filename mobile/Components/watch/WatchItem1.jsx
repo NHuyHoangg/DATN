@@ -37,15 +37,19 @@ const WatchItem1 = memo((props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
+  console.log(screenType)
+
   const synchFetching = () => {};
   let headerName = "";
   if (["favoriteProducts", "home"].includes(screenType))
     headerName = "Chi tiết sản phẩm";
   else if (screenType === "selling") headerName = "Sản phẩm đang bán";
   else if (screenType === "sold") headerName = "Sản phẩm đã bán";
-  else if (screenType === "favoritePosts") headerName = "Bảng tin yêu thích";
-  else headerName = "Sản phẩm yêu thích";
+  else if (screenType === "favoritePosts") headerName = "Sản phẩm yêu thích";
+  else headerName = "Thông tin sản phẩm";
   const viewWatchPostHandler = () => {
+    if (!["home", "selling", "sold", "favoritePosts", "auctionMine"].includes(screenType)) return;
+
     if (id >= 0) {
       navigation.navigate("WatchDetails", {
         screenType: screenType,
@@ -80,14 +84,38 @@ const WatchItem1 = memo((props) => {
   //   );
   // };
 
-  const cancelOrder = () => {
-    Alert.alert("Xác nhận", "Bạn có chắc chắn muốn huỷ đơn hàng này?", [
+  const deleteAuction = () => {
+    Alert.alert("Xác nhận", "Bạn có chắc chắn muốn xoá phiên đấu giá này?", [
       {
         text: "Hủy",
         style: "cancel",
       },
       { text: "Xác nhận", style: "cancel" },
     ]);
+  };
+
+  const cancelOrder = () => {
+    Alert.alert("Xác nhận", "Bạn có chắc chắn muốn huỷ đơn hàng này?", [
+      {
+        text: "Hủy",
+        style: "cancel",
+      },
+      { text: "Xác nhận", onPress: () => navigation.navigate("Cancel")},
+    ]);
+  };
+
+  const confirmOrder = () => {
+    Alert.alert(
+      "Xác nhận",
+      "Bạn có muốn chấp nhận giao đơn hàng này?",
+      [
+        {
+          text: "Hủy",
+          style: "cancel",
+        },
+        { text: "Xác nhận", onPress: () => navigation.navigate("WaitGet") },
+      ]
+    );
   };
 
   const confirmDoneOrder = () => {
@@ -99,7 +127,7 @@ const WatchItem1 = memo((props) => {
           text: "Hủy",
           style: "cancel",
         },
-        { text: "Xác nhận", style: "cancel" },
+        { text: "Xác nhận", onPress: () => navigation.navigate("Done") },
       ]
     );
   };
@@ -158,7 +186,8 @@ const WatchItem1 = memo((props) => {
                 width: "80%",
               }}
             >
-              <View
+            {props.data.is_verified && props.data.is_verified !== 0 ?
+              (<View
                 style={{
                   backgroundColor: color.verify,
                   flexDirection: "row",
@@ -177,8 +206,8 @@ const WatchItem1 = memo((props) => {
                 >
                   Đã kiểm định
                 </Text>
-              </View>
-
+              </View>) : null
+            }
               {/* <AdSvg /> */}
             </View>
           </ImageBackground>
@@ -237,9 +266,35 @@ const WatchItem1 = memo((props) => {
                       styles.buttonRed,
                       pressed ? styles.pressed : null,
                     ]}
-                    onPress={() => navigation.navigate("ChooseAd", { props })}
+                    onPress={() => navigation.navigate("ChooseAd", { props: props.data })}
                   >
                     <Text style={[styles.buttonText]}>Đẩy tin</Text>
+                  </Pressable>
+                </View>
+              )}
+
+              {screenType == "auctionMine" && (
+                <View style={{ flexDirection: "row", justifyContent: "flex-end", alignItems: "flex-end" }}>
+                  <Pressable
+                    style={({ pressed }) => [
+                      styles.button,
+                      styles.buttonRed,
+                      pressed ? styles.pressed : null,
+                    ]}
+                    onPress={deleteAuction}
+                  >
+                    <Text style={[styles.buttonText]}>Xoá</Text>
+                  </Pressable>
+
+                  <Pressable
+                    style={({ pressed }) => [
+                      styles.button,
+                      styles.buttonGreen,
+                      pressed ? styles.pressed : null,
+                    ]}
+                    onPress={() => navigation.navigate("ManageWatch", { isAdding: false })}
+                  >
+                    <Text style={[styles.buttonText]}>Chỉnh sửa</Text>
                   </Pressable>
                 </View>
               )}
@@ -251,6 +306,8 @@ const WatchItem1 = memo((props) => {
               "sellerDelivering",
               "sellerDone",
               "sellerReturn",
+              "returning",
+              "sellerReturning",
             ].includes(screenType) && (
               <Pressable
                 style={({ pressed }) => [
@@ -269,14 +326,14 @@ const WatchItem1 = memo((props) => {
             )}
 
             <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
-              {screenType == "waitGet" && (
+              {screenType == "waitPayment" && (
                 <Pressable
                   style={({ pressed }) => [
                     styles.button,
                     styles.buttonGreen,
                     pressed ? styles.pressed : null,
                   ]}
-                  // onPress={}
+                  onPress={() => navigation.navigate("Payment", { props: props.data })}
                 >
                   <Text style={[styles.buttonText]}>Thanh toán</Text>
                 </Pressable>
@@ -314,7 +371,7 @@ const WatchItem1 = memo((props) => {
                       styles.buttonGreen,
                       pressed ? styles.pressed : null,
                     ]}
-                    // onPress={}
+                    onPress={confirmOrder}
                   >
                     <Text style={[styles.buttonText]}>Xác nhận</Text>
                   </Pressable>

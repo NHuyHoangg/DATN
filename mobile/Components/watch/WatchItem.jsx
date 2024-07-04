@@ -10,7 +10,13 @@ import {
 } from "react-native";
 import { useState, memo } from "react";
 import { AntDesign } from "@expo/vector-icons";
-import { SimpleLineIcons, Entypo, Ionicons } from "@expo/vector-icons";
+import {
+  SimpleLineIcons,
+  Entypo,
+  Ionicons,
+  MaterialIcons,
+  MaterialCommunityIcons,
+} from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 
 import Card from "../ui/Card";
@@ -24,7 +30,6 @@ LogBox.ignoreLogs([
   "Non-serializable values were found in the navigation state",
 ]);
 const WatchItem = memo((props) => {
-
   // console.log("WatchItem.jsx");
   const screenType = props.screenType;
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
@@ -37,18 +42,24 @@ const WatchItem = memo((props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
+  console.log(props);
+
   const synchFetching = () => {};
   let headerName = "";
-  if(["favoriteProducts","home" ].includes(screenType))
+  if (
+    [
+      "favoriteProducts",
+      "home",
+      "auctionInProgress",
+      "auctionDone",
+      "auctionJoin",
+    ].includes(screenType)
+  )
     headerName = "Chi tiết sản phẩm";
-  else if(screenType === "selling") 
-    headerName = "Sản phẩm đang bán";
-  else if(screenType === "sold")
-    headerName = "Sản phẩm đã bán";
-  else if(screenType === "favoritePosts")
-    headerName = "Bảng tin yêu thích";
-  else
-    headerName = "Sản phẩm yêu thích";
+  else if (screenType === "selling") headerName = "Sản phẩm đang bán";
+  else if (screenType === "sold") headerName = "Sản phẩm đã bán";
+  else if (screenType === "favoritePosts") headerName = "Bảng tin yêu thích";
+  else headerName = "Thông tin sản phẩm";
   const viewWatchPostHandler = () => {
     if (id >= 0) {
       navigation.navigate("WatchDetails", {
@@ -87,8 +98,8 @@ const WatchItem = memo((props) => {
       console.log(err);
     }
   };
+  console.log(props.data);
 
-  // console.log(props.data)
   return (
     <Card>
       <Pressable
@@ -99,16 +110,43 @@ const WatchItem = memo((props) => {
         onPress={viewWatchPostHandler}
       >
         <View>
-          <ImageBackground style={styles.image} source={{ uri: props.data.image }}>
-            <View style={{ flexDirection: "row", justifyContent: "space-between", width: "80%"}}>
-              <View style={{backgroundColor: color.verify, flexDirection: "row", padding: 3, borderRadius: 5}}>
-                <Ionicons name="checkmark-circle" size={15} color="white" /> 
-                <Text style={{ color: color.white, fontSize: 10, marginLeft: 3, fontFamily: "montserrat-regular"}}>
-                  Đã kiểm định
-                </Text>
-              </View>
+          <ImageBackground
+            style={styles.image}
+            source={{ uri: props.data.image }}
+          >
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              {props.data.is_verified && props.data.is_verified !== 0 ? (
+                <View
+                  style={{
+                    backgroundColor: color.verify,
+                    flexDirection: "row",
+                    padding: 3,
+                    borderRadius: 5,
+                  }}
+                >
+                  <Ionicons name="checkmark-circle" size={15} color="white" />
+                  <Text
+                    style={{
+                      color: color.white,
+                      fontSize: 10,
+                      marginLeft: 3,
+                      fontFamily: "montserrat-regular",
+                    }}
+                  >
+                    Đã kiểm định
+                  </Text>
+                </View>
+              ) : null}
 
-              <AdSvg />
+              {props.data.is_ads && props.data.is_ads !== '0' ? (
+                <AdSvg height={30} width={30} />
+              ) : null}
             </View>
           </ImageBackground>
         </View>
@@ -117,27 +155,26 @@ const WatchItem = memo((props) => {
             <Text style={[styles.text, styles.name]}>
               {nameLen < 15 ? name : name.slice(0, 15) + "..."}
             </Text>
-            
           </View>
           <View style={styles.innerContainer}>
             <Text style={[styles.text, styles.price]}>
-              {props.data.formatted_price}
+              {props.data.formatted_price || <Text>{props.data.price} đ</Text>}
             </Text>
           </View>
           <View style={styles.innerContainer}>
             <View style={[styles.detailsContainer, styles.price]}>
-              <View style={[styles.detailContainer]}>
-                <View>
-                  <Ionicons
-                    name="time-outline"
-                    size={10}
-                    color={color.gray}
-                    style={styles.icon}
-                  />
-                </View>
-                <Text style={styles.detailText}>{props.data.date}</Text>
+              <View style={styles.detailContainer}>
+                <Ionicons
+                  name="time-outline"
+                  size={10}
+                  color={color.gray}
+                  style={styles.icon}
+                />
+                <Text style={styles.detailText}>
+                  {props.data.date || props.data.end}
+                </Text>
               </View>
-              <View style={[styles.detailContainer]}>
+              <View style={styles.detailContainer}>
                 <SimpleLineIcons
                   name="location-pin"
                   size={10}
@@ -145,57 +182,36 @@ const WatchItem = memo((props) => {
                   style={styles.icon}
                 />
                 <Text style={styles.detailText}>
-                  {props.data.location || (!props.data.location && "Chưa có")}
+                  {props.data.location || "Chưa có"}
                 </Text>
               </View>
             </View>
+
+            {["auctionDone", "auctionInProgress"].includes(screenType) && (
+              <View style={[styles.detailsContainer, styles.price]}>
+                <View style={styles.detailContainer}>
+                  <MaterialIcons
+                    name="attach-money"
+                    size={10}
+                    color={color.gray}
+                    style={styles.icon}
+                  />
+                  <Text style={styles.detailText}>1.000.000 đ</Text>
+                </View>
+                <View style={styles.detailContainer}>
+                  <MaterialCommunityIcons
+                    name="cash-plus"
+                    size={10}
+                    color={color.gray}
+                    style={styles.icon}
+                  />
+                  <Text style={styles.detailText}>200.000 đ</Text>
+                </View>
+              </View>
+            )}
           </View>
         </View>
       </Pressable>
-      {/* <Pressable
-        // onPress={() => setIsFavourite(!isFavourite)}
-        style={styles.heartIcon}
-      >
-        {token &&
-          !["selling", "sold", "favoriteProducts"].includes(screenType) &&
-          (isFavorite ? (
-            <AntDesign
-              onPress={() => {
-                Alert.alert(
-                  "Thông báo",
-                  "Bạn có muốn xóa sản phẩm này khỏi danh sách yêu thích không?",
-                  [
-                    {
-                      text: "Hủy",
-                    },
-                    {
-                      text: "Đồng ý",
-                      onPress: () => {
-                        deleteFavoritePost(token, id.toString());
-                        dispatch(favoritePostActions.remove(id));
-                      },
-                    },
-                  ]
-                );
-              }}
-              name="heart"
-              size={24}
-              color="#FFC0CB"
-            />
-          ) : (
-            <AntDesign
-              onPress={() => {
-                addFavoritePost(token, id.toString());
-                dispatch(
-                  favoritePostActions.add({ ...props.data, isFavorite: true })
-                );
-              }}
-              name="hearto"
-              size={24}
-              color="black"
-            />
-          ))}
-      </Pressable> */}
     </Card>
   );
 });
@@ -241,12 +257,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "flex-start",
     marginHorizontal: "5%",
-    marginVertical: '1.5%',
+    marginVertical: "1.5%",
   },
   detailContainer: {
     flex: 1,
     flexDirection: "row",
-    justifyContent: "flex-end",
+    justifyContent: "center",
     alignItems: "center",
     marginHorizontal: "0%",
   },

@@ -1,4 +1,6 @@
-import { useState } from 'react';
+/* eslint-disable */
+import { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
@@ -23,10 +25,14 @@ import UserTableHead from '../user-table-head';
 import TableEmptyRows from '../table-empty-rows';
 import UserTableToolbar from '../user-table-toolbar';
 import { emptyRows, applyFilter, getComparator } from '../utils';
+import { getAd } from 'src/utils/ad';
 
 // ----------------------------------------------------------------------
 
 export default function AdPage() {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const [page, setPage] = useState(0);
 
   const [order, setOrder] = useState('asc');
@@ -41,6 +47,20 @@ export default function AdPage() {
 
   const [open, setOpen] = useState(false);
 
+  const [ads, setAds] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await getAd();
+        setAds(res)
+      } catch (err) {
+        // navigate(`${url}/create`);
+      }
+    }
+
+    fetchData();
+  }, [])
 
   const openModal = () => {
     setOpen(true);
@@ -56,7 +76,7 @@ export default function AdPage() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = ad.map((n) => n.name);
+      const newSelecteds = ads.map((n) => n.name);
       setSelected(newSelecteds);
       return;
     }
@@ -78,7 +98,7 @@ export default function AdPage() {
   };
 
   const dataFiltered = applyFilter({
-    inputData: ad,
+    inputData: ads,
     comparator: getComparator(order, orderBy),
     filterName,
   });
@@ -108,7 +128,7 @@ export default function AdPage() {
               <UserTableHead
                 order={order}
                 orderBy={orderBy}
-                rowCount={ad.length}
+                rowCount={ads.length}
                 numSelected={selected.length}
                 onRequestSort={handleSort}
                 onSelectAllClick={handleSelectAllClick}
@@ -127,7 +147,7 @@ export default function AdPage() {
                     <UserTableRow
                       key={row.id}
                       id={row.id}
-                      duration={row.duration}
+                      duration={row.expiration_day}
                       price={row.price}
                       name={row.name}
                       description={row.description}

@@ -31,11 +31,12 @@ const screenHeight = Dimensions.get("window").height;
 const avatarSize = screenHeight / 18;
 
 const dataTime = [
-  { title: "Event 1", description: "Event 1 Description" },
-  { title: "Event 2", description: "Event 2 Description" },
-  { title: "Event 3", description: "Event 3 Description" },
-  { title: "Event 4", description: "Event 4 Description" },
-  { title: "Event 5", description: "Event 5 Description" },
+  { title: "19:34 03-11-2023", description: "Order is delivering to user" },
+  { title: "19:19 03-11-2023", description: "Order is delivered to BW SOC" },
+  { title: "17:45 03-11-2023", description: "Order has left the post office" },
+  { title: "17:28 03-11-2023", description: "Order is delivered to 20-HNI Thanh Xuan 2 Hub" },
+  { title: "15:26 03-11-2023", description: "Order is delivered to shipping unit" },
+  { title: "09:12 03-11-2023", description: "Seller is preparing order" },
 ];
 
 const OrderInfo = (props) => {

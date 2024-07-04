@@ -81,7 +81,7 @@ export default function Account({ route, navigation }) {
       <OptionView type="info" isize={isize} color={color.baemin1} data={data} setData={setData} />
       <OptionView type="buy-history" isize={isize} color={color.baemin1} />
       <OptionView type="sell-history" isize={isize} color={color.baemin1} />
-      {/* <OptionView type="auction" isize={isize} color={color.baemin1} /> */}
+      <OptionView type="auction" isize={isize} color={color.baemin1} />
       <OptionView type="balance" isize={isize} color={color.baemin1} />
       <OptionView type="review" isize={isize} color={color.baemin1} />
       {/* <OptionView type="language" isize={isize} color={color.baemin1} />

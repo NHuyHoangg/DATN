@@ -1,7 +1,9 @@
+/* eslint-disable */
 import { lazy, Suspense } from 'react';
 import { Outlet, Navigate, useRoutes } from 'react-router-dom';
 
 import DashboardLayout from 'src/layouts/dashboard';
+import DetailOrder from 'src/sections/order/detail-order';
 
 export const AdPage = lazy(() => import('src/pages/ad'))
 export const IndexPage = lazy(() => import('src/pages/app'));
@@ -14,11 +16,18 @@ export const PostPage = lazy(() => import('src/pages/post'));
 export const DetailPost = lazy(() => import('src/sections/post/detail-post'));
 export const ReportPage = lazy(() => import('src/pages/report'));
 export const DetailReport = lazy(() => import('src/sections/report/detail-report'));
+export const OrderPage = lazy(() => import('src/pages/order'));
+export const OrderDetail = lazy(() => import('src/sections/order/detail-order'));
+export const OrderShipping = lazy(() => import('src/sections/order/order-shipping'));
 
 // ----------------------------------------------------------------------
 
 export default function Router() {
   const routes = useRoutes([
+    {
+      path: '/',
+      element: <LoginPage />
+    },
     {
       element: (
         <DashboardLayout>
@@ -28,7 +37,7 @@ export default function Router() {
         </DashboardLayout>
       ),
       children: [
-        { element: <IndexPage />, index: true },
+        { path: 'dashboard', element: <IndexPage />, index: true },
         { path: 'user', element: <UserPage /> },
         { path: 'post', 
           children: [
@@ -36,7 +45,14 @@ export default function Router() {
             { path: 'detail/:post_id', element: <DetailPost /> },
           ]
         },
-        { path: 'order', element: <BlogPage /> },
+        { path: 'order', 
+          children: [
+            { path: '', element: <OrderPage /> },
+            { path: 'date/:date', element: <OrderPage /> },
+            { path: 'detail/:post_id', element: <DetailOrder /> },
+            { path: 'shipping/:post_id', element: <OrderShipping /> },
+          ]
+        },
         { path: 'report', 
           children: [
             { path: '', element: <ReportPage /> },
@@ -56,10 +72,10 @@ export default function Router() {
       path: '404',
       element: <Page404 />,
     },
-    {
-      path: '*',
-      element: <Navigate to="/404" replace />,
-    },
+    // {
+    //   path: '*',
+    //   element: <Navigate to="/404" replace />,
+    // },
   ]);
 
   return routes;

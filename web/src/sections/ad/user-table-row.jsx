@@ -57,7 +57,7 @@ export default function UserTableRow({
 
         <TableCell>{name}</TableCell>
 
-        <TableCell>{price}đ</TableCell>
+        <TableCell>{new Intl.NumberFormat(["ban", "id"]).format(price)}đ</TableCell>
 
         <TableCell>{duration} ngày</TableCell>
 

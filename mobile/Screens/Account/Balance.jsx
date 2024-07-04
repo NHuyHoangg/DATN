@@ -14,7 +14,7 @@ import color from "../../constants/color";
 
 const dataBalance = [
   {
-    des: "Nạp tiền từ ví Momo",
+    des: "Nạp tiền từ ví VNpay",
     balance: "+50.000đ",
     time: "9:53 12-11-2023",
     isDone: 1,
@@ -32,7 +32,7 @@ const dataBalance = [
     isDone: 0,
   },
   {
-    des: "Nạp tiền từ ví Momo",
+    des: "Nạp tiền từ ví VNpay",
     balance: "+50.000đ",
     time: "9:53 12-11-2023",
     isDone: 1,
@@ -44,7 +44,7 @@ const dataBalance = [
     isDone: 0,
   },
   {
-    des: "Nạp tiền từ ví Momo",
+    des: "Nạp tiền từ ví VNpay",
     balance: "+50.000đ",
     time: "9:53 12-11-2023",
     isDone: 1,
@@ -89,7 +89,7 @@ export default function Balance({ route, navigation }) {
         contentContainerStyle={{ paddingBottom: 15 }}
       >
         <View style={{ alignItems: "center" }}>
-          <Text style={styles.balance}>123.456 đ</Text>
+          <Text style={styles.balance}>230.000 đ</Text>
           <Pressable
             android_ripple={{ color: "#ccc" }}
             style={({ pressed }) => [

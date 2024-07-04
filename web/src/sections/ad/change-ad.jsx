@@ -1,11 +1,14 @@
+/* eslint-disable */
 import PropTypes from 'prop-types';
 import { useState, useCallback } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import { Box, styled, FormLabel, TextField, DialogActions } from '@mui/material';
 // import palette from '../../../theme/palette';
+import { changeAd } from 'src/utils/ad';
 
 const InputBox = styled(Box)({
   marginLeft: '20px',
@@ -23,13 +26,20 @@ const Label = styled(FormLabel)({
 });
 
 export default function ChangeAd({ setOpen, open, change }) {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const [validationErrors, setValidationErrors] = useState({});
+  const [error, setError] = useState();
   const [data, setData] = useState({
+    id: change.id,
     name: change.name,
     price: change.price,
-    duration: change.duration,
+    expiration_day: change.duration,
     description: change.description,
   });
+
+  console.log(data)
 
   const handleClose = () => {
     setOpen(false);
@@ -51,7 +61,7 @@ export default function ChangeAd({ setOpen, open, change }) {
   );
 
   const handleCreateClick = async () => {
-    if (data.name && data.price && data.duration && data.description) {
+    if (data.name && data.price && data.expiration_day && data.description) {
       setOpen(false);
       // window.location.reload();
     } else {
@@ -59,10 +69,21 @@ export default function ChangeAd({ setOpen, open, change }) {
         setValidationErrors(preError => ({...preError, name: 'Vui lòng điền đầy đủ'}))
       if (!data.price)
         setValidationErrors(preError => ({...preError, price: 'Vui lòng điền đầy đủ'}))
-      if (!data.duration)
-        setValidationErrors(preError => ({...preError, duration: 'Vui lòng điền đầy đủ'}))
+      if (!data.expiration_day)
+        setValidationErrors(preError => ({...preError, expiration_day: 'Vui lòng điền đầy đủ'}))
       if (!data.description)
         setValidationErrors(preError => ({...preError, description: 'Vui lòng điền đầy đủ'}))
+    }
+    try {
+      if (validationErrors) {
+        await changeAd(data);
+        setError(null);
+        setOpen(false);
+        window.location.reload();
+      }
+    } catch (err) {
+      console.log(err);
+      setError("Có lỗi xảy ra khi thực hiện! Vui lòng thử lại!");
     }
   };
   
@@ -91,11 +112,11 @@ export default function ChangeAd({ setOpen, open, change }) {
         <Label>Thời hạn (ngày)</Label>
           <InputText
             type="text"
-            value={data?.duration}
-            name="duration"
+            value={data?.expiration_day}
+            name="expiration_day"
             onChange={handleChangeValue}
-            helperText={validationErrors.duration}
-            error={Boolean(validationErrors.duration)}
+            helperText={validationErrors.expiration_day}
+            error={Boolean(validationErrors.expiration_day)}
           />
         <Label>Mô tả</Label>
         <InputText
@@ -107,6 +128,8 @@ export default function ChangeAd({ setOpen, open, change }) {
           helperText={validationErrors.description}
           error={Boolean(validationErrors.description)}
         />
+
+        {error && <Label sx={{color: "error.main"}}>{error}</Label>}
       </InputBox>
       <DialogActions>
         <Button sx={{color: "error.main"}} onClick={handleClose}>Huỷ</Button>

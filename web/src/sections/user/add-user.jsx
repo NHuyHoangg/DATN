@@ -1,5 +1,7 @@
+/* eslint-disable */
 import PropTypes from 'prop-types';
 import { useState, useCallback } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -8,6 +10,7 @@ import { Box, Select, styled, MenuItem, FormLabel, TextField, DialogActions } fr
 // import palette from '../../../theme/palette';
 // import { CreateQuestionAction, GetQuestionAction } from '../../../redux/actions/questionAction';
 import { isValidEmail, isValidPhoneNumber } from 'src/utils/inputValidation';
+import { createUser } from 'src/utils/users';
 
 const InputBox = styled(Box)({
   marginLeft: '20px',
@@ -29,15 +32,20 @@ const Label = styled(FormLabel)({
 });
 
 export default function AddUser({ setOpen, open }) {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const [validationErrors, setValidationErrors] = useState({});
+  const [error, setError] = useState();
   const [data, setData] = useState({
     first_name: '',
     last_name: '',
     email: '',
-    phone_number: '',
+    phone: '',
     password: '',
-    role: 'user',
+    is_admin: '0',
   });
+  console.log(data)
 
   const handleClose = () => {
     setOpen(false);
@@ -59,22 +67,21 @@ export default function AddUser({ setOpen, open }) {
   );
 
   const handleCreateClick = async () => {
-    if (data.last_name && data.first_name && data.email && data.phone_number && data.password) {
+    if (data.last_name && data.first_name && data.email && data.phone && data.password) {
       setOpen(false);
       // window.location.reload();
     } else {
       if (!data.last_name) {
         setValidationErrors(preError => ({...preError, last_name: 'Vui lòng điền đầy đủ'}))
-        console.log(1);
       }
       if (!data.first_name)
         setValidationErrors(preError => ({...preError, first_name: 'Vui lòng điền đầy đủ'}))
-      if (!data.phone_number) {
-        setValidationErrors(preError => ({...preError, phone_number: 'Vui lòng điền đầy đủ'}))
+      if (!data.phone) {
+        setValidationErrors(preError => ({...preError, phone: 'Vui lòng điền đầy đủ'}))
       } else {
-        const {isValid: isPhone, message: messagePhone} = isValidPhoneNumber(data.phone_number);
+        const {isValid: isPhone, message: messagePhone} = isValidPhoneNumber(data.phone);
         if (!isPhone)
-          setValidationErrors(preError => ({...preError, phone_number: messagePhone}))
+          setValidationErrors(preError => ({...preError, phone: messagePhone}))
       }
       if (!data.email){
         setValidationErrors(preError => ({...preError, email: 'Vui lòng điền đầy đủ'}))
@@ -85,6 +92,17 @@ export default function AddUser({ setOpen, open }) {
       }
       if (!data.password)
         setValidationErrors(preError => ({...preError, password: 'Vui lòng điền đầy đủ'}))
+    }
+    try {
+      if (validationErrors) {
+        await createUser(data);
+        setError(null);
+        setOpen(false);
+        window.location.reload();
+      }
+    } catch (err) {
+      console.log(err);
+      setError("Có lỗi xảy ra khi thực hiện! Vui lòng thử lại!");
     }
   };
   
@@ -122,11 +140,11 @@ export default function AddUser({ setOpen, open }) {
         <Label>Số điện thoại</Label>
         <InputText
           type="text"
-          value={data?.phone_number}
-          name="phone_number"
+          value={data?.phone}
+          name="phone"
           onChange={handleChangeValue}
-          helperText={validationErrors.phone_number}
-          error={Boolean(validationErrors.phone_number)}
+          helperText={validationErrors.phone}
+          error={Boolean(validationErrors.phone)}
         />
         <Label>Mật khẩu</Label>
         <InputText
@@ -138,10 +156,12 @@ export default function AddUser({ setOpen, open }) {
           error={Boolean(validationErrors.password)}
         />
         <Label>Phân quyền</Label>
-        <SelectBox value={data.role} name="role" onChange={handleChangeValue}>
-          <MenuItem value="user">Người dùng</MenuItem>
-          <MenuItem value="admin">Admin</MenuItem>
+        <SelectBox value={data.is_admin} name="is_admin" onChange={handleChangeValue}>
+          <MenuItem value="0">Người dùng</MenuItem>
+          <MenuItem value="1">Admin</MenuItem>
         </SelectBox>
+
+        {error && <Label sx={{color: "error.main"}}>{error}</Label>}
       </InputBox>
       <DialogActions>
         <Button sx={{color: "error.main"}} onClick={handleClose}>Huỷ</Button>

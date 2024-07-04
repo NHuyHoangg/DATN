@@ -1,4 +1,5 @@
-import { useState } from 'react';
+/* eslint-disable */
+import { useState, useEffect } from 'react';
 
 import Card from '@mui/material/Card';
 // import Stack from '@mui/material/Stack';
@@ -20,7 +21,9 @@ import UserTableRow from '../user-table-row';
 import UserTableHead from '../user-table-head';
 import TableEmptyRows from '../table-empty-rows';
 import UserTableToolbar from '../user-table-toolbar';
+import CircularProgress from '@mui/material/CircularProgress';
 import { emptyRows, applyFilter, getComparator, applyFilterVerified } from '../utils';
+import { searchWatch } from 'src/utils/post';
 
 // ----------------------------------------------------------------------
 
@@ -38,6 +41,49 @@ export default function PostPage() {
   const [filterVerified, setFilterVerified] = useState('');
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
+
+  const [watch, setWatch] = useState([]);
+  const [curr, setCurr] = useState(1);
+  const [total, setTotal] = useState(1);
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const getWatchPosts = async () => {
+      setLoading(true);
+      try {
+        const { data: dataFetch, currPage: currPage, totalPage: totalPage } = await searchWatch(1);
+        setWatch(dataFetch);
+        setCurr(currPage);
+        setTotal(totalPage);
+        fetchMore(currPage, totalPage);
+      } catch (err) {
+        setError(true);
+      } finally {
+        setLoading(false);
+      }
+    };
+    getWatchPosts();
+  }, []);
+
+  const fetchMore = async (currPage, totalPage) => {
+    try {
+      let now = currPage;
+      while (now < totalPage) {
+        console.log('do');
+        now++;
+        const { data: newData, currPage: c, totalPage: t } = await searchWatch(now);
+        // const updatedData = [...watch, ...newData];
+        // setWatch(updatedData);
+        setWatch((prevWatch) => [...prevWatch, ...newData]);
+        setCurr(now);
+      }
+    } catch (err) {
+      setError(true);
+    }
+  };
+
+  console.log(watch);
 
   const handleSort = (event, id) => {
     const isAsc = orderBy === id && order === 'asc';
@@ -71,7 +117,7 @@ export default function PostPage() {
   };
 
   const dataFiltered = applyFilter({
-    inputData: posts,
+    inputData: watch,
     comparator: getComparator(order, orderBy),
     filterName,
     filterVerified,
@@ -83,15 +129,23 @@ export default function PostPage() {
   };
 
   const dataFilteredVerified = applyFilterVerified({
-    inputData: posts,
+    inputData: watch,
     comparator: getComparator(order, orderBy),
     filterVerified,
     filterName,
   });
 
-  const notFound = (!dataFiltered.length && !!filterName) || (!dataFilteredVerified.length && !!filterVerified);
+  const notFound =
+    (!dataFiltered.length && !!filterName) ||
+    (!dataFilteredVerified.length && !!filterVerified) ||
+    error;
 
-  console.log(filterVerified.length)
+  if (loading)
+    return (
+      <Container sx={{ display: 'flex', height: "100%", justifyContent: "center", alignItems: "center" }}>
+        <CircularProgress color="success" />
+      </Container>
+    );
 
   return (
     <Container>
@@ -110,64 +164,46 @@ export default function PostPage() {
               <UserTableHead
                 order={order}
                 orderBy={orderBy}
-                rowCount={posts.length}
+                rowCount={watch.length}
                 numSelected={selected.length}
                 onRequestSort={handleSort}
                 onSelectAllClick={handleSelectAllClick}
                 headLabel={[
-                  { id: 'post_id', label: 'ID'},
+                  { id: 'post_id', label: 'ID' },
                   { id: 'name', label: 'Sản phẩm' },
-                  { id: 'seller_name', label: 'Họ và tên người bán' },
                   { id: 'date', label: 'Ngày đăng' },
                   { id: 'province', label: 'Khu vực' },
                   { id: 'verified', label: 'Trạng thái' },
                   { id: '' },
                 ]}
               />
-              <TableBody>
-                {(filterVerified.length === 0 ? dataFiltered : dataFilteredVerified)
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row) => (
-                    <UserTableRow
-                      key={row.post_id}
-                      post_id={row.post_id}
-                      verified={row.verified}
-                      seller_name={row.seller_name}
-                      phone_number={row.phone_number}
-                      email={row.email}
-                      street={row.street}
-                      ward={row.ward}
-                      district={row.district}
-                      province={row.province}
-                      name={row.name}
-                      price={row.price}
-                      case_size={row.case_size}
-                      status={row.status}
-                      date={row.date}
-                      count={row.count}
-                      date_ago={row.date_ago}
-                      formatted_price={row.formatted_price}
-                      case_size_num={row.case_size_num}
-                      description={row.description}
-                      brand={row.brand}
-                      strap_material={row.strap_material}
-                      battery_life={row.battery_life}
-                      waterproof={row.waterproof}
-                      waterproof_num ={row.waterproof_num}
-                      gender={row.gender}
-                      seller_id={row.seller_id}
-                      media={row.media}
-                    />
-                  ))}
+              {notFound ? (
+                <TableBody>
+                  <TableNoData query={filterName} />
+                </TableBody>
+              ) : (
+                <TableBody>
+                  {(filterVerified.length === 0 ? dataFiltered : dataFilteredVerified)
+                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    .map((row) => (
+                      <UserTableRow
+                        key={row.post_id}
+                        post_id={row.post_id}
+                        verified={row.is_verified}
+                        province={row.province}
+                        name={row.name}
+                        status={row.status}
+                        date={row.date}
+                      />
+                    ))}
 
-                <TableEmptyRows
-                  height={77}
-                  emptyRows={emptyRows(page, rowsPerPage, posts.length)}
-                />
+                  <TableEmptyRows
+                    height={77}
+                    emptyRows={emptyRows(page, rowsPerPage, posts.length)}
+                  />
 
-                {notFound && <TableNoData query={filterName} />}
-              </TableBody>
-
+                </TableBody>
+              )}
             </Table>
           </TableContainer>
         </Scrollbar>
@@ -175,15 +211,14 @@ export default function PostPage() {
         <TablePagination
           page={page}
           component="div"
-          count={(filterVerified.length === 0 ? dataFiltered.length : dataFilteredVerified.length)}
+          count={filterVerified.length === 0 ? dataFiltered.length : dataFilteredVerified.length}
           rowsPerPage={rowsPerPage}
           onPageChange={handleChangePage}
           rowsPerPageOptions={[5, 10, 25]}
           onRowsPerPageChange={handleChangeRowsPerPage}
-          labelRowsPerPage='Số hàng:'
+          labelRowsPerPage="Số hàng:"
         />
       </Card>
-
     </Container>
   );
 }

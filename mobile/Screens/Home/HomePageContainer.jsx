@@ -11,6 +11,8 @@ import MyAddress from "../Account/MyAddress";
 import CreateAddress from "../Account/CreateAddress";
 import Recharge from "../Account/Recharge";
 import ShoppingHistory from "../Account/ShoppingHistory";
+import OrderWaitVerify from "../Account/OrderWaitVerify";
+import ChooseAddress from "./ChooseAddress";
 
 const Stack = createNativeStackNavigator();
 
@@ -88,6 +90,22 @@ export default function HomePageContainer() {
         options={{
           ...HeaderStyle,
           title: "Đơn mua",
+        }}
+      />
+      {/* <Stack.Screen
+        name="WaitVerify"
+        component={OrderWaitVerify}
+        options={{
+          ...HeaderStyle,
+          title: "Đơn mua",
+        }}
+      /> */}
+      <Stack.Screen
+        name="ChooseAddress"
+        component={ChooseAddress}
+        options={{
+          ...HeaderStyle,
+          title: "Chọn địa chỉ",
         }}
       />
 

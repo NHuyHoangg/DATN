@@ -38,6 +38,7 @@ const SellingScreen = (props) => {
   const [address, setAddress] = useState();
   const [dataAddress, setDataAddress] = useState([]);
   const dispatch = useDispatch();
+  
   const onRefreshing = () => {
     setRefreshing(true);
     setChange(!change);
@@ -85,7 +86,7 @@ const SellingScreen = (props) => {
   };
 
   if (error && !isFetching) {
-    return <ErrorOverlay message={error} reload={setRefreshing} />;
+    return <ErrorOverlay message={error} reload={setChange} />;
   }
   if (isFetching) {
     return <LoadingOverlay />;

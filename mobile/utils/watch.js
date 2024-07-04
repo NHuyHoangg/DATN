@@ -112,7 +112,7 @@ export const sendNewPost = async (token, data) => {
       },
     })
     .then((data) => console.log("Send OK!"))
-    .catch((err) => console.log(err));
+    .catch((err) => {console.log(err); throw err;});
     console.log(data)
 };
 export const editPost = async (token, data) => {
@@ -123,7 +123,7 @@ export const editPost = async (token, data) => {
       },
     })
     .then((data) => console.log("Edit OK!"))
-    .catch((err) => console.log(err));
+    .catch((err) => {console.log(err); throw err;});
 };
 export const deletePost = async (token, postId) => {
   const response = await axios
@@ -134,7 +134,7 @@ export const deletePost = async (token, postId) => {
       },
     })
     .then((data) => console.log("Delete OK!"))
-    .catch((err) => console.log(err));
+    .catch((err) => {console.log(err); throw err;});
 };
 
 export const addPostToFavorite = async (token, id) => {
@@ -151,7 +151,7 @@ export const addPostToFavorite = async (token, id) => {
       }
     )
     .then((data) => console.log("Add post to favorite OK!"))
-    .catch((err) => console.log(err));
+    .catch((err) => {console.log(err); throw err;});
 };
 
 export const deletePostFromFavorite = async (token, id) => {
@@ -162,7 +162,7 @@ export const deletePostFromFavorite = async (token, id) => {
       },
     })
     .then((data) => console.log("Delete post from favorite OK!"))
-    .catch((err) => console.log(err));
+    .catch((err) => {console.log(err); throw err;});
 };
 
 export const toggePostState = async (token, id) => {

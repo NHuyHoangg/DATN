@@ -23,31 +23,10 @@ export default function UserTableRow({
   selected,
   post_id,
   verified,
-  seller_name,
-  phone_number,
-  email,
-  street,
-  ward,
-  district,
   province,
   name,
-  price,
-  case_size,
   status,
   date,
-  count,
-  date_ago,
-  formatted_price,
-  case_size_num,
-  description,
-  brand,
-  strap_material,
-  battery_life,
-  waterproof,
-  waterproof_number,
-  gender,
-  seller_id,
-  media
 }) {
 
   const navigate = useNavigate();
@@ -74,7 +53,7 @@ export default function UserTableRow({
     setOpen(false);
   }
 
-  const options = { 
+  const options = {
     hour: '2-digit', 
     minute: '2-digit', 
     second: '2-digit', 
@@ -82,37 +61,12 @@ export default function UserTableRow({
     month: 'long', 
     year: 'numeric' 
   };
+  
+  // Format the date using toLocaleString with the 'vi-VN' locale
+  const dateTo = new Date(date)
+  const formatDate = dateTo.toLocaleString('vi-VN', options).replace(/^lúc\s+/i, '');
 
-  const formatDate = date.toLocaleString('vi-VN', options).replace(/^lúc\s+/i, '');
-
-  const change = { post_id,
-    verified,
-    seller_name,
-    phone_number,
-    email,
-    street,
-    ward,
-    district,
-    province,
-    name,
-    price,
-    case_size,
-    status,
-    date,
-    count,
-    date_ago,
-    formatted_price,
-    case_size_num,
-    description,
-    brand,
-    strap_material,
-    battery_life,
-    waterproof,
-    waterproof_number,
-    gender,
-    seller_id,
-    media,
-  };
+  const change = { post_id, verified };
 
   return (
     <>
@@ -121,15 +75,13 @@ export default function UserTableRow({
 
         <TableCell>{name}</TableCell>
 
-        <TableCell>{seller_name}</TableCell>
-
         <TableCell>{formatDate}</TableCell>
 
         <TableCell>{province}</TableCell>
 
         <TableCell>
-          <Label color={(verified === 'denied' && 'error') || (verified === 'waiting' && 'warning') || 'success'}>
-            {(verified === 'denied' && 'Từ chối') || (verified === 'waiting' && 'Đang chờ') || 'Đã duyệt'}
+          <Label color={(verified === 1 && 'error') || (verified === 0 && 'warning') || 'success'}>
+            {(verified === 1 && 'Từ chối') || (verified === 0 && 'Đang chờ') || 'Đã duyệt'}
           </Label>
         </TableCell>
 
@@ -169,30 +121,9 @@ export default function UserTableRow({
 UserTableRow.propTypes = {
   selected: PropTypes.any,
   status: PropTypes.string,
-  email: PropTypes.string,
   post_id: PropTypes.number,
   verified: PropTypes.string,
-  seller_name: PropTypes.string,
-  phone_number: PropTypes.string,
-  street: PropTypes.string,
-  ward: PropTypes.string,
-  district: PropTypes.string,
   province: PropTypes.string,
   name: PropTypes.string,
-  price: PropTypes.number,
-  case_size: PropTypes.number,
   date: PropTypes.object,
-  count: PropTypes.number,
-  date_ago: PropTypes.string,
-  formatted_price: PropTypes.number,
-  case_size_num: PropTypes.number,
-  description: PropTypes.string,
-  brand: PropTypes.string,
-  strap_material: PropTypes.string,
-  battery_life: PropTypes.number,
-  waterproof: PropTypes.bool,
-  waterproof_number: PropTypes.number,
-  gender: PropTypes.string,
-  seller_id: PropTypes.number,
-  media: PropTypes.object,
 };

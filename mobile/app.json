@@ -4,7 +4,7 @@
     "slug": "dho",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/icon-fix.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/images/splash.png",
@@ -20,7 +20,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "foregroundImage": "./assets/images/icon-fix.png",
         "backgroundColor": "#ffffff"
       },
       "permissions": [
@@ -29,7 +29,7 @@
       "package": "com.saulgoofman.Ctime"
     },
     "web": {
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/images/new-icon.png"
     },
     "plugins": [
       [
@@ -43,9 +43,8 @@
     ],
     "extra": {
       "eas": {
-        "projectId": "44c34909-e247-474c-b444-eec63df09eea"
+        "projectId": "12439da7-04b9-4adc-9a48-470a10215435"
       }
-    },
-    "owner": "tanto_2012017"
+    }
   }
 }

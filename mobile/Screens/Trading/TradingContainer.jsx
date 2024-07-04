@@ -9,7 +9,6 @@ import SellingScreen from "./SellingScreen";
 import SoldScreen from "./SoldScreen";
 import ManageWatch from "./ManageWatch";
 import WatchDetails from "../../Components/watch/WatchDetails";
-import ManageRequest from "./ManageRequest";
 import MyAddress from "../Account/MyAddress";
 import CreateAddress from "../Account/CreateAddress";
 import ChooseAd from "./ChooseAd";
@@ -20,7 +19,6 @@ import {
   TopTapStyle,
   TopTabScreenStyle,
 } from "../../constants/globalStyles";
-import { Header } from "@react-navigation/stack";
 
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialTopTabNavigator();

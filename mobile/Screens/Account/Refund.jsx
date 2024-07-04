@@ -20,6 +20,7 @@ import {
   TextInput,
 } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
+import { useSelector, useDispatch } from "react-redux";
 import {
   launchCameraAsync,
   launchImageLibraryAsync,
@@ -36,6 +37,7 @@ import color from "../../constants/color";
 // import { watchDetailsActions } from "../../redux/watch/watchDetailsSlice";
 import { Dimensions } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { watchDetailsActions } from "../../redux/watch/watchDetailsSlice";
 
 const screenWidth = Dimensions.get("window").width;
 const screenHeight = Dimensions.get("window").height;
@@ -53,6 +55,7 @@ const Refund = (props) => {
   //   const data = useSelector(state => state.details.item);
   // console.log(props.route.params.props.data)
   const navigation = useNavigation();
+  const dispatch = useDispatch();
   const imagesLen = 0;
 
   const openGallery = async () => {

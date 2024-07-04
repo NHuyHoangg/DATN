@@ -7,6 +7,8 @@ import SellerOrderDelivering from './SellerOrderDelivering';
 import SellerOrderDone from './SellerOrderDone';
 import SellerOrderReturn from './SellerOrderReturn';
 import SellerOrderWaitGet from './SellerOrderWaitGet';
+import SellerOrderCancel from './SellerOrderCancel';
+import SellerOrderReturning from './SellerOrderReturning';
 import React from 'react'
 
 const Tab = createMaterialTopTabNavigator();
@@ -58,6 +60,22 @@ export default function SellingHistory({}) {
         component={SellerOrderReturn}
         options={{
           tabBarLabel: "Trả hàng",
+          ...TopTabScreenStyle,
+        }}
+      />
+      <Tab.Screen
+        name="Returning"
+        component={SellerOrderReturning}
+        options={{
+          tabBarLabel: "Đang trả hàng",
+          ...TopTabScreenStyle,
+        }}
+      />
+      <Tab.Screen
+        name="Cancel"
+        component={SellerOrderCancel}
+        options={{
+          tabBarLabel: "Đơn huỷ",
           ...TopTabScreenStyle,
         }}
       />

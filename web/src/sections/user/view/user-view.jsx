@@ -1,4 +1,6 @@
-import { useState } from 'react';
+/* eslint-disable */
+import { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
@@ -23,10 +25,14 @@ import UserTableHead from '../user-table-head';
 import TableEmptyRows from '../table-empty-rows';
 import UserTableToolbar from '../user-table-toolbar';
 import { emptyRows, applyFilter, getComparator } from '../utils';
+import { getUser } from 'src/utils/users';
 
 // ----------------------------------------------------------------------
 
 export default function UserPage() {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const [page, setPage] = useState(0);
 
   const [order, setOrder] = useState('asc');
@@ -41,6 +47,21 @@ export default function UserPage() {
 
   const [open, setOpen] = useState(false);
 
+  const [users, setUsers] = useState([]);
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await getUser();
+        setUsers(res)
+      } catch (err) {
+        setError(true);
+      }
+    }
+
+    fetchData();
+  }, [])
 
   const openModal = () => {
     setOpen(true);
@@ -130,11 +151,11 @@ export default function UserPage() {
                       id={row.id}
                       first_name={row.first_name}
                       last_name={row.last_name}
-                      role={row.role}
-                      status={row.status}
+                      name={row.name}
+                      role={row.is_admin}
+                      status={row.is_active}
                       email={row.email}
-                      password={row.password}
-                      phone_number={row.phone_number}
+                      phone_number={row.phone}
                     />
                   ))}
 
@@ -143,7 +164,7 @@ export default function UserPage() {
                   emptyRows={emptyRows(page, rowsPerPage, users.length)}
                 />
 
-                {notFound && <TableNoData query={filterName} />}
+                {notFound || error && <TableNoData query={filterName} />}
               </TableBody>
 
               <AddUser open={open} setOpen={setOpen}/>

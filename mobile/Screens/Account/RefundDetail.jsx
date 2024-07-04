@@ -20,6 +20,7 @@ import {
   TextInput,
 } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
+import { useSelector, useDispatch } from "react-redux";
 import {
   launchCameraAsync,
   launchImageLibraryAsync,
@@ -36,6 +37,7 @@ import color from "../../constants/color";
 // import { watchDetailsActions } from "../../redux/watch/watchDetailsSlice";
 import { Dimensions } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { watchDetailsActions } from "../../redux/watch/watchDetailsSlice";
 
 const screenWidth = Dimensions.get("window").width;
 const screenHeight = Dimensions.get("window").height;
@@ -53,6 +55,7 @@ const RefundDetail = (props) => {
   //   const data = useSelector(state => state.details.item);
   // console.log(props.route.params.props.data)
   const navigation = useNavigation();
+  const dispatch = useDispatch();
   const imagesLen = 0;
   const isSeller = props.route.params.isSeller;
 
@@ -107,7 +110,7 @@ const RefundDetail = (props) => {
                     width: "80%",
                   }}
                 >
-                  <View
+                  {/* <View
                     style={{
                       backgroundColor: color.verify,
                       flexDirection: "row",
@@ -126,7 +129,7 @@ const RefundDetail = (props) => {
                     >
                       Đã kiểm định
                     </Text>
-                  </View>
+                  </View> */}
 
                   {/* <AdSvg /> */}
                 </View>
@@ -211,11 +214,18 @@ const RefundDetail = (props) => {
             paddingVertical: "5%",
           }}
         >
-          <Ionicons name="checkmark-circle-outline" size={20} color={color.baemin1} />
-          <Text style={styles.text}>Đã hoàn lại số tiền {props.route.params.props.data.price}đ vào tài khoản!</Text>
+          <Ionicons
+            name="checkmark-circle-outline"
+            size={20}
+            color={color.baemin1}
+          />
+          <Text style={styles.text}>
+            Đã hoàn lại số tiền {props.route.params.props.data.price}đ vào tài
+            khoản!
+          </Text>
         </View>
 
-        <View
+        {/* <View
           style={{
             flexDirection: "row",
             alignItems: "center",
@@ -225,57 +235,65 @@ const RefundDetail = (props) => {
         >
           <Ionicons name="close-circle-outline" size={20} color={color.red} />
           <Text style={[styles.text, {color: color.red}]}>Đã huỷ trả hàng!</Text>
-        </View>
+        </View> */}
 
         {/* {(isAdding && imagesLen > 0) || (!isAdding && imagesLen > 0) ? ( */}
-        {imagesLen > 0 ? (
-          <ImageList
-            onOpenGallery={openGallery}
-            // onCloseImage={closeImage}
-            // images={imageList}
-          />
-        ) : (
-          <Pressable style={styles.image} onPress={openGallery}>
-            <View style={styles.hint}>
-              <AntDesign name="questioncircleo" size={16} color="black" />
-            </View>
-            <View style={styles.camera}>
-              <Icons.FontAwesome name="camera" size={24} color="black" />
-              <Text style={styles.text}>Đăng từ 1 đến 6 hình</Text>
-            </View>
-          </Pressable>
-        )}
+        {!isSeller ? (
+          imagesLen > 0 ? (
+            <ImageList
+              onOpenGallery={openGallery}
+              // onCloseImage={closeImage}
+              // images={imageList}
+            />
+          ) : (
+            <Pressable style={styles.image} onPress={openGallery}>
+              <View style={styles.hint}>
+                <AntDesign name="questioncircleo" size={16} color="black" />
+              </View>
+              <View style={styles.camera}>
+                <Icons.FontAwesome name="camera" size={24} color="black" />
+                <Text style={styles.text}>Đăng từ 1 đến 6 hình</Text>
+              </View>
+            </Pressable>
+          )
+        ) : null}
 
         <TextInput
-          placeholder={"Nhập lý do bạn muốn trả hàng!"}
+          placeholder={
+            isSeller ? "Đơn trả hàng" : "Nhập lý do bạn muốn trả hàng!"
+          }
           style={styles.input}
           multiline
           numberOfLines={3}
+          editable={isSeller ? false : true}
           // onChangeText={onChangePhone}
         />
+        {!isSeller ? (
+          <>
+            <Pressable
+              android_ripple={{ color: "#ccc" }}
+              style={({ pressed }) => [
+                styles.submit,
+                { backgroundColor: color.red },
+                pressed ? styles.pressed : null,
+              ]}
+              onPress={() => navigation.navigate("Return")}
+            >
+              <Text style={styles.buttonText}>Huỷ trả hàng</Text>
+            </Pressable>
 
-        <Pressable
-          android_ripple={{ color: "#ccc" }}
-          style={({ pressed }) => [
-            styles.submit,
-            {backgroundColor: color.red},
-            pressed ? styles.pressed : null,
-          ]}
-          onPress={() => navigation.navigate("Return")}
-        >
-          <Text style={styles.buttonText}>Huỷ trả hàng</Text>
-        </Pressable>
-
-        <Pressable
-          android_ripple={{ color: "#ccc" }}
-          style={({ pressed }) => [
-            styles.submit,
-            pressed ? styles.pressed : null,
-          ]}
-          onPress={() => navigation.navigate("Return")}
-        >
-          <Text style={styles.buttonText}>Chỉnh sửa</Text>
-        </Pressable>
+            <Pressable
+              android_ripple={{ color: "#ccc" }}
+              style={({ pressed }) => [
+                styles.submit,
+                pressed ? styles.pressed : null,
+              ]}
+              onPress={() => navigation.navigate("Return")}
+            >
+              <Text style={styles.buttonText}>Chỉnh sửa</Text>
+            </Pressable>
+          </>
+        ) : null}
       </ScrollView>
     </GestureHandlerRootView>
   );

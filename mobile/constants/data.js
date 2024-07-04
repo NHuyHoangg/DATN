@@ -126,7 +126,7 @@ export const reviewList = [
     name: "ABCSA AKNC",
     avatar:
       "https://haycafe.vn/wp-content/uploads/2021/11/Anh-avatar-dep-chat-lam-hinh-dai-dien-600x600.jpg",
-    date: "12/06/2023",
+    date: "23:32 12/06/2023",
     watch: "Đồng hồ nam Rolex",
     message: ["Cảm ơn bạn nhé"],
     numOfUnRead: 0,
@@ -136,7 +136,7 @@ export const reviewList = [
     name: "AKSMDS JAS",
     avatar:
       "https://kynguyenlamdep.com/wp-content/uploads/2022/06/hinh-dai-dien-de-thuong.jpg",
-    date: "12/06/2023",
+    date: "19:54 12/06/2023",
     watch: "Đồng hồ nam Rolex",
     message: ["Bạn gì ơi"],
   },
@@ -145,7 +145,7 @@ export const reviewList = [
     name: "ABCSA AKNC",
     avatar:
       "https://haycafe.vn/wp-content/uploads/2021/11/Anh-avatar-dep-chat-lam-hinh-dai-dien-600x600.jpg",
-    date: "12/06/2023",
+    date: "16:07 12/06/2023",
     watch: "Đồng hồ nam Rolex",
     message: ["Cảm ơn bạn nhé"],
     numOfUnRead: 0,
@@ -206,7 +206,8 @@ export const dataGen = () => {
     parseInt(Math.random() * 1000) +
     ".000";
   return {
-    id: Math.random().toString(),
+    // id: Math.random().toString(),
+    id: ["196", "194", "193", "190"][Math.floor(Math.random() * 4)],
     name: name[nameIdx],
     nation: nation[nationIdx],
     brand: brand[brandIdx],
@@ -218,5 +219,9 @@ export const dataGen = () => {
     waterproof: waterproof[waterproofIdx] ? "Có hỗ trợ" : "Không hỗ trợ",
     typeOfWatchChain: typeOfWatchChain[typeOfWatchChainIdx],
     price: priceVal,
+    priceNow: Number(priceVal.replace(/[^0-9-]+/g,"")),
+    begin: 1000000,
+    step: 200000,
+    end: "23:59 07/06/2024",
   };
 };

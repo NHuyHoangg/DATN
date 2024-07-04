@@ -147,6 +147,7 @@ const Review = (props) => {
       {rList.length > 0 ? (
         rList.map((item, key) => (
           <Box
+            key={key}
             id={item.id}
             avatar={item.avatar}
             name={item.name}

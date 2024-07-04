@@ -14,7 +14,7 @@ import { useRouter } from 'src/routes/hooks';
 
 import { bgGradient } from 'src/theme/css';
 
-import Iconify from 'src/components/iconify';
+// import Iconify from 'src/components/iconify';
 
 // ----------------------------------------------------------------------
 
@@ -26,13 +26,13 @@ export default function LoginView() {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleClick = () => {
-    router.push('/');
+    router.push('/dashboard');
   };
 
   const renderForm = (
     <>
       <Stack spacing={3}>
-        <TextField name="text" label="Tên đăng nhập" inputProps={{ mb: 3 }}/>
+        <TextField name="phone" type="number" label="Số điện thoại" inputProps={{ mb: 3 }}/>
 
         <TextField
           name="password"
@@ -42,7 +42,7 @@ export default function LoginView() {
             endAdornment: (
               <InputAdornment position="end">
                 <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
-                  <Iconify icon={showPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'} />
+                  {/* <Iconify icon={showPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'} /> */}
                 </IconButton>
               </InputAdornment>
             ),
@@ -82,7 +82,7 @@ export default function LoginView() {
             maxWidth: 420,
           }}
         >
-          <Typography variant="h4" sx={{ mb: 3 }} >Đăng nhập Hệ thống DHO</Typography>
+          <Typography variant="h4" sx={{ mb: 3 }} >Đăng nhập Hệ thống DHo</Typography>
 
           {renderForm}
         </Card>
