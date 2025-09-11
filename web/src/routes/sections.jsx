@@ -19,6 +19,7 @@ export const DetailReport = lazy(() => import('src/sections/report/detail-report
 export const OrderPage = lazy(() => import('src/pages/order'));
 export const OrderDetail = lazy(() => import('src/sections/order/detail-order'));
 export const OrderShipping = lazy(() => import('src/sections/order/order-shipping'));
+export const SheetsPage = lazy(() => import('src/pages/sheets'));
 
 // ----------------------------------------------------------------------
 
@@ -39,6 +40,7 @@ export default function Router() {
       children: [
         { path: 'dashboard', element: <IndexPage />, index: true },
         { path: 'user', element: <UserPage /> },
+        { path: 'sheets', element: <SheetsPage /> },
         { path: 'post', 
           children: [
             { path: '', element: <PostPage /> },

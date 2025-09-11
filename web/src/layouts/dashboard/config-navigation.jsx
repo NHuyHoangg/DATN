@@ -18,6 +18,11 @@ const navConfig = [
     icon: icon('ic_user'),
   },
   {
+    title: 'Google Sheets',
+    path: '/sheets',
+    icon: icon('ic_analytics'),
+  },
+  {
     title: 'Bài đăng',
     path: '/post',
     icon: icon('ic_post'),
